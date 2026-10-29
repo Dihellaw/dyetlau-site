@@ -1,61 +1,93 @@
 /* Dy&Lau — page d'accueil
    ============================================================
-   RÉGLAGES À COMPLÉTER AVANT LA MISE EN LIGNE
+   Les textes, les 11 transformations et les liens (vidéos, Masterclass,
+   formulaire, e-mail) sont dans textes.json. On les modifie depuis le mode
+   édition de l'aperçu, ou directement dans ce fichier.
+   Les valeurs ci-dessous ne servent que si textes.json ne se charge pas.
    ============================================================ */
 
-// Vidéo de fond du haut de page (fichier .mp4 dans le dépôt, ex. "Assets/Videos/hero.mp4").
-// Tant qu'elle est vide, la photo de Dylan et Laura s'affiche avec un léger mouvement.
-const HERO_VIDEO = "";
+const DEFAULTS = {
+  textes: {},
+  cartes: [
+    { impact: "3 fois son chiffre d'affaires habituel d'une journée, en 45 minutes.", nom: "Ali", secteur: "", youtube: "" },
+    ...Array.from({ length: 10 }, () => ({ impact: "", nom: "", secteur: "", youtube: "" })),
+  ],
+  reglages: {
+    videoFond: "",
+    videoAli: "",
+    videoAliSeconde: 0,
+    videoJourneeSignature: "",
+    lienMasterclass: "",
+    adresseFormulaire: "",
+    emailContact: "",
+  },
+};
 
-// Les 11 transformations. Pour chaque carte :
-//   impact  : la phrase-choc de la transformation
-//   name    : le nom du dirigeant
-//   sector  : son secteur d'activité
-//   youtube : l'identifiant ou le lien de la vidéo YouTube (ex. "https://youtu.be/XXXXXXXXXXX")
-//   start   : (facultatif) la seconde de départ de la vidéo
-// Un champ vide s'affiche comme « à compléter ».
-const TRANSFORMATIONS = [
-  { impact: "3 fois son chiffre d'affaires habituel d'une journée, en 45 minutes.", name: "Ali", sector: "", youtube: "" },
-  { impact: "", name: "", sector: "", youtube: "" },
-  { impact: "", name: "", sector: "", youtube: "" },
-  { impact: "", name: "", sector: "", youtube: "" },
-  { impact: "", name: "", sector: "", youtube: "" },
-  { impact: "", name: "", sector: "", youtube: "" },
-  { impact: "", name: "", sector: "", youtube: "" },
-  { impact: "", name: "", sector: "", youtube: "" },
-  { impact: "", name: "", sector: "", youtube: "" },
-  { impact: "", name: "", sector: "", youtube: "" },
-  { impact: "", name: "", sector: "", youtube: "" },
-];
-
-// Le passage où Ali parle de sa journée signature (lien « Écouter Ali »).
-const ALI_VIDEO = { youtube: "", start: 0 };
-
-// La vidéo d'une vraie journée signature (30 s à 1 min 30).
-const SIGNATURE_VIDEO = "";
-
-// Lien de la playlist YouTube de la Masterclass Business.
-const MASTERCLASS_URL = "";
-
-// Adresse qui reçoit les candidatures (ex. un formulaire Formspree : "https://formspree.io/f/xxxxxxx").
-// Tant qu'elle est vide, le formulaire ne prétend pas avoir envoyé quoi que ce soit.
-const FORM_ENDPOINT = "";
-
-// E-mail de contact affiché dans le pied de page.
-const CONTACT_EMAIL = "";
-
-/* ============================================================ */
-
-document.documentElement.classList.add("js");
+document.documentElement.classList.add("js", "textes-en-attente");
 
 const $ = (s, root = document) => root.querySelector(s);
 const $$ = (s, root = document) => [...root.querySelectorAll(s)];
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const SITE = { textes: {}, cartes: [], reglages: {} };
+
+/* ---------- Textes ---------- */
+
+// Garde seulement la mise en forme simple : gras, italique, retour à la ligne, exposant, lien.
+function cleanHTML(html) {
+  const t = document.createElement("template");
+  t.innerHTML = String(html ?? "");
+  const walk = (node) => {
+    [...node.childNodes].forEach((n) => {
+      if (n.nodeType === Node.COMMENT_NODE) { n.remove(); return; }
+      if (n.nodeType !== Node.ELEMENT_NODE) return;
+      walk(n);
+      const tag = n.tagName.toLowerCase();
+      if (["strong", "b", "em", "i", "br", "sup"].includes(tag)) {
+        [...n.attributes].forEach((a) => n.removeAttribute(a.name));
+      } else if (tag === "a") {
+        const href = n.getAttribute("href") || "";
+        [...n.attributes].forEach((a) => n.removeAttribute(a.name));
+        if (/^(https?:|#|mailto:)/i.test(href)) {
+          n.setAttribute("href", href);
+          if (/^https?:/i.test(href)) { n.setAttribute("target", "_blank"); n.setAttribute("rel", "noopener"); }
+        }
+      } else {
+        n.replaceWith(...n.childNodes);
+      }
+    });
+  };
+  walk(t.content);
+  return t.innerHTML.trim();
+}
+
+function applyTexts(textes) {
+  Object.entries(textes || {}).forEach(([k, html]) => {
+    const el = document.querySelector(`[data-k="${CSS.escape(k)}"]`);
+    if (el && typeof html === "string") el.innerHTML = cleanHTML(html);
+  });
+}
+
+async function loadSite() {
+  try {
+    const res = await fetch("textes.json", { cache: "no-store" });
+    if (!res.ok) throw new Error(String(res.status));
+    const d = await res.json();
+    return {
+      textes: d.textes && typeof d.textes === "object" ? d.textes : {},
+      cartes: Array.isArray(d.cartes) && d.cartes.length ? d.cartes : DEFAULTS.cartes,
+      reglages: { ...DEFAULTS.reglages, ...(d.reglages || {}) },
+    };
+  } catch {
+    return structuredClone(DEFAULTS);
+  }
+}
+
+/* ---------- Vidéos YouTube ---------- */
 
 function youtubeId(value) {
   if (!value) return "";
-  const m = String(value).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
-  return m ? m[1] : /^[\w-]{11}$/.test(value) ? value : "";
+  const m = String(value).match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([\w-]{11})/);
+  return m ? m[1] : /^[\w-]{11}$/.test(String(value).trim()) ? String(value).trim() : "";
 }
 
 function youtubeFrame(id, start, title) {
@@ -69,20 +101,26 @@ function youtubeFrame(id, start, title) {
 }
 
 // Lecteur léger : la miniature d'abord, la vidéo seulement au clic.
+// Là où YouTube ne peut pas s'afficher dans la page (l'aperçu claude.ai), le lien ouvre YouTube.
 function liteVideo(container, id, label, start = 0) {
   const img = document.createElement("img");
   img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
   img.alt = "";
   img.loading = "lazy";
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "card__play";
-  btn.setAttribute("aria-label", `Lire la vidéo : ${label}`);
-  btn.innerHTML = '<span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>Regarder</span>';
-  btn.addEventListener("click", () => {
+  img.addEventListener("error", () => img.remove());
+  const play = document.createElement("a");
+  play.className = "card__play";
+  play.href = `https://www.youtube.com/watch?v=${id}${start ? `&t=${Math.floor(start)}s` : ""}`;
+  play.target = "_blank";
+  play.rel = "noopener";
+  play.setAttribute("aria-label", `Lire la vidéo : ${label}`);
+  play.innerHTML = '<span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>Regarder</span>';
+  play.addEventListener("click", (e) => {
+    if (window.claude || document.documentElement.classList.contains("edition")) return;
+    e.preventDefault();
     container.replaceChildren(youtubeFrame(id, start, label));
   });
-  container.append(img, btn);
+  container.replaceChildren(img, play);
 }
 
 /* ---------- Navigation ---------- */
@@ -119,48 +157,40 @@ const spy = new IntersectionObserver((entries) => {
 }, { rootMargin: "-45% 0px -50% 0px" });
 navTargets.forEach((x) => spy.observe(x.el));
 
-/* ---------- Vidéo de fond ---------- */
-if (HERO_VIDEO && !reduceMotion) {
-  const v = document.createElement("video");
-  Object.assign(v, { src: HERO_VIDEO, muted: true, loop: true, playsInline: true, autoplay: true });
-  v.setAttribute("muted", "");
-  v.setAttribute("playsinline", "");
-  v.poster = $(".hero__poster").currentSrc || $(".hero__poster").src;
-  $(".hero__media").append(v);
-  v.play().catch(() => {});
-}
-
 /* ---------- Les 11 transformations ---------- */
 const list = $("#transfo-list");
-TRANSFORMATIONS.forEach((t, i) => {
-  const li = document.createElement("li");
-  li.className = "card";
-  const id = youtubeId(t.youtube);
-  const who = t.name || "Dirigeant";
-  li.innerHTML = `
-    <div class="card__media"></div>
-    <div class="card__body">
-      <p class="card__impact"></p>
-      <p class="card__who"><strong></strong><span></span></p>
-    </div>`;
-  const media = $(".card__media", li);
-  if (id) {
-    liteVideo(media, id, `la transformation de ${who}`, t.start || 0);
-  } else {
-    media.innerHTML = '<div class="card__soon"><p class="card__soon-mark" aria-hidden="true">Dy<b>&amp;</b><br>Lau</p><p>Vidéo bientôt en ligne</p></div>';
-  }
-  const impact = $(".card__impact", li);
-  if (t.impact) impact.textContent = t.impact;
-  else { impact.textContent = "Transformation à venir"; }
-  const strong = $(".card__who strong", li);
-  const span = $(".card__who span", li);
-  if (t.name) strong.textContent = t.name;
-  else { strong.textContent = "Nom du dirigeant"; strong.classList.add("todo"); }
-  if (t.sector) span.textContent = t.sector;
-  else { span.textContent = "Secteur à préciser"; span.classList.add("todo"); }
-  if (i === 0) li.id = "transfo-ali";
-  list.append(li);
-});
+const CARD_PLACEHOLDERS = { impact: "Transformation à venir", nom: "Nom du dirigeant", secteur: "Secteur à préciser" };
+
+function renderCards(cartes) {
+  list.replaceChildren();
+  cartes.forEach((t, i) => {
+    const li = document.createElement("li");
+    li.className = "card";
+    li.dataset.card = String(i);
+    const id = youtubeId(t.youtube);
+    li.innerHTML = `
+      <div class="card__media"></div>
+      <div class="card__body">
+        <p class="card__impact" data-field="impact"></p>
+        <p class="card__who"><strong data-field="nom"></strong><span data-field="secteur"></span></p>
+      </div>`;
+    const media = $(".card__media", li);
+    if (id) {
+      liteVideo(media, id, `la transformation de ${t.nom || "ce dirigeant"}`, Number(t.debut) || 0);
+    } else {
+      media.innerHTML = '<div class="card__soon"><p class="card__soon-mark" aria-hidden="true">Dy<b>&amp;</b><br>Lau</p><p>Vidéo bientôt en ligne</p></div>';
+    }
+    $$("[data-field]", li).forEach((el) => {
+      const f = el.dataset.field;
+      el.textContent = t[f] || CARD_PLACEHOLDERS[f];
+      // L'impact par défaut garde le style normal ; le nom et le secteur manquants sont signalés
+      el.classList.toggle("todo", !t[f] && f !== "impact");
+    });
+    if (i === 0) li.id = "transfo-ali";
+    list.append(li);
+  });
+  updateRail();
+}
 
 // Défilement du carrousel
 const rail = $("#rail");
@@ -173,7 +203,7 @@ function railStep() {
 }
 function updateRail() {
   const max = rail.scrollWidth - rail.clientWidth;
-  const ratio = rail.clientWidth / rail.scrollWidth;
+  const ratio = rail.scrollWidth ? rail.clientWidth / rail.scrollWidth : 1;
   const pos = max > 0 ? rail.scrollLeft / max : 0;
   railBar.style.width = `${Math.max(ratio, 0.08) * 100 + pos * (1 - ratio) * 100}%`;
   prev.disabled = rail.scrollLeft < 8;
@@ -183,42 +213,63 @@ prev.addEventListener("click", () => rail.scrollBy({ left: -railStep() * 2, beha
 next.addEventListener("click", () => rail.scrollBy({ left: railStep() * 2, behavior: reduceMotion ? "auto" : "smooth" }));
 rail.addEventListener("scroll", updateRail, { passive: true });
 rail.addEventListener("keydown", (e) => {
+  if (e.target !== rail) return;
   if (e.key === "ArrowRight") { e.preventDefault(); next.click(); }
   if (e.key === "ArrowLeft") { e.preventDefault(); prev.click(); }
 });
 window.addEventListener("resize", updateRail);
-updateRail();
 
-/* ---------- « Écouter Ali » ---------- */
+/* ---------- Réglages : vidéos, liens, contact ---------- */
 const aliLink = $("#ecouter-ali");
-const aliId = youtubeId(ALI_VIDEO.youtube);
-if (aliId) {
-  aliLink.href = `https://www.youtube.com/watch?v=${aliId}${ALI_VIDEO.start ? `&t=${ALI_VIDEO.start}s` : ""}`;
-  aliLink.target = "_blank";
-  aliLink.rel = "noopener";
-} else {
-  aliLink.href = "#transfo-ali";
-  aliLink.addEventListener("click", () => setTimeout(() => {
-    rail.scrollTo({ left: 0, behavior: reduceMotion ? "auto" : "smooth" });
-  }, 400));
-}
+aliLink.addEventListener("click", () => {
+  if (youtubeId(SITE.reglages.videoAli)) return;
+  setTimeout(() => rail.scrollTo({ left: 0, behavior: reduceMotion ? "auto" : "smooth" }), 400);
+});
 
-/* ---------- Vidéo de la journée signature ---------- */
-const sigSlot = $("#signature-video");
-const sigId = youtubeId(SIGNATURE_VIDEO);
-if (sigId) {
-  liteVideo(sigSlot, sigId, "une journée signature en images");
-} else {
-  sigSlot.innerHTML = `
-    <div class="video-slot__soon"><b>Une journée signature, en images</b><span>La vidéo arrive bientôt.</span></div>`;
-}
+function applySettings(r) {
+  // Vidéo de fond
+  $(".hero__media video")?.remove();
+  if (r.videoFond && !reduceMotion) {
+    const v = document.createElement("video");
+    Object.assign(v, { src: r.videoFond, muted: true, loop: true, playsInline: true, autoplay: true });
+    v.setAttribute("muted", "");
+    v.setAttribute("playsinline", "");
+    v.poster = $(".hero__poster").currentSrc || $(".hero__poster").src;
+    $(".hero__media").append(v);
+    v.play().catch(() => v.remove());
+  }
 
-/* ---------- Masterclass, contact ---------- */
-if (MASTERCLASS_URL) $("#masterclass-link").href = MASTERCLASS_URL;
-if (CONTACT_EMAIL) {
+  // « Écouter Ali »
+  const aliId = youtubeId(r.videoAli);
+  if (aliId) {
+    const t = Number(r.videoAliSeconde) || 0;
+    aliLink.href = `https://www.youtube.com/watch?v=${aliId}${t ? `&t=${Math.floor(t)}s` : ""}`;
+    aliLink.target = "_blank";
+    aliLink.rel = "noopener";
+  } else {
+    aliLink.href = "#transfo-ali";
+    aliLink.removeAttribute("target");
+  }
+
+  // Vidéo de la journée signature
+  const sigSlot = $("#signature-video");
+  const sigId = youtubeId(r.videoJourneeSignature);
+  if (sigId) liteVideo(sigSlot, sigId, "une journée signature en images");
+  else sigSlot.innerHTML = '<div class="video-slot__soon"><b>Une journée signature, en images</b><span>La vidéo arrive bientôt.</span></div>';
+
+  // Masterclass
+  $("#masterclass-link").href = r.lienMasterclass || "https://www.instagram.com/dyetlau/";
+
+  // E-mail de contact
   const li = $("#footer-email");
-  li.innerHTML = `<a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>`;
-  li.hidden = false;
+  li.replaceChildren();
+  if (r.emailContact) {
+    const a = document.createElement("a");
+    a.href = `mailto:${r.emailContact}`;
+    a.textContent = r.emailContact;
+    li.append(a);
+  }
+  li.hidden = !r.emailContact;
 }
 $("#year").textContent = new Date().getFullYear();
 
@@ -343,19 +394,25 @@ form.addEventListener("submit", async (e) => {
   const msg = stepValid(current);
   if (msg) { err.textContent = msg; return; }
   const data = Object.fromEntries(new FormData(form).entries());
+  // Les réponses à choix partent avec le libellé affiché, même s'il a été modifié
+  $$("input[type='radio']:checked", form).forEach((r) => {
+    data[r.name] = r.nextElementSibling ? r.nextElementSibling.textContent.trim() : r.value;
+  });
+  const endpoint = SITE.reglages.adresseFormulaire;
   const done = $("#apply-done");
   const doneTitle = $("#apply-done-title");
   const doneText = $("#apply-done-text");
 
-  if (!FORM_ENDPOINT) {
+  if (!endpoint) {
     err.textContent = "L'envoi n'est pas encore branché. Écris-nous sur Instagram (@dyetlau) en attendant.";
     return;
   }
 
+  const sendLabel = btnSend.innerHTML;
   btnSend.disabled = true;
   btnSend.textContent = "Envoi…";
   try {
-    const res = await fetch(FORM_ENDPOINT, {
+    const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(data),
@@ -369,13 +426,14 @@ form.addEventListener("submit", async (e) => {
   } catch {
     err.textContent = "L'envoi n'a pas fonctionné. Réessaie, ou écris-nous sur Instagram (@dyetlau).";
     btnSend.disabled = false;
-    btnSend.textContent = "Envoyer ma demande";
+    btnSend.innerHTML = sendLabel;
   }
 });
 showStep(0, false);
 
 /* ---------- Fenêtres ---------- */
 $$("[data-open]").forEach((b) => b.addEventListener("click", () => {
+  if (document.documentElement.classList.contains("edition") && b.closest("[data-k]") === b) return;
   const d = document.getElementById(b.dataset.open);
   if (d && d.showModal) d.showModal();
 }));
@@ -383,3 +441,19 @@ $$("dialog").forEach((d) => {
   $("[data-close]", d).addEventListener("click", () => d.close());
   d.addEventListener("click", (e) => { if (e.target === d) d.close(); });
 });
+
+/* ---------- Démarrage ---------- */
+const ready = loadSite().then((site) => {
+  Object.assign(SITE, site);
+  applyTexts(SITE.textes);
+  renderCards(SITE.cartes);
+  applySettings(SITE.reglages);
+  updateCharge();
+  document.documentElement.classList.remove("textes-en-attente");
+  return SITE;
+});
+// Filet de sécurité : la page s'affiche même si le chargement traîne
+setTimeout(() => document.documentElement.classList.remove("textes-en-attente"), 1500);
+
+// Utilisé par editor.js (mode édition de l'aperçu)
+window.DYLAU = { SITE, ready, applyTexts, renderCards, applySettings, cleanHTML, youtubeId, CARD_PLACEHOLDERS };

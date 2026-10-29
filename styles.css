@@ -585,3 +585,71 @@ textarea.field { resize: vertical; min-height: 96px; }
 
 /* Les colonnes de grille ne débordent jamais de l'écran */
 [class*="__grid"] > *, .phases > *, .benefits > *, .stats > *, .formats > * { min-width: 0; }
+
+/* ---------- Chargement des textes ---------- */
+.textes-en-attente body { visibility: hidden; }
+
+/* ---------- Mode édition (aperçu claude.ai uniquement) ---------- */
+.ed-launch {
+  position: fixed; z-index: 60;
+  right: calc(20px + env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 22px 0 18px;
+  border: 0; border-radius: 999px; background: var(--navy); color: var(--cream);
+  font-weight: 800; font-size: 16px; box-shadow: 0 10px 30px rgba(11, 26, 69, .28);
+  transition: transform .25s var(--ease), background-color .25s;
+}
+.ed-launch:hover { transform: translateY(-2px); background: var(--blue); }
+.ed-launch svg { width: 20px; height: 20px; fill: none; stroke: var(--gold); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+.ed-bar {
+  position: fixed; z-index: 60; left: 0; right: 0; bottom: 0;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px;
+  padding: 14px max(20px, env(safe-area-inset-right, 0px)) calc(14px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+  background: var(--navy); color: var(--cream); box-shadow: 0 -10px 30px rgba(11, 26, 69, .22);
+}
+.ed-status { font-weight: 700; font-size: 15.5px; min-width: 0; }
+.ed-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.ed-btn {
+  min-height: 42px; padding: 0 16px; border: 0; border-radius: 999px;
+  background: rgba(250, 246, 238, .12); color: var(--cream); font-weight: 700; font-size: 14.5px;
+  transition: background-color .2s;
+}
+.ed-btn:hover { background: rgba(250, 246, 238, .22); }
+.ed-btn--save { background: var(--gold); color: var(--navy); }
+.ed-btn--save:hover { background: var(--gold-soft); }
+.ed-btn:disabled { opacity: .45; cursor: default; }
+.ed-toast {
+  position: fixed; z-index: 70; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  max-width: calc(100vw - 32px); padding: 14px 22px; border-radius: 999px;
+  background: var(--gold); color: var(--navy); font-weight: 800; font-size: 15.5px; box-shadow: 0 10px 30px rgba(11, 26, 69, .25);
+}
+
+.edition body { padding-bottom: 96px; }
+.edition .reveal { opacity: 1 !important; transform: none !important; }
+.edition .step { display: block; margin-top: 32px; }
+.edition [contenteditable="true"] {
+  outline: 2px dashed rgba(242, 194, 48, .9); outline-offset: 4px; border-radius: 4px; cursor: text;
+  -webkit-user-select: text; user-select: text;
+}
+.edition [contenteditable="true"]:hover { outline-style: solid; }
+.edition [contenteditable="true"]:focus { outline: 3px solid var(--blue); background: rgba(13, 63, 166, .06); }
+.edition .signature [contenteditable="true"]:focus,
+.edition .probleme__grid [contenteditable="true"]:focus,
+.edition .phase:nth-child(n+2) [contenteditable="true"]:focus,
+.edition .limit [contenteditable="true"]:focus { outline-color: var(--gold); background: rgba(250, 246, 238, .08); }
+.edition .card:hover, .edition .card:hover .card__media img { transform: none; }
+
+.ed-card-link { display: grid; gap: 6px; margin-top: 4px; }
+.ed-card-link label { font-size: 13.5px; font-weight: 700; color: var(--ink-soft); }
+.ed-card-link input, .ed-form input {
+  width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: var(--white);
+  border: 2px solid var(--cream-3); border-radius: 10px; padding: 10px 12px;
+}
+.ed-card-link input:focus, .ed-form input:focus { outline: none; border-color: var(--blue); }
+.ed-form { display: grid; gap: 8px; }
+.ed-form label { font-weight: 700; font-size: 15px; margin-top: 10px; }
+.ed-form > p { margin-top: 4px; }
+.ed-hint { font-size: 14px; color: var(--ink-soft); margin-top: 0 !important; }
+.ed-form-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+.ed-form-actions .btn { margin-top: 0; }
+.ed-panel { max-height: calc(100vh - 32px); overflow: auto; }

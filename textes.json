@@ -1,0 +1,81 @@
+{
+  "_lisezmoi": "Textes du site Dy&Lau. Modifiables depuis le mode édition de l'aperçu, ou à la main ici. 'textes' remplace le texte des éléments marqués data-k dans index.html.",
+  "textes": {},
+  "cartes": [
+    {
+      "impact": "3 fois son chiffre d'affaires habituel d'une journée, en 45 minutes.",
+      "nom": "Ali",
+      "secteur": "",
+      "youtube": ""
+    },
+    {
+      "impact": "",
+      "nom": "",
+      "secteur": "",
+      "youtube": ""
+    },
+    {
+      "impact": "",
+      "nom": "",
+      "secteur": "",
+      "youtube": ""
+    },
+    {
+      "impact": "",
+      "nom": "",
+      "secteur": "",
+      "youtube": ""
+    },
+    {
+      "impact": "",
+      "nom": "",
+      "secteur": "",
+      "youtube": ""
+    },
+    {
+      "impact": "",
+      "nom": "",
+      "secteur": "",
+      "youtube": ""
+    },
+    {
+      "impact": "",
+      "nom": "",
+      "secteur": "",
+      "youtube": ""
+    },
+    {
+      "impact": "",
+      "nom": "",
+      "secteur": "",
+      "youtube": ""
+    },
+    {
+      "impact": "",
+      "nom": "",
+      "secteur": "",
+      "youtube": ""
+    },
+    {
+      "impact": "",
+      "nom": "",
+      "secteur": "",
+      "youtube": ""
+    },
+    {
+      "impact": "",
+      "nom": "",
+      "secteur": "",
+      "youtube": ""
+    }
+  ],
+  "reglages": {
+    "videoFond": "",
+    "videoAli": "",
+    "videoAliSeconde": 0,
+    "videoJourneeSignature": "",
+    "lienMasterclass": "",
+    "adresseFormulaire": "",
+    "emailContact": ""
+  }
+}
