@@ -1,16 +1,20 @@
 # Site Dy&Lau
 
-Site vitrine d'une seule page, en HTML, CSS et JavaScript simples. Rien à installer, rien à compiler : il se déploie tel quel sur Vercel.
+Site vitrine d'une seule page, en HTML, CSS et JavaScript simples. Rien à installer, rien à compiler : Netlify publie tel quel le dossier `public/`.
 
-| Fichier | Rôle |
-| --- | --- |
-| `index.html` | La page : tous les textes |
-| `styles.css` | Couleurs, polices, mise en page (réglages en haut, dans `:root`) |
-| `main.js` | Réglages (formulaire, vidéos, liens), animations, formulaire en étapes |
-| `mentions-legales.html` · `confidentialite.html` | Pages légales |
-| `contenu.md` | La source de tous les textes |
-| `assets/images/` | Images allégées utilisées par le site |
-| `assets/images/originaux/` | Photos et logo d'origine (non chargés par le site) |
+| Fichier | Rôle | En ligne ? |
+| --- | --- | --- |
+| `public/index.html` | La page : tous les textes | oui |
+| `public/styles.css` | Couleurs, polices, mise en page (réglages en haut, dans `:root`) | oui |
+| `public/main.js` | Réglages (formulaire, vidéos, liens), animations, formulaire en étapes | oui |
+| `public/mentions-legales.html` · `public/confidentialite.html` | Pages légales | oui |
+| `public/assets/images/` | Images allégées utilisées par le site | oui |
+| `netlify.toml` | Dit à Netlify de publier uniquement `public/` | non |
+| `contenu.md` | La source des textes, **avec des informations confidentielles** | **non** |
+| `assets/images/originaux/` | Photos et logo d'origine | non |
+| `README.md` | Ce mode d'emploi | non |
+
+**Seul le dossier `public/` est mis en ligne.** N'y mets jamais `contenu.md`, ni une note interne, ni un commentaire HTML contenant une information privée : tout ce qui est dans `public/` est lisible par tout le monde.
 
 ## Direction artistique
 
@@ -19,7 +23,7 @@ Site vitrine d'une seule page, en HTML, CSS et JavaScript simples. Rien à insta
 - **Polices** (Google Fonts) : *Cormorant Garamond* en graisse fine pour les grands titres et les citations ; *Bricolage Grotesque* pour les accroches, les chiffres, les boutons et le texte courant.
 - **Mouvement** : apparition douce des blocs, compteurs animés, en-tête qui se réduit au défilement, léger mouvement de la photo du haut, effets au survol. Tout se coupe si le visiteur a demandé moins d'animations.
 
-## Réglages (en haut de `main.js`)
+## Réglages (en haut de `public/main.js`)
 
 ```js
 const FORM_ENDPOINT = '';      // adresse Formspree du formulaire
@@ -50,18 +54,26 @@ const SETTINGS = {
 
 ## Modifier un texte
 
-Ouvre `index.html`, cherche la phrase (Ctrl + F), change le texte entre les balises sans toucher à ce qui est entre `<` et `>`, puis enregistre. Reporte le changement dans `contenu.md`.
+Ouvre `public/index.html`, cherche la phrase (Ctrl + F), change le texte entre les balises sans toucher à ce qui est entre `<` et `>`, puis enregistre. Reporte le changement dans `contenu.md`.
 
 ## Remplacer une image
 
-Dépose la nouvelle image dans `assets/images/` avec **le même nom**, en JPG, environ 1 000 px de large et moins de 300 Ko. Chaque photo existe aussi en `.webp` : remplace-la, ou supprime la ligne `<source … .webp>` correspondante dans `index.html`. Pense à mettre à jour le texte `alt="…"`.
+Dépose la nouvelle image dans `public/assets/images/` avec **le même nom**, en JPG, environ 1 000 px de large et moins de 300 Ko. Chaque photo existe aussi en `.webp` : remplace-la, ou supprime la ligne `<source … .webp>` correspondante dans `public/index.html`. Pense à mettre à jour le texte `alt="…"`.
 
-## Publier sur Vercel
+## Publier sur Netlify
 
-1. Sur vercel.com, « Add New… » → « Project », puis importe le dépôt GitHub `dyetlau-site`.
-2. Framework : **Other**. Pas de commande de build. Dossier de sortie : la racine.
-3. « Deploy ». Chaque envoi sur la branche principale met le site à jour ; chaque autre branche a sa prévisualisation.
-4. Une fois le domaine connu, mets l'adresse complète de `assets/images/partage.jpg` dans la balise `og:image` de `index.html`, et ajoute `og:url`.
+Le fichier `netlify.toml`, à la racine, règle tout :
+
+```toml
+[build]
+  publish = "public"
+```
+
+1. Sur netlify.com, « Add new site » → « Import an existing project », puis choisis le dépôt GitHub `dyetlau-site`.
+2. Laisse la commande de build vide : Netlify lit `netlify.toml` et publie le dossier `public/`.
+3. Chaque envoi sur la branche principale met le site à jour ; chaque pull request a sa prévisualisation.
+4. Vérifie après chaque mise en ligne que `https://ton-site/contenu.md` renvoie une erreur 404.
+5. Une fois le domaine connu, mets l'adresse complète de `assets/images/partage.jpg` dans la balise `og:image` de `public/index.html`, et ajoute `og:url`.
 
 ## Ce qui reste à compléter
 
@@ -105,4 +117,4 @@ Ils ne viennent pas mot pour mot de `contenu.md` :
 - « Ce que Laura prend en main avec toi », « 3 mois minimum », « voir plus bas ».
 - Libellés des chiffres d'Ali : « son CA habituel d'une journée », « lors de sa journée signature ».
 - Formulaire : « Cinq questions. On accompagne cinq entreprises à la fois : l'appel sert à voir si on peut t'aider. », les **tranches de chiffre d'affaires** (moins de 5 000 €, 5 000 à 15 000 €, 15 000 à 50 000 €, plus de 50 000 €), la phrase de consentement, les messages d'erreur, « Merci pour ta candidature. Dylan et Laura la lisent avec attention. »
-- Pages légales : structure de la politique de confidentialité, droits, mention de la CNIL, hébergement chez Vercel. **À faire relire.**
+- Pages légales : structure de la politique de confidentialité, droits, mention de la CNIL, hébergement chez Netlify, Inc. (États-Unis). **À faire relire.**
