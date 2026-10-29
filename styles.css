@@ -120,7 +120,7 @@ h3 { font-size: var(--t-h3); font-weight: 700; line-height: 1.2; letter-spacing:
   transition: padding .4s var(--ease), background-color .4s var(--ease);
 }
 .bar__logo img { height: 3rem; width: auto; transition: height .4s var(--ease); }
-.bar.is-small { padding-top: .5rem; padding-bottom: .5rem; background: rgba(247, 243, 236, .97); }
+.bar.is-small { padding-top: .5rem; padding-bottom: .5rem; }
 .bar.is-small .bar__logo img { height: 2.25rem; }
 .bar__nav { display: none; gap: 2.25rem; font-size: var(--t-small); font-weight: 500; }
 .bar__nav a { color: var(--ink); text-decoration: none; position: relative; }
@@ -404,6 +404,7 @@ h3 { font-size: var(--t-h3); font-weight: 700; line-height: 1.2; letter-spacing:
 @media (min-width: 900px) { .apply { grid-template-columns: 5fr 7fr; gap: var(--gap); align-items: start; } }
 
 .form { display: grid; gap: 1.75rem; }
+.form[hidden] { display: none; }
 .form__top { display: grid; gap: .6rem; }
 .form__count { font-size: var(--t-small); font-weight: 600; color: var(--ink-soft); }
 .form__progress { height: 6px; background: var(--cream-3); border-radius: 99px; overflow: hidden; }
@@ -435,6 +436,8 @@ h3 { font-size: var(--t-h3); font-weight: 700; line-height: 1.2; letter-spacing:
 .consent input { width: 1.25rem; height: 1.25rem; margin: .15rem 0 0; accent-color: var(--blue); }
 .form__error { color: #b3261e; font-weight: 600; font-size: var(--t-small); }
 .form__nav { display: flex; flex-wrap: wrap; gap: .75rem; }
+.form__nav .btn--ghost { background: var(--cream); }
+.form__nav .btn--ghost:hover { background: var(--cream-3); }
 .js .form__nav [data-next], .js .form__nav [data-submit] { margin-left: auto; }
 .form__done { display: grid; gap: .75rem; padding: 1rem 0; }
 .form__done[hidden] { display: none; }
