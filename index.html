@@ -5,46 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dy&amp;Lau · Ton bras droit marketing et organisation</title>
   <meta name="description" content="Ton bras droit marketing et organisation. Pour vendre plus, sans tout porter seul. Dylan te fait vendre plus. Laura structure ton business pour qu'il tienne.">
-  <meta name="theme-color" content="#0b0b0c">
+  <meta name="theme-color" content="#f7f3ec">
 
-  <!-- Partage sur les réseaux -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="Dy&amp;Lau">
   <meta property="og:title" content="Dy&amp;Lau · Ton bras droit marketing et organisation">
   <meta property="og:description" content="Pour vendre plus, sans tout porter seul.">
+  <!-- À FAIRE : une fois le domaine connu, mettre l'adresse complète (https://…/assets/images/partage.jpg) et ajouter og:url. -->
   <meta property="og:image" content="assets/images/partage.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Logo Dy&amp;Lau">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- TODO: une fois l'adresse du site connue, remplacer "assets/images/partage.jpg" par l'adresse complète (https://…/assets/images/partage.jpg) dans og:image, et ajouter <meta property="og:url"> -->
 
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;display=swap">
   <link rel="stylesheet" href="styles.css">
-  <!-- three.js (élément 3D du haut de page), chargé par main.js seulement sur grand écran -->
-  <script type="importmap">
-    { "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-    } }
-  </script>
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
   <a class="skip" href="#contenu">Aller au contenu</a>
 
-  <header class="bar">
+  <header class="bar" id="bar">
     <a class="bar__logo" href="#haut" aria-label="Dy&amp;Lau, retour en haut de page">
       <img src="assets/images/logo.png" alt="Dy&amp;Lau" width="480" height="248">
     </a>
     <nav class="bar__nav" aria-label="Navigation principale">
-      <a href="#offre">L'offre</a>
-      <a href="#journee-signature">La journée signature</a>
       <a href="#equipe">L'équipe</a>
+      <a href="#offre">L'offre</a>
+      <a href="#journee-signature">Journée signature</a>
       <a href="#questions">Questions</a>
     </nav>
     <a class="btn btn--small" href="#candidater">Candidater pour un appel</a>
@@ -52,378 +45,255 @@
 
   <main id="contenu">
 
-    <!-- 1. HAUT DE PAGE -->
+    <!-- HAUT DE PAGE -->
     <section class="hero" id="haut" aria-labelledby="titre">
       <div class="hero__text">
-        <h1 id="titre">Ton bras droit marketing et organisation.</h1>
+        <h1 id="titre" class="serif">Ton bras droit marketing et organisation.</h1>
         <p class="hero__sub">Pour vendre plus, sans tout porter seul.</p>
-        <div class="hero__team">
-          <span class="faces" aria-hidden="true">
-            <img src="assets/images/dylan.jpg" alt="" width="800" height="1200">
-            <img src="assets/images/laura.jpg" alt="" width="667" height="1000">
-          </span>
-          <p>Dylan te fait vendre plus. Laura structure ton business pour qu'il tienne.</p>
-        </div>
+        <p class="hero__team">Dylan te fait vendre plus. Laura structure ton business pour qu'il tienne.</p>
         <div class="hero__actions">
           <a class="btn" href="#candidater">Candidater pour un appel</a>
-          <a class="link-quiet" href="#formation">Pas encore prêt ? Commence par la formation gratuite.</a>
+          <a class="link-quiet" href="#formation" data-formation-link>Pas encore prêt ? Commence par la formation gratuite.</a>
         </div>
-        <p class="signature signature--top">Sans tout porter seul.</p>
       </div>
-      <div class="hero__object" aria-hidden="true">
-        <img class="hero__still" src="assets/images/anneaux.webp" alt="" width="900" height="900" fetchpriority="low">
-        <canvas class="hero__canvas"></canvas>
-      </div>
+      <figure class="hero__media">
+        <picture>
+          <source srcset="assets/images/dylan-laura.webp" type="image/webp">
+          <img src="assets/images/dylan-laura.jpg" alt="Dylan et Laura dans la rue, un café à la main" width="1000" height="1499" fetchpriority="high">
+        </picture>
+        <figcaption>Dylan et Laura</figcaption>
+      </figure>
     </section>
 
-    <!-- 2. SECTEURS DES CLIENTS (défilement) -->
-    <section class="marquee" aria-label="Secteurs de nos clients">
-      <!-- TODO: contenu.md ne liste aucun secteur de client. Remplacer chaque <li> par un vrai secteur (ex. : <li>Restauration</li>), en gardant la liste en double (la seconde, aria-hidden, sert à la boucle). -->
-      <div class="marquee__track">
-        <ul>
-          <li class="todo">À compléter · secteur client</li>
-          <li class="todo">À compléter · secteur client</li>
-          <li class="todo">À compléter · secteur client</li>
-          <li class="todo">À compléter · secteur client</li>
-          <li class="todo">À compléter · secteur client</li>
-        </ul>
-        <ul aria-hidden="true">
-          <li class="todo">À compléter · secteur client</li>
-          <li class="todo">À compléter · secteur client</li>
-          <li class="todo">À compléter · secteur client</li>
-          <li class="todo">À compléter · secteur client</li>
-          <li class="todo">À compléter · secteur client</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- 3. VIDÉO DE TÉMOIGNAGES -->
+    <!-- VIDÉO DE TÉMOIGNAGES -->
     <section class="section videos" id="temoignages" aria-labelledby="t-temoignages">
-      <div class="videos__head" data-reveal>
-        <h2 id="t-temoignages">Témoignages</h2>
-        <p>Ali y parle de sa journée signature : 3 fois son chiffre d'affaires habituel d'une journée, en 45 minutes.</p>
+      <div class="videos__head reveal">
+        <h2 id="t-temoignages" class="serif">Ils en parlent</h2>
+        <p>Une compilation de témoignages de clients. Ali y parle de sa journée signature.</p>
       </div>
-      <!-- TODO: lien YouTube de la vidéo de témoignages. Coller l'identifiant de la vidéo (les 11 caractères après "v=" ou après "youtu.be/") dans data-youtube-id. -->
-      <div class="yt" id="video-temoignages" data-youtube-id="" data-title="Vidéo de témoignages clients Dy&amp;Lau" data-reveal>
-        <div class="todo todo--block">À compléter · vidéo de témoignages (lien YouTube)</div>
+      <div class="yt reveal" id="video-temoignages" data-video="temoignages" data-title="Témoignages clients Dy&amp;Lau">
+        <div class="yt__soon">
+          <span class="yt__soon-icon" aria-hidden="true"></span>
+          <p>Vidéo bientôt en ligne</p>
+        </div>
       </div>
     </section>
 
-    <!-- 4. LE PROBLÈME -->
+    <!-- LE PROBLÈME -->
     <section class="section problem" aria-labelledby="t-probleme">
-      <div class="axis" data-reveal>
-        <h2 id="t-probleme" class="display">Tu fais tout.</h2>
-        <p class="statement">Les ventes, les clients, l'admin, les problèmes. Ton business tourne, mais il tourne grâce à toi, et tu n'en peux plus.</p>
+      <div class="problem__lead reveal">
+        <h2 id="t-probleme" class="serif">Tu fais tout.</h2>
+        <p class="lead">Les ventes, les clients, l'admin, les problèmes. Ton business tourne, mais il tourne grâce à toi, et tu n'en peux plus.</p>
+      </div>
+      <div class="contrast">
+        <div class="contrast__col contrast__col--now reveal">
+          <h3>Aujourd'hui, tu portes tout seul</h3>
+          <ul>
+            <li>Tu ne sais pas vraiment où va ton argent.</li>
+            <li>Ton équipe attend que tu lui dises quoi faire.</li>
+            <li>Tu fais tout au lieu de diriger.</li>
+            <li>Tout dépend de ta mémoire.</li>
+          </ul>
+        </div>
+        <div class="contrast__col contrast__col--with reveal">
+          <h3>Avec ton bras droit</h3>
+          <ul>
+            <li>Tu sais enfin où va ton argent.</li>
+            <li>Chacun sait ce qu'il a à faire.</li>
+            <li>Tu diriges au lieu de tout faire.</li>
+            <li>Plus rien ne dépend de ta mémoire.</li>
+          </ul>
+        </div>
       </div>
     </section>
 
-    <!-- 5. CONTRASTE -->
-    <section class="contrast" aria-labelledby="t-contraste">
-      <h2 id="t-contraste" class="sr-only">Aujourd'hui, et avec ton bras droit</h2>
-      <div class="contrast__col contrast__col--now" data-reveal>
-        <h3>Aujourd'hui : tu portes tout seul</h3>
-        <ul>
-          <li>Tu fais tout : les ventes, les clients, l'admin, les problèmes.</li>
-          <li>Tu ne sais pas où va ton argent.</li>
-          <li>Ton équipe ne sait pas ce qu'elle a à faire.</li>
-          <li>Tu fais tout au lieu de diriger.</li>
-          <li>Tout dépend de ta mémoire.</li>
-          <li>Ton business tourne grâce à toi, et tu n'en peux plus.</li>
-        </ul>
-      </div>
-      <div class="contrast__col contrast__col--with" data-reveal>
-        <h3>Avec ton bras droit</h3>
-        <ul>
-          <li>Plus de ventes.</li>
-          <li>Tu sais enfin où va ton argent.</li>
-          <li>Chacun sait ce qu'il a à faire.</li>
-          <li>Tu diriges au lieu de tout faire.</li>
-          <li>Plus rien ne dépend de ta mémoire.</li>
-          <li>Un business qui tient sans que tu sois partout.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- 6. L'ÉQUIPE -->
+    <!-- L'ÉQUIPE -->
     <section class="section team" id="equipe" aria-labelledby="t-equipe">
-      <div class="axis" data-reveal>
-        <h2 id="t-equipe">L'équipe et ce que fait chacun</h2>
+      <h2 id="t-equipe" class="serif reveal">L'équipe et ce que fait chacun</h2>
+
+      <div class="team__duo">
+        <article class="person reveal">
+          <picture class="person__photo">
+            <source srcset="assets/images/dylan.webp" type="image/webp">
+            <img src="assets/images/dylan.jpg" alt="Dylan, bras croisés, en t-shirt blanc" width="800" height="1200" loading="lazy">
+          </picture>
+          <p class="person__role">Le marketing</p>
+          <h3 class="serif">Dylan</h3>
+          <p>Positionnement unique, offre, tunnel de vente.</p>
+          <p class="person__result"><span>Résultat</span> plus de ventes.</p>
+        </article>
+
+        <article class="person reveal">
+          <picture class="person__photo">
+            <source srcset="assets/images/laura.webp" type="image/webp">
+            <img src="assets/images/laura.jpg" alt="Laura, en veste de cuir noire, un café à la main" width="667" height="1000" loading="lazy">
+          </picture>
+          <p class="person__role">L'organisation</p>
+          <h3 class="serif">Laura</h3>
+          <p>Laura remet de l'ordre dans tout ce qui se passe derrière tes ventes, pour que ton business tienne sans que tu sois partout.</p>
+          <p class="person__result"><span>Résultat</span> un business qui tient sans que tu sois partout.</p>
+        </article>
       </div>
 
-      <article class="person person--dylan">
-        <picture class="person__photo" data-reveal>
-          <source srcset="assets/images/dylan.webp" type="image/webp">
-          <img src="assets/images/dylan.jpg" alt="Dylan, bras croisés, en t-shirt blanc devant un mur peint" width="800" height="1200" loading="lazy">
-        </picture>
-        <div class="person__text" data-reveal>
-          <h3>Dylan : le marketing</h3>
-          <p class="statement">Positionnement unique, offre, tunnel de vente.</p>
-          <p class="person__result"><span>Résultat :</span> plus de ventes.</p>
-        </div>
-      </article>
-
-      <article class="person person--laura">
-        <!-- TODO: photo seule de Laura (assets/images/laura.jpg). En attendant, c'est un recadrage de la photo de Dylan et Laura. -->
-        <picture class="person__photo" data-reveal>
-          <source srcset="assets/images/laura.webp" type="image/webp">
-          <img src="assets/images/laura.jpg" alt="Laura, en veste de cuir noire, un café à la main, dans la rue" width="667" height="1000" loading="lazy">
-        </picture>
-        <div class="person__text" data-reveal>
-          <h3>Laura : l'organisation</h3>
-          <p class="statement">Laura remet de l'ordre dans tout ce qui se passe derrière tes ventes, pour que ton business tienne sans que tu sois partout.</p>
-          <dl class="duties">
-            <div><dt>Tes chiffres en ordre</dt><dd>Pré-comptabilité, factures, suivi des encaissements et des dépenses. Tu sais enfin où va ton argent. <em>En lien avec ton expert-comptable, qui reste en charge de ta comptabilité.</em></dd></div>
-            <div><dt>Ton équipe</dt><dd>Organisation RH, fiches de poste, recrutement, intégration des nouveaux. Chacun sait ce qu'il a à faire.</dd></div>
-            <div><dt>Ton management</dt><dd>Routines d'équipe, réunions utiles, suivi des objectifs. Tu diriges au lieu de tout faire.</dd></div>
-            <div><dt>Tes process</dt><dd>Les tâches qui reviennent sont écrites étape par étape. Elles peuvent être confiées à quelqu'un d'autre.</dd></div>
-            <div><dt>Tes informations internes</dt><dd>Documents, accès, contacts, procédures, rangés au même endroit. Plus rien ne dépend de ta mémoire.</dd></div>
-            <div><dt>Ta journée signature</dt><dd>Elle en organise tout le déroulé avec toi (<a href="#journee-signature">voir la section dédiée</a>).</dd></div>
-          </dl>
-          <p class="person__result"><span>Résultat :</span> un business qui tient sans que tu sois partout.</p>
-        </div>
-      </article>
+      <div class="duties reveal">
+        <h3 class="duties__title">Ce que Laura prend en main avec toi</h3>
+        <dl>
+          <div><dt>Tes chiffres en ordre</dt><dd>Pré-comptabilité, factures, suivi des encaissements et des dépenses. Tu sais enfin où va ton argent. <em>En lien avec ton expert-comptable, qui reste en charge de ta comptabilité.</em></dd></div>
+          <div><dt>Ton équipe</dt><dd>Organisation RH, fiches de poste, recrutement, intégration des nouveaux. Chacun sait ce qu'il a à faire.</dd></div>
+          <div><dt>Ton management</dt><dd>Routines d'équipe, réunions utiles, suivi des objectifs. Tu diriges au lieu de tout faire.</dd></div>
+          <div><dt>Tes process</dt><dd>Les tâches qui reviennent sont écrites étape par étape. Elles peuvent être confiées à quelqu'un d'autre.</dd></div>
+          <div><dt>Tes informations internes</dt><dd>Documents, accès, contacts, procédures, rangés au même endroit. Plus rien ne dépend de ta mémoire.</dd></div>
+          <div><dt>Ta journée signature</dt><dd>Elle en organise tout le déroulé avec toi (<a href="#journee-signature">voir plus bas</a>).</dd></div>
+        </dl>
+      </div>
     </section>
 
-    <!-- 7. L'OFFRE ET LES 3 PHASES -->
+    <!-- L'OFFRE -->
     <section class="section offer" id="offre" aria-labelledby="t-offre">
-      <div class="axis" data-reveal>
-        <h2 id="t-offre">L'offre « bras droit »</h2>
-        <p class="statement">On travaille avec toi, dans ton business, dans l'opérationnel, pour maximiser tes résultats.</p>
+      <div class="offer__head reveal">
+        <h2 id="t-offre" class="serif">L'offre « bras droit »</h2>
+        <p class="lead">On travaille avec toi, dans ton business, dans l'opérationnel, pour maximiser tes résultats.</p>
       </div>
 
-      <div class="offer__how" data-reveal>
+      <div class="offer__how reveal">
         <h3>Comment ça se passe : 3 phases</h3>
         <p>On ne fait pas grandir un business qui fuit. D'abord on répare, ensuite on accélère.</p>
       </div>
 
       <ol class="phases">
-        <li class="phase" data-reveal>
-          <div class="phase__head">
-            <p class="phase__num" aria-hidden="true">01 / 03</p>
-            <h4>Phase 1 : l'embarquement</h4>
-            <p class="phase__quote">« On sait où tu en es et où on va. »</p>
-            <!-- TODO: durée de la phase 1 à valider (proposé : « les 2 premières semaines »). -->
-            <p class="phase__time">Durée : <span class="todo">À compléter</span></p>
-          </div>
-          <div class="phase__body">
-            <div class="phase__who">
-              <h5>Dylan · diagnostic marketing</h5>
-              <p>Ta promesse, ton offre, ton prix, d'où viennent tes clients, comment tu vends.</p>
-            </div>
-            <div class="phase__who">
-              <h5>Laura · diagnostic organisation</h5>
-              <p>Tes chiffres, ton équipe, qui fait quoi, où part ton temps.</p>
-            </div>
-            <div class="phase__who">
-              <h5>Tes chiffres de départ</h5>
-              <p>Ce qui entre et ce qui sort, tes prospects, tes ventes, ce que te rapporte un client. Ils servent à mesurer tes progrès.</p>
-            </div>
-            <div class="phase__who">
-              <h5>Le plan d'action</h5>
-              <p>Les priorités, dans l'ordre, avec qui fait quoi et pour quand.</p>
-            </div>
-            <div class="phase__keep">
-              <h5>Ce que tu as en main</h5>
-              <p>Ton diagnostic et ton plan d'action écrits.</p>
-            </div>
-          </div>
+        <li class="phase reveal">
+          <p class="phase__step">Phase 1</p>
+          <h4 class="serif">L'embarquement</h4>
+          <p class="phase__quote">« On sait où tu en es et où on va. »</p>
+          <p class="phase__time">Les 2 premières semaines</p>
+          <dl class="phase__list">
+            <div><dt>Diagnostic marketing (Dylan)</dt><dd>Ta promesse, ton offre, ton prix, d'où viennent tes clients, comment tu vends.</dd></div>
+            <div><dt>Diagnostic organisation (Laura)</dt><dd>Tes chiffres, ton équipe, qui fait quoi, où part ton temps.</dd></div>
+            <div><dt>Tes chiffres de départ</dt><dd>Ce qui entre et ce qui sort, tes prospects, tes ventes, ce que te rapporte un client. Ils servent à mesurer tes progrès.</dd></div>
+            <div><dt>Le plan d'action</dt><dd>Les priorités, dans l'ordre, avec qui fait quoi et pour quand.</dd></div>
+          </dl>
+          <div class="phase__keep"><p class="phase__keep-label">Ce que tu as en main</p><p>Ton diagnostic et ton plan d'action écrits.</p></div>
         </li>
-
-        <li class="phase" data-reveal>
-          <div class="phase__head">
-            <p class="phase__num" aria-hidden="true">02 / 03</p>
-            <h4>Phase 2 : l'optimisation</h4>
-            <p class="phase__quote">« On répare ce qui te fait perdre des ventes et du temps. »</p>
-            <!-- TODO: durée de la phase 2 à valider (proposé : « jusqu'à la fin du 3e mois »). -->
-            <p class="phase__time">Durée : <span class="todo">À compléter</span></p>
-          </div>
-          <div class="phase__body">
-            <div class="phase__who">
-              <h5>Dylan · côté ventes</h5>
-              <p>Une promesse claire, une offre qui se vend, un prix juste, un tunnel de vente en place.</p>
-            </div>
-            <div class="phase__who">
-              <h5>Laura · côté organisation</h5>
-              <p>Tes chiffres en ordre, tes process écrits, tes informations rangées, les premières tâches confiées à d'autres.</p>
-            </div>
-            <div class="phase__keep">
-              <h5>Ce que tu as en main</h5>
-              <p>Ton tunnel de vente qui tourne, tes process documentés, un tableau de bord simple de tes chiffres.</p>
-            </div>
-          </div>
+        <li class="phase reveal">
+          <p class="phase__step">Phase 2</p>
+          <h4 class="serif">L'optimisation</h4>
+          <p class="phase__quote">« On répare ce qui te fait perdre des ventes et du temps. »</p>
+          <p class="phase__time">Jusqu'à la fin du 3<sup>e</sup> mois</p>
+          <dl class="phase__list">
+            <div><dt>Côté ventes (Dylan)</dt><dd>Une promesse claire, une offre qui se vend, un prix juste, un tunnel de vente en place.</dd></div>
+            <div><dt>Côté organisation (Laura)</dt><dd>Tes chiffres en ordre, tes process écrits, tes informations rangées, les premières tâches confiées à d'autres.</dd></div>
+          </dl>
+          <div class="phase__keep"><p class="phase__keep-label">Ce que tu as en main</p><p>Ton tunnel de vente qui tourne, tes process documentés, un tableau de bord simple de tes chiffres.</p></div>
         </li>
-
-        <li class="phase" data-reveal>
-          <div class="phase__head">
-            <p class="phase__num" aria-hidden="true">03 / 03</p>
-            <h4>Phase 3 : le développement</h4>
-            <p class="phase__quote">« On fait grandir ce qui marche. »</p>
-            <!-- TODO: durée de la phase 3 à valider (proposé : « à partir du 4e mois »). -->
-            <p class="phase__time">Durée : <span class="todo">À compléter</span></p>
-          </div>
-          <div class="phase__body">
-            <div class="phase__who">
-              <h5>Dylan · côté ventes</h5>
-              <p>Un nouveau canal pour trouver des clients, et plus de ventes avec tes clients actuels.</p>
-            </div>
-            <div class="phase__who">
-              <h5>Laura · côté organisation</h5>
-              <p>Recrutement, management de l'équipe, routines de pilotage. L'équipe prend le relais.</p>
-            </div>
-            <div class="phase__who">
-              <h5>Laura et Dylan · ta journée signature</h5>
-              <p>Le temps fort qui met en scène tout ce qu'on a construit ensemble.</p>
-            </div>
-            <div class="phase__keep">
-              <h5>Ce que tu as en main</h5>
-              <p>Une croissance mesurée par rapport à tes chiffres de départ, une équipe qui avance sans que tu portes tout, et une journée signature que tu peux refaire chaque année.</p>
-            </div>
-          </div>
+        <li class="phase reveal">
+          <p class="phase__step">Phase 3</p>
+          <h4 class="serif">Le développement</h4>
+          <p class="phase__quote">« On fait grandir ce qui marche. »</p>
+          <p class="phase__time">À partir du 4<sup>e</sup> mois</p>
+          <dl class="phase__list">
+            <div><dt>Côté ventes (Dylan)</dt><dd>Un nouveau canal pour trouver des clients, et plus de ventes avec tes clients actuels.</dd></div>
+            <div><dt>Côté organisation (Laura)</dt><dd>Recrutement, management de l'équipe, routines de pilotage. L'équipe prend le relais.</dd></div>
+            <div><dt>Ta journée signature (Laura et Dylan)</dt><dd>Le temps fort qui met en scène tout ce qu'on a construit ensemble.</dd></div>
+          </dl>
+          <div class="phase__keep"><p class="phase__keep-label">Ce que tu as en main</p><p>Une croissance mesurée par rapport à tes chiffres de départ, une équipe qui avance sans que tu portes tout, et une journée signature que tu peux refaire chaque année.</p></div>
         </li>
       </ol>
 
-      <div class="offer__along" data-reveal>
+      <div class="offer__along reveal">
         <div>
           <h3>Tout au long de l'accompagnement</h3>
           <ul>
-            <!-- TODO: point hebdomadaire en visio ou en présentiel ? -->
-            <li>Un point chaque semaine (<span class="todo">À compléter</span> : visio ou présentiel).</li>
+            <li>Un point chaque semaine.</li>
             <li>Un bilan chiffré chaque mois, comparé à tes chiffres de départ.</li>
           </ul>
         </div>
         <div>
-          <h3>Durée minimum d'engagement : 3 mois.</h3>
+          <h3>3 mois minimum</h3>
           <p>C'est le temps des deux premières phases : l'embarquement et l'optimisation. Le développement se poursuit ensuite, au mois.</p>
         </div>
       </div>
+
+      <div class="limit reveal">
+        <p class="limit__number" aria-hidden="true"><span data-count="5">5</span></p>
+        <div>
+          <p class="limit__title serif">On accompagne cinq entreprises à la fois.</p>
+          <p>Pas plus, parce qu'on travaille vraiment dans ton business.</p>
+        </div>
+      </div>
     </section>
 
-    <!-- 8. LA JOURNÉE SIGNATURE -->
-    <section class="signature-day" id="journee-signature" aria-labelledby="t-journee">
-      <div class="sd__intro" data-reveal>
-        <h2 id="t-journee" class="display">Ta journée signature</h2>
-        <p class="statement">Une journée pensée pour ton business, qui fait tout en même temps : vendre, fidéliser, mobiliser.</p>
-      </div>
+    <!-- LA JOURNÉE SIGNATURE -->
+    <section class="signature" id="journee-signature" aria-labelledby="t-journee">
+      <div class="signature__inner">
+        <div class="signature__head reveal">
+          <h2 id="t-journee" class="serif">Ta journée signature</h2>
+          <p class="signature__hook">Une journée pensée pour ton business, qui fait tout en même temps : vendre, fidéliser, mobiliser.</p>
+        </div>
 
-      <div class="sd__text" data-reveal>
-        <p>Une fois tes bases en place, on organise avec toi ta journée signature. Un temps fort, à ton nom, qui réunit tes clients, ton équipe et ton offre au même moment.</p>
-        <p>On ne la fait pas au début. On la fait quand ton offre se vend, que ton tunnel tourne et que ton équipe sait ce qu'elle a à faire. Sinon, on mettrait en avant un business qui n'est pas prêt à recevoir.</p>
-      </div>
+        <figure class="proof-ali reveal">
+          <p class="proof-ali__figures">
+            <span class="proof-ali__fig"><span class="num"><span data-count="3">3</span>x</span><span class="unit">son CA habituel d'une journée</span></span>
+            <span class="proof-ali__fig"><span class="num"><span data-count="45">45</span>&nbsp;min</span><span class="unit">lors de sa journée signature</span></span>
+          </p>
+          <figcaption>
+            <blockquote class="serif">Lors de sa journée signature, Ali a fait 3 fois son chiffre d'affaires habituel d'une journée, en 45 minutes.</blockquote>
+            <a class="btn btn--gold" href="#temoignages" id="ecouter-ali">
+              <span class="btn__play" aria-hidden="true"></span>Écouter Ali
+            </a>
+          </figcaption>
+        </figure>
 
-      <figure class="sd__proof" data-reveal>
-        <p class="sd__big"><span class="sd__x"><span data-count="3">3</span>x</span> son CA habituel d'une journée, en <span data-count="45">45</span>&nbsp;min</p>
-        <figcaption>
-          <p>Lors de sa journée signature, Ali a fait 3 fois son chiffre d'affaires habituel d'une journée, en 45 minutes.</p>
-          <!-- TODO: métier d'Ali. -->
-          <p>Ali, <span class="todo">À compléter</span> (métier)</p>
-          <!-- TODO: phrase d'Ali à citer en texte (facultatif). -->
-          <!-- TODO: minute où Ali parle de sa journée signature dans la vidéo de témoignages : la convertir en secondes dans data-start (ex. 2 min 15 s = 135). -->
-          <a class="btn btn--dark" href="#temoignages" id="ecouter-ali" data-start="">Écouter Ali</a>
-        </figcaption>
-      </figure>
+        <div class="signature__text reveal">
+          <p>Une fois tes bases en place, on organise avec toi ta journée signature. Un temps fort, à ton nom, qui réunit tes clients, ton équipe et ton offre au même moment.</p>
+          <p>On ne la fait pas au début. On la fait quand ton offre se vend, que ton tunnel tourne et que ton équipe sait ce qu'elle a à faire. Sinon, on mettrait en avant un business qui n'est pas prêt à recevoir.</p>
+        </div>
 
-      <div class="sd__benefits" data-reveal>
-        <h3>Les 4 bénéfices</h3>
-        <ol>
-          <li><strong>Tu fais du chiffre d'affaires.</strong> Une offre réservée à ce jour-là donne à tes clients une vraie raison d'acheter maintenant.</li>
-          <li><strong>Tu fidélises tes clients.</strong> Ils vivent un moment à part avec ta marque, et ils s'en souviennent.</li>
-          <li><strong>Tu dynamises ton équipe.</strong> Tout le monde travaille vers un même objectif, avec une date précise.</li>
-          <li><strong>Tu profites de la force d'un lancement.</strong> Une date, un rendez-vous, une annonce : l'attention monte avant, les ventes suivent le jour J.</li>
+        <ol class="benefits">
+          <li class="reveal"><h3>Tu fais du chiffre d'affaires.</h3><p>Une offre réservée à ce jour-là donne à tes clients une vraie raison d'acheter maintenant.</p></li>
+          <li class="reveal"><h3>Tu fidélises tes clients.</h3><p>Ils vivent un moment à part avec ta marque, et ils s'en souviennent.</p></li>
+          <li class="reveal"><h3>Tu dynamises ton équipe.</h3><p>Tout le monde travaille vers un même objectif, avec une date précise.</p></li>
+          <li class="reveal"><h3>Tu profites de la force d'un lancement.</h3><p>Une date, un rendez-vous, une annonce : l'attention monte avant, les ventes suivent le jour J.</p></li>
         </ol>
-      </div>
 
-      <div class="sd__fit" data-reveal>
-        <h3>Adaptée à ton business</h3>
-        <div class="sd__fit-cols">
-          <p><strong>Si tu as un lieu physique :</strong> une journée dans ta boutique, ton restaurant ou tes locaux. Portes ouvertes, démonstrations, offre du jour.</p>
-          <p><strong>Si tu vends en ligne :</strong> un live de lancement, un événement en visio ou une rencontre avec tes meilleurs clients, avec une offre ouverte seulement ce jour-là.</p>
+        <div class="signature__grid">
+          <div class="reveal">
+            <h3 class="serif">Adaptée à ton business</h3>
+            <p><strong>Si tu as un lieu physique :</strong> une journée dans ta boutique, ton restaurant ou tes locaux. Portes ouvertes, démonstrations, offre du jour.</p>
+            <p><strong>Si tu vends en ligne :</strong> un live de lancement, un événement en visio ou une rencontre avec tes meilleurs clients, avec une offre ouverte seulement ce jour-là.</p>
+          </div>
+          <div class="reveal">
+            <h3 class="serif">Comment elle se déroule</h3>
+            <ol class="timeline">
+              <li><strong>Avant</strong> On choisit l'objectif, on construit l'offre du jour, on prépare l'équipe et on fait monter l'attente auprès de tes clients.</li>
+              <li><strong>Le jour J</strong> L'équipe sait qui fait quoi, tes clients vivent un moment à part, et l'offre est ouverte.</li>
+              <li><strong>Après</strong> On relance ceux qui n'ont pas acheté, on remercie ceux qui l'ont fait, et on mesure les résultats.</li>
+            </ol>
+          </div>
         </div>
-      </div>
 
-      <div class="sd__steps" data-reveal>
-        <h3 class="sr-only">Comment elle se déroule</h3>
-        <div class="step-line"><p class="step-line__title">Avant.</p><p>On choisit l'objectif, on construit l'offre du jour, on prépare l'équipe et on fait monter l'attente auprès de tes clients.</p></div>
-        <div class="step-line"><p class="step-line__title">Le jour J.</p><p>L'équipe sait qui fait quoi, tes clients vivent un moment à part, et l'offre est ouverte.</p></div>
-        <div class="step-line"><p class="step-line__title">Après.</p><p>On relance ceux qui n'ont pas acheté, on remercie ceux qui l'ont fait, et on mesure les résultats.</p></div>
-      </div>
+        <div class="signature__facts">
+          <div class="reveal"><h3>Ce qu'on mesure</h3><p>Le chiffre d'affaires de la journée, le nombre de clients venus, les nouveaux contacts récupérés, et les clients qui reviennent dans les semaines suivantes.</p></div>
+          <div class="reveal"><h3>Qui fait quoi</h3><p><strong>Laura</strong> organise la journée : le lieu, le déroulé, l'équipe, la logistique.</p><p><strong>Dylan</strong> construit l'offre du jour et la communication avant, pendant et après.</p></div>
+          <div class="reveal"><h3>Ce que tu gardes</h3><p>Une journée que tu peux refaire chaque année, avec son déroulé écrit.</p><p class="signature__rule">L'offre réservée à la journée s'arrête vraiment à la fin de la journée.</p></div>
+        </div>
 
-      <div class="sd__facts" data-reveal>
-        <div>
-          <h3>Ce qu'on mesure</h3>
-          <p>Le chiffre d'affaires de la journée, le nombre de clients venus, les nouveaux contacts récupérés, et les clients qui reviennent dans les semaines suivantes.</p>
-        </div>
-        <div>
-          <h3>Qui fait quoi</h3>
-          <p><strong>Laura</strong> organise la journée : le lieu, le déroulé, l'équipe, la logistique.</p>
-          <p><strong>Dylan</strong> construit l'offre du jour et la communication avant, pendant et après.</p>
-        </div>
-        <div>
-          <h3>Ce que tu gardes</h3>
-          <p>Une journée que tu peux refaire chaque année, avec son déroulé écrit.</p>
-          <p class="sd__rule">L'offre réservée à la journée s'arrête vraiment à la fin de la journée.</p>
-        </div>
-      </div>
-
-      <div class="sd__video" data-reveal>
-        <h3>Une vraie journée signature, en images.</h3>
-        <!-- TODO: lien YouTube de la vidéo principale de journée signature (extrait de 30 s à 1 min 30). Coller son identifiant dans data-youtube-id. -->
-        <div class="yt" data-youtube-id="" data-title="Une journée signature en images">
-          <div class="todo todo--block">À compléter · vidéo d'une journée signature (lien YouTube)</div>
+        <div class="signature__video reveal">
+          <h3 class="serif">Une vraie journée signature, en images.</h3>
+          <div class="yt yt--dark" data-video="journee" data-title="Une journée signature en images">
+            <div class="yt__soon">
+              <span class="yt__soon-icon" aria-hidden="true"></span>
+              <p>Vidéo bientôt en ligne</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 9. LA LIMITE RÉELLE -->
-    <section class="section capacity" aria-labelledby="t-capacite">
-      <p class="capacity__five" aria-hidden="true">5</p>
-      <div class="capacity__text" data-reveal>
-        <h2 id="t-capacite">On accompagne cinq entreprises à la fois.</h2>
-        <p class="statement">Pas plus, parce qu'on travaille vraiment dans ton business.</p>
-        <a class="btn" href="#candidater">Candidater pour un appel</a>
-      </div>
-    </section>
-
-    <!-- 10. LES PREUVES -->
-    <section class="section proof" aria-labelledby="t-preuves">
-      <h2 id="t-preuves">Les preuves</h2>
-      <p class="proof__figures" data-reveal>
-        <span class="fig"><span data-count="4">4</span>&nbsp;business lancés</span> et <span class="fig"><span data-count="54">54</span>&nbsp;entreprises aidées</span>, en physique et en ligne.
-      </p>
-
-      <div class="cards">
-        <article class="card tilt" data-reveal>
-          <p class="card__result">3x</p>
-          <p class="card__what">son chiffre d'affaires habituel d'une journée, en 45 minutes, lors de sa journée signature.</p>
-          <!-- TODO: phrase d'Ali. -->
-          <p class="card__quote"><span class="todo">À compléter</span> (phrase d'Ali)</p>
-          <p class="card__who"><strong>Ali</strong>, <span class="todo">À compléter</span> (métier)</p>
-        </article>
-        <!-- TODO: témoignage 2 : prénom, métier, résultat chiffré, phrase du client (avec son accord). -->
-        <article class="card card--todo tilt" data-reveal>
-          <p class="card__result"><span class="todo">À compléter</span></p>
-          <p class="card__what">Résultat chiffré</p>
-          <p class="card__quote"><span class="todo">À compléter</span> (phrase du client)</p>
-          <p class="card__who"><span class="todo">À compléter</span> (prénom, métier)</p>
-        </article>
-        <!-- TODO: témoignage 3 : prénom, métier, résultat chiffré, phrase du client (avec son accord). -->
-        <article class="card card--todo tilt" data-reveal>
-          <p class="card__result"><span class="todo">À compléter</span></p>
-          <p class="card__what">Résultat chiffré</p>
-          <p class="card__quote"><span class="todo">À compléter</span> (phrase du client)</p>
-          <p class="card__who"><span class="todo">À compléter</span> (prénom, métier)</p>
-        </article>
-      </div>
-      <!-- TODO: logos ou photos des clients (avec leur accord), à déposer dans assets/images/clients/. -->
-      <p class="proof__logos"><span class="todo">À compléter</span> Logos ou photos clients, avec leur accord.</p>
-    </section>
-
-    <!-- 11. POUR QUI, ET PAS POUR QUI -->
+    <!-- POUR QUI, ET PAS POUR QUI -->
     <section class="section fit" aria-labelledby="t-pourqui">
-      <div class="axis" data-reveal>
-        <h2 id="t-pourqui">Pour qui, et pas pour qui</h2>
-      </div>
+      <h2 id="t-pourqui" class="serif reveal">Pour qui, et pas pour qui</h2>
       <div class="fit__cols">
-        <div class="fit__yes" data-reveal>
+        <div class="fit__yes reveal">
           <h3>C'est pour toi si :</h3>
           <ul>
             <li>tu as déjà un business qui tourne ;</li>
@@ -431,78 +301,81 @@
             <li>tu en as assez de tout porter seul ;</li>
             <li>tu es prêt à t'impliquer.</li>
           </ul>
-          <!-- TODO: seuil d'accès (chiffre d'affaires ou marge minimum). -->
-          <p class="fit__floor">Seuil d'accès : <span class="todo">À compléter</span> (chiffre d'affaires ou marge minimum)</p>
+          <a class="btn" href="#candidater">Candidater pour un appel</a>
         </div>
-        <div class="fit__no" data-reveal>
+        <div class="fit__no reveal" id="formation">
           <h3>Ce n'est pas pour toi si :</h3>
-          <p>tu n'as pas encore lancé ton activité. <a href="#formation">Commence par la formation gratuite.</a></p>
+          <p>tu n'as pas encore lancé ton activité. Commence par la formation gratuite.</p>
+          <div class="training">
+            <p class="training__promise serif">Vendre plus, et plus cher.</p>
+            <p>Les 5 bases du marketing, appliquées sur ton business. Sur YouTube, 7 semaines, un module par semaine. Gratuit, sans formulaire, sans page de vente.</p>
+            <p>À chaque étape, tu appliques sur ton business et tu envoies ton travail en DM sur Instagram. Chaque semaine, des cas sont corrigés en live. Une heure offerte à ceux qui ont appliqué et qui restent bloqués, dans la limite de cinq personnes par mois.</p>
+            <details class="training__modules">
+              <summary>Les modules</summary>
+              <ul>
+                <li>Vidéo 0 : l'intro</li>
+                <li>Vidéo 1 : la feuille de route et tes chiffres de départ</li>
+                <li>Module 1 : l'offre (produit, promesse, prix)</li>
+                <li>Module 2 : le trafic</li>
+                <li>Module 3 : l'éducation</li>
+                <li>Module 4 : la conversion</li>
+                <li>Module 5 : la fidélisation</li>
+                <li>Module 6 : le bilan</li>
+              </ul>
+            </details>
+            <a class="btn btn--ghost" href="#" rel="noopener" data-formation-button hidden>Suivre la formation sur YouTube</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- LA FORMATION GRATUITE -->
-    <section class="section training" id="formation" aria-labelledby="t-formation">
-      <div class="training__head" data-reveal>
-        <h2 id="t-formation">La formation gratuite</h2>
-        <p class="statement">Vendre plus, et plus cher. Les 5 bases du marketing, appliquées sur ton business.</p>
-        <!-- TODO: lien de la playlist YouTube de la formation. Remplacer le <span class="todo"> par : <a class="btn btn--ghost" href="LIEN">Commencer la formation gratuite</a> -->
-        <p><span class="todo todo--wide">À compléter · lien de la playlist YouTube</span></p>
-      </div>
-      <div class="training__body" data-reveal>
-        <p><strong>Sur YouTube, 7 semaines, un module par semaine.</strong> Gratuit, sans formulaire, sans page de vente.</p>
-        <p><strong>À chaque étape,</strong> tu appliques sur ton business et tu envoies ton travail en DM sur <a href="https://www.instagram.com/dyetlau/" rel="noopener">Instagram</a>. Chaque semaine, des cas sont corrigés en live.</p>
-        <p><strong>Une heure offerte</strong> à ceux qui ont appliqué et qui restent bloqués, dans la limite de cinq personnes par mois.</p>
-        <h3>Les modules</h3>
-        <ul class="modules">
-          <li><span>Vidéo 0</span> l'intro</li>
-          <li><span>Vidéo 1</span> la feuille de route et tes chiffres de départ</li>
-          <li><span>Module 1</span> l'offre (produit, promesse, prix)</li>
-          <li><span>Module 2</span> le trafic</li>
-          <li><span>Module 3</span> l'éducation</li>
-          <li><span>Module 4</span> la conversion</li>
-          <li><span>Module 5</span> la fidélisation</li>
-          <li><span>Module 6</span> le bilan</li>
-        </ul>
+    <!-- LES PREUVES -->
+    <section class="section proof" aria-labelledby="t-preuves">
+      <h2 id="t-preuves" class="serif reveal">Les preuves</h2>
+      <div class="proof__stats">
+        <div class="stat reveal">
+          <p class="stat__num"><span data-count="4">4</span></p>
+          <p class="stat__label">business lancés, en physique et en ligne</p>
+        </div>
+        <div class="stat reveal">
+          <p class="stat__num"><span data-count="54">54</span></p>
+          <p class="stat__label">entreprises aidées, en physique et en ligne</p>
+        </div>
+        <article class="stat stat--quote reveal">
+          <p class="stat__num"><span data-count="3">3</span>x</p>
+          <p class="stat__label">le chiffre d'affaires habituel d'une journée, en 45 minutes, lors de sa journée signature.</p>
+          <p class="stat__who">Ali, client accompagné</p>
+        </article>
       </div>
     </section>
 
-    <!-- 12. QUI ON EST -->
+    <!-- QUI ON EST -->
     <section class="section about" aria-labelledby="t-apropos">
-      <div class="about__photos" data-reveal>
+      <div class="about__photos reveal">
         <picture class="about__main">
-          <source srcset="assets/images/dylan-laura.webp" type="image/webp">
-          <img src="assets/images/dylan-laura.jpg" alt="Dylan et Laura dans la rue, un café à la main" width="1000" height="1499" loading="lazy">
-        </picture>
-        <picture class="about__side">
           <source srcset="assets/images/dylan-costume.webp" type="image/webp">
           <img src="assets/images/dylan-costume.jpg" alt="Dylan en costume bleu marine" width="800" height="1200" loading="lazy">
         </picture>
-      </div>
-      <div class="about__text" data-reveal>
-        <h2 id="t-apropos">Qui on est</h2>
-        <p class="statement">En 2021, Dylan a travaillé avec un entrepreneur qui fait plusieurs millions. En un mois, il a fait ses premiers 10&nbsp;000&nbsp;€ net.</p>
-        <p>Ce n'était pas de la magie : il a vu de l'intérieur que tout reposait sur des bases, toujours les mêmes. La première compétence qu'il a travaillée, c'est la vente. Depuis, il a lancé 4 business et aidé 54 entreprises.</p>
-        <p>Aujourd'hui, avec Laura, ils mettent ces bases au service de ton business.</p>
-        <picture class="about__cafe">
+        <picture class="about__side">
           <source srcset="assets/images/dylan-laura-cafe.webp" type="image/webp">
           <img src="assets/images/dylan-laura-cafe.jpg" alt="Dylan et Laura en terrasse, devant un ordinateur portable" width="488" height="488" loading="lazy">
         </picture>
       </div>
+      <div class="about__text reveal">
+        <h2 id="t-apropos" class="serif">Qui on est</h2>
+        <p class="lead">En 2021, Dylan a travaillé avec un entrepreneur qui fait plusieurs millions. En un mois, il a fait ses premiers 10&nbsp;000&nbsp;€ net.</p>
+        <p>Ce n'était pas de la magie : il a vu de l'intérieur que tout reposait sur des bases, toujours les mêmes. La première compétence qu'il a travaillée, c'est la vente. Depuis, il a lancé 4 business et aidé 54 entreprises.</p>
+        <p>Aujourd'hui, avec Laura, ils mettent ces bases au service de ton business.</p>
+      </div>
     </section>
 
-    <!-- 13. QUESTIONS FRÉQUENTES -->
+    <!-- QUESTIONS FRÉQUENTES -->
     <section class="section faq" id="questions" aria-labelledby="t-faq">
-      <h2 id="t-faq">Questions fréquentes</h2>
-      <div class="faq__list">
+      <h2 id="t-faq" class="serif reveal">Questions fréquentes</h2>
+      <div class="faq__list reveal">
         <details>
           <summary>Combien ça coûte ?</summary>
           <p>Ça dépend de ton besoin. On te donne le prix exact pendant l'appel.</p>
-        </details>
-        <details>
-          <summary>Combien de temps je dois y consacrer ?</summary>
-          <!-- TODO: réponse à « Combien de temps je dois y consacrer ? » -->
-          <p><span class="todo">À compléter</span></p>
         </details>
         <details>
           <summary>Et si mon métier est particulier ?</summary>
@@ -521,57 +394,64 @@
           <p>Oui. Elle prend la forme d'un live de lancement ou d'un événement en visio, avec une offre ouverte seulement ce jour-là.</p>
         </details>
         <details>
-          <summary>Vous travaillez en visio ou en présentiel ?</summary>
-          <!-- TODO: réponse à « Vous travaillez en visio ou en présentiel ? » (et ville ou zone si présentiel). -->
-          <p><span class="todo">À compléter</span></p>
-        </details>
-        <details>
           <summary>Pourquoi seulement cinq entreprises à la fois ?</summary>
           <p>Parce qu'on travaille vraiment dans ton business. Au-delà, on ne pourrait pas le faire correctement.</p>
         </details>
+        <!-- À FAIRE : ajouter « Combien de temps je dois y consacrer ? » et « Vous travaillez en visio ou en présentiel ? » quand les réponses seront écrites (contenu.md, section 13). -->
       </div>
     </section>
 
-    <!-- 14. APPEL FINAL ET CANDIDATURE -->
-    <section class="apply" id="candidater" aria-labelledby="t-candidater">
-      <div class="apply__intro" data-reveal>
-        <h2 id="t-candidater" class="display">Pour vendre plus, sans tout porter seul.</h2>
-        <p class="statement">Dylan te fait vendre plus. Laura structure ton business pour qu'il tienne.</p>
-        <p class="apply__limit">On accompagne cinq entreprises à la fois.</p>
+    <!-- CANDIDATURE -->
+    <section class="section apply" id="candidater" aria-labelledby="t-candidater">
+      <div class="apply__intro reveal">
+        <h2 id="t-candidater" class="serif">Candidater pour un appel</h2>
+        <p class="lead">Cinq questions. On accompagne cinq entreprises à la fois : l'appel sert à voir si on peut t'aider.</p>
       </div>
 
-      <div class="apply__form" data-reveal>
-        <h3>Candidater pour un appel</h3>
+      <div class="apply__card reveal">
         <form id="candidature" class="form" novalidate>
-          <div class="form__progress" role="progressbar" aria-label="Progression de la candidature" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
-            <span class="form__bar"></span>
+          <div class="form__top">
+            <p class="form__count" aria-live="polite">Question <span data-current>1</span> sur 5</p>
+            <div class="form__progress" role="progressbar" aria-label="Progression de la candidature" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><span class="form__bar"></span></div>
           </div>
 
           <div class="form__step" data-step>
-            <label for="f-secteur">Ton secteur d'activité</label>
+            <label class="form__q" for="f-secteur">Ton secteur d'activité</label>
             <input id="f-secteur" name="secteur" type="text" required autocomplete="off">
           </div>
+
+          <fieldset class="form__step" data-step>
+            <legend class="form__q">Ton chiffre d'affaires mensuel (approximatif)</legend>
+            <div class="choices">
+              <label><input type="radio" name="chiffre_affaires_mensuel" value="Moins de 5 000 €" required><span>Moins de 5&nbsp;000&nbsp;€</span></label>
+              <label><input type="radio" name="chiffre_affaires_mensuel" value="De 5 000 à 15 000 €"><span>De 5&nbsp;000 à 15&nbsp;000&nbsp;€</span></label>
+              <label><input type="radio" name="chiffre_affaires_mensuel" value="De 15 000 à 50 000 €"><span>De 15&nbsp;000 à 50&nbsp;000&nbsp;€</span></label>
+              <label><input type="radio" name="chiffre_affaires_mensuel" value="Plus de 50 000 €"><span>Plus de 50&nbsp;000&nbsp;€</span></label>
+            </div>
+          </fieldset>
+
           <div class="form__step" data-step>
-            <label for="f-ca">Ton chiffre d'affaires mensuel (approximatif)</label>
-            <input id="f-ca" name="chiffre_affaires_mensuel" type="text" required inputmode="text" autocomplete="off">
-          </div>
-          <div class="form__step" data-step>
-            <label for="f-blocage">Ce qui te bloque le plus aujourd'hui</label>
+            <label class="form__q" for="f-blocage">Ce qui te bloque le plus aujourd'hui</label>
             <textarea id="f-blocage" name="blocage" rows="4" required></textarea>
           </div>
+
           <div class="form__step" data-step>
-            <label for="f-prenom">Ton prénom</label>
+            <label class="form__q" for="f-prenom">Ton prénom</label>
             <input id="f-prenom" name="prenom" type="text" required autocomplete="given-name">
           </div>
+
           <div class="form__step" data-step>
-            <label for="f-tel">Ton téléphone</label>
+            <label class="form__q" for="f-tel">Ton téléphone</label>
             <input id="f-tel" name="telephone" type="tel" required autocomplete="tel" inputmode="tel">
+            <label class="consent">
+              <input type="checkbox" name="consentement" value="oui" required>
+              <span>J'accepte que Dy&amp;Lau utilise ces informations pour me recontacter au sujet de ma candidature. <a href="confidentialite.html">Politique de confidentialité</a>.</span>
+            </label>
           </div>
 
-          <p class="form__error" role="alert" hidden>Réponds à cette question pour continuer.</p>
+          <p class="form__error" role="alert" hidden></p>
 
           <div class="form__nav">
-            <p class="form__count" aria-live="polite">Question <span data-current>1</span> sur 5</p>
             <button type="button" class="btn btn--ghost" data-prev hidden>Retour</button>
             <button type="button" class="btn" data-next>Suivant</button>
             <button type="submit" class="btn" data-submit hidden>Envoyer ma candidature</button>
@@ -579,41 +459,29 @@
         </form>
 
         <div class="form__done" tabindex="-1" hidden>
-          <p class="form__done-title">Merci, ta candidature est envoyée.</p>
-          <p class="form__done-mail" hidden>Ta messagerie s'ouvre avec tes réponses : il te reste à appuyer sur « Envoyer ».</p>
-          <!-- TODO: ce qui se passe après l'envoi : réservation directe d'un créneau (outil à préciser) OU rappel sous 24 heures. -->
-          <p>Et ensuite : <span class="todo">À compléter</span></p>
+          <p class="form__done-title serif">Merci pour ta candidature.</p>
+          <p>Dylan et Laura la lisent avec attention.</p>
         </div>
-
-        <p class="form__privacy">Tes réponses servent uniquement à préparer ton appel avec nous. <a href="confidentialite.html">Politique de confidentialité</a>.</p>
       </div>
     </section>
   </main>
 
-  <!-- 15. PIED DE PAGE -->
   <footer class="footer">
-    <p class="signature signature--bottom">Sans tout porter seul.</p>
-    <div class="footer__row">
-      <div class="footer__reach">
+    <div class="footer__top">
+      <img class="footer__logo" src="assets/images/logo.png" alt="Dy&amp;Lau" width="480" height="248" loading="lazy">
+      <p class="footer__line serif">Pour vendre plus, sans tout porter seul.</p>
+    </div>
+    <div class="footer__bottom">
+      <nav class="footer__links" aria-label="Liens du pied de page">
         <a href="https://www.instagram.com/dyetlau/" rel="noopener">Instagram</a>
-        <!-- TODO: lien de la chaîne YouTube. Remplacer le <span> par <a href="LIEN" rel="noopener">YouTube</a> -->
-        <span class="footer__todo">YouTube <span class="todo">À compléter</span></span>
-        <!-- TODO: adresse e-mail de contact (à reporter aussi dans CONTACT_EMAIL, en haut de main.js). -->
-        <span class="footer__todo">E-mail <span class="todo">À compléter</span></span>
-        <!-- TODO: téléphone ou WhatsApp (si affiché). -->
-        <span class="footer__todo">Téléphone <span class="todo">À compléter</span></span>
-      </div>
-      <div class="footer__links">
-        <img class="footer__logo" src="assets/images/logo.png" alt="Dy&amp;Lau" width="480" height="248" loading="lazy">
+        <a href="#" rel="noopener" data-youtube-channel hidden>YouTube</a>
         <a href="mentions-legales.html">Mentions légales</a>
         <a href="confidentialite.html">Politique de confidentialité</a>
-        <a href="#haut">Retour en haut</a>
-      </div>
+      </nav>
+      <p class="footer__legal">© Dy&amp;Lau</p>
     </div>
-    <p class="footer__legal">© Dy&amp;Lau</p>
   </footer>
 
-  <!-- Animations : GSAP + ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="main.js" defer></script>
