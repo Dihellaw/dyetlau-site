@@ -204,7 +204,8 @@ h3 { font-size: var(--t-h3); font-weight: 700; line-height: 1.2; letter-spacing:
 .contrast__col--now { background: var(--cream-2); color: var(--ink-soft); }
 .contrast__col--now h3 { color: var(--ink); }
 .contrast__col--with { background: var(--blue); color: var(--on-blue); }
-.contrast__col--with li::before { content: "✓"; color: var(--gold); font-weight: 700; margin-right: .6rem; }
+.contrast__col--with li { position: relative; padding-left: 1.25rem; }
+.contrast__col--with li::before { content: ""; position: absolute; left: 0; top: .55em; width: .45rem; height: .45rem; border-radius: 50%; background: var(--gold); }
 @media (min-width: 900px) {
   .problem__lead { grid-template-columns: 5fr 7fr; align-items: end; gap: var(--gap); }
   .contrast { grid-template-columns: 1fr 1fr; }
