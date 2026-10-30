@@ -89,7 +89,7 @@
 
   /* ---------- Cartes : champ lien YouTube en mode édition ---------- */
   function addCardInputs() {
-    $$(".card", document).forEach((card) => {
+    $$(".card:not([data-clone])", document).forEach((card) => {
       const i = Number(card.dataset.card);
       const body = $(".card__body", card);
       const wrap = document.createElement("div");
@@ -117,7 +117,7 @@
   }
 
   function readCards() {
-    return $$(".card", document).map((card) => {
+    return $$(".card:not([data-clone])", document).map((card) => {
       const i = Number(card.dataset.card);
       const prev = D.SITE.cartes[i] || {};
       const out = { ...prev };

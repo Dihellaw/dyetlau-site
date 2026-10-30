@@ -27,6 +27,7 @@ document.documentElement.classList.add("js", "textes-en-attente");
 
 const $ = (s, root = document) => root.querySelector(s);
 const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+const root = document.documentElement;
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const SITE = { textes: {}, cartes: [], reglages: {} };
 
@@ -161,73 +162,180 @@ const spy = new IntersectionObserver((entries) => {
 }, { rootMargin: "-45% 0px -50% 0px" });
 navTargets.forEach((x) => spy.observe(x.el));
 
-/* ---------- Les 11 transformations ---------- */
+/* ---------- Les transformations : carrousel en boucle ----------
+   Les cartes sont dupliquées avant et après la série d'origine. Quand le défilement
+   s'arrête sur un double, on se recale sans animation sur la carte d'origine identique. */
 const list = $("#transfo-list");
-const CARD_PLACEHOLDERS = { impact: "Transformation à venir", nom: "Nom du dirigeant", secteur: "Secteur à préciser" };
-
-function renderCards(cartes) {
-  list.replaceChildren();
-  cartes.forEach((t, i) => {
-    const li = document.createElement("li");
-    li.className = "card";
-    li.dataset.card = String(i);
-    const id = youtubeId(t.youtube);
-    li.innerHTML = `
-      <div class="card__media"></div>
-      <div class="card__body">
-        <p class="card__impact" data-field="impact"></p>
-        <p class="card__who"><strong data-field="nom"></strong><span data-field="secteur"></span></p>
-      </div>`;
-    const media = $(".card__media", li);
-    if (id) {
-      liteVideo(media, id, `la transformation de ${t.nom || "ce dirigeant"}`, Number(t.debut) || 0);
-    } else {
-      media.innerHTML = '<div class="card__soon"><p class="card__soon-mark" aria-hidden="true">Dy<b>&amp;</b><br>Lau</p><p>Vidéo bientôt en ligne</p></div>';
-    }
-    $$("[data-field]", li).forEach((el) => {
-      const f = el.dataset.field;
-      el.textContent = t[f] || CARD_PLACEHOLDERS[f];
-      // L'impact par défaut garde le style normal ; le nom et le secteur manquants sont signalés
-      el.classList.toggle("todo", !t[f] && f !== "impact");
-    });
-    if (i === 0) li.id = "transfo-ali";
-    list.append(li);
-  });
-  updateRail();
-}
-
-// Défilement du carrousel
 const rail = $("#rail");
-const railBar = $("#rail-bar");
+const carousel = $("#carousel");
 const prev = $("[data-rail='prev']");
 const next = $("[data-rail='next']");
-function railStep() {
-  const card = $(".card", rail);
-  return card ? card.getBoundingClientRect().width + 20 : 300;
+const CARD_PLACEHOLDERS = { impact: "Transformation à venir", nom: "Prénom à venir", secteur: "Secteur à préciser" };
+let cardCount = 0;
+
+function makeCard(t, i, clone) {
+  const li = document.createElement("li");
+  li.className = "card";
+  li.dataset.card = String(i);
+  const id = youtubeId(t.youtube);
+  li.innerHTML = `
+    <div class="card__media"></div>
+    <div class="card__body">
+      <p class="card__label" data-field="secteur"></p>
+      <h3 class="card__impact" data-field="impact"></h3>
+      <p class="card__who" data-field="nom"></p>
+    </div>`;
+  const media = $(".card__media", li);
+  if (id) {
+    liteVideo(media, id, `la transformation de ${t.nom || "ce client"}`, Number(t.debut) || 0);
+  } else {
+    media.innerHTML = '<div class="card__soon"><p class="card__soon-mark" aria-hidden="true">Dy<b>&amp;</b><br>Lau</p><p>Vidéo bientôt en ligne</p></div>';
+  }
+  $$("[data-field]", li).forEach((el) => {
+    const f = el.dataset.field;
+    el.textContent = t[f] || CARD_PLACEHOLDERS[f];
+    el.classList.toggle("todo", !t[f]);
+  });
+  if (clone) {
+    // Les doubles servent seulement à la boucle : invisibles pour le clavier et les lecteurs d'écran
+    li.dataset.clone = "";
+    li.setAttribute("aria-hidden", "true");
+    li.inert = true;
+  } else if (i === 0) {
+    li.id = "transfo-ali";
+  }
+  return li;
 }
-function updateRail() {
-  const max = rail.scrollWidth - rail.clientWidth;
-  const ratio = rail.scrollWidth ? rail.clientWidth / rail.scrollWidth : 1;
-  const pos = max > 0 ? rail.scrollLeft / max : 0;
-  railBar.style.width = `${Math.max(ratio, 0.08) * 100 + pos * (1 - ratio) * 100}%`;
-  prev.disabled = rail.scrollLeft < 8;
-  next.disabled = rail.scrollLeft > max - 8;
+
+const allCards = () => $$(".card", list);
+const visibleCards = () => allCards().filter((c) => c.offsetParent !== null);
+const centerOf = (card) => card.offsetLeft + card.offsetWidth / 2 - rail.clientWidth / 2;
+
+function nearestCard() {
+  const mid = rail.scrollLeft + rail.clientWidth / 2;
+  let best = null;
+  let dist = Infinity;
+  visibleCards().forEach((c) => {
+    const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+    if (d < dist) { dist = d; best = c; }
+  });
+  return best;
 }
-prev.addEventListener("click", () => rail.scrollBy({ left: -railStep() * 2, behavior: reduceMotion ? "auto" : "smooth" }));
-next.addEventListener("click", () => rail.scrollBy({ left: railStep() * 2, behavior: reduceMotion ? "auto" : "smooth" }));
-rail.addEventListener("scroll", updateRail, { passive: true });
+
+function setActive(card) {
+  allCards().forEach((c) => c.classList.toggle("is-active", c === card));
+}
+
+function goTo(card, behavior = reduceMotion ? "auto" : "smooth") {
+  if (card) rail.scrollTo({ left: centerOf(card), behavior });
+}
+
+function step(dir) {
+  const cards = visibleCards();
+  const i = cards.indexOf(nearestCard());
+  goTo(cards[Math.min(cards.length - 1, Math.max(0, i + dir))]);
+}
+
+// Recalage discret : du double vers la carte d'origine identique, sans animation
+function normalize() {
+  if (dragging || root.classList.contains("edition") || !cardCount) return;
+  const cards = allCards();
+  const i = cards.indexOf(nearestCard());
+  if (i < 0) return;
+  let j = i;
+  if (i < cardCount) j = i + cardCount;
+  else if (i >= 2 * cardCount) j = i - cardCount;
+  if (j === i) return;
+  list.classList.add("no-anim");
+  setActive(cards[j]);
+  rail.style.scrollSnapType = "none";
+  const ri = cards[i].getBoundingClientRect();
+  const rj = cards[j].getBoundingClientRect();
+  rail.scrollLeft += (rj.left + rj.width / 2) - (ri.left + ri.width / 2);
+  void rail.offsetWidth;
+  rail.style.scrollSnapType = "";
+  requestAnimationFrame(() => requestAnimationFrame(() => list.classList.remove("no-anim")));
+}
+
+function renderCards(cartes) {
+  cardCount = cartes.length;
+  const frag = document.createDocumentFragment();
+  cartes.forEach((t, i) => frag.append(makeCard(t, i, true)));
+  cartes.forEach((t, i) => frag.append(makeCard(t, i, false)));
+  cartes.forEach((t, i) => frag.append(makeCard(t, i, true)));
+  list.replaceChildren(frag);
+  allCards().forEach((c) => activeObs.observe(c));
+  // On démarre sur la première carte d'origine, au centre
+  requestAnimationFrame(() => {
+    const first = allCards()[cardCount];
+    list.classList.add("no-anim");
+    setActive(first);
+    goTo(first, "auto");
+    requestAnimationFrame(() => requestAnimationFrame(() => list.classList.remove("no-anim")));
+  });
+}
+
+// Carte active : celle qui croise la ligne verticale au milieu du carrousel
+const activeObs = new IntersectionObserver((entries) => {
+  entries.forEach((en) => { if (en.isIntersecting) setActive(en.target); });
+}, { root: rail, rootMargin: "0px -50% 0px -50%", threshold: 0 });
+carousel.classList.add("is-live");
+
+let scrollTimer;
+rail.addEventListener("scroll", () => {
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(normalize, 140);
+}, { passive: true });
+
+prev.addEventListener("click", () => step(-1));
+next.addEventListener("click", () => step(1));
 rail.addEventListener("keydown", (e) => {
   if (e.target !== rail) return;
-  if (e.key === "ArrowRight") { e.preventDefault(); next.click(); }
-  if (e.key === "ArrowLeft") { e.preventDefault(); prev.click(); }
+  if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+  if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
 });
-window.addEventListener("resize", updateRail);
+
+// Glisser à la souris (le doigt et le pavé tactile défilent nativement)
+let dragging = false;
+let dragMoved = false;
+let dragX = 0;
+let dragStart = 0;
+rail.addEventListener("pointerdown", (e) => {
+  if (e.pointerType !== "mouse" || e.button !== 0 || root.classList.contains("edition")) return;
+  dragging = true;
+  dragMoved = false;
+  dragX = e.clientX;
+  dragStart = rail.scrollLeft;
+});
+window.addEventListener("pointermove", (e) => {
+  if (!dragging) return;
+  const dx = e.clientX - dragX;
+  if (!dragMoved && Math.abs(dx) > 5) { dragMoved = true; rail.classList.add("is-dragging"); }
+  if (dragMoved) rail.scrollLeft = dragStart - dx;
+});
+window.addEventListener("pointerup", () => {
+  if (!dragging) return;
+  dragging = false;
+  if (!dragMoved) return;
+  rail.classList.remove("is-dragging");
+  goTo(nearestCard());
+});
+// Un glisser ne doit pas ouvrir la vidéo sous le curseur
+rail.addEventListener("click", (e) => {
+  if (dragMoved) { e.preventDefault(); e.stopPropagation(); dragMoved = false; }
+}, true);
+
+let resizeTimer;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => goTo(nearestCard(), "auto"), 150);
+});
 
 /* ---------- Réglages : vidéos, liens, contact ---------- */
 const aliLink = $("#ecouter-ali");
 aliLink.addEventListener("click", () => {
   if (youtubeId(SITE.reglages.videoAli)) return;
-  setTimeout(() => rail.scrollTo({ left: 0, behavior: reduceMotion ? "auto" : "smooth" }), 400);
+  setTimeout(() => goTo($("#transfo-ali")), 400);
 });
 
 function applySettings(r) {

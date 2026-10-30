@@ -73,27 +73,31 @@
     </section>
 
     <!-- Transformations -->
-    <section class="section transfo" id="transformations" aria-labelledby="transfo-title">
-      <div class="wrap transfo__head">
-        <h2 data-k="transformations-1" class="h2 reveal" id="transfo-title">Ils l'ont vécu. Ils te le racontent.</h2>
-        <div class="transfo__intro reveal">
-          <p data-k="transformations-2">Onze entrepreneurs, en boutique ou en ligne. Leur business avant, leur business après, dans leurs mots.</p>
-          <div class="rail-ctrl">
-            <button class="rail-btn" type="button" data-rail="prev" aria-label="Transformations précédentes">
+    <section class="transfo" id="transformations" aria-labelledby="transfo-title">
+      <!-- Calque d'arrière-plan collant : il reste en place pendant le défilement -->
+      <div class="methode__bg transfo__bg" aria-hidden="true"></div>
+      <div class="transfo__inner">
+        <header class="wrap section-head">
+          <p data-k="transformations-e1" class="eyebrow reveal">Transformations</p>
+          <h2 data-k="transformations-1" class="h2 reveal" id="transfo-title">Ils l'ont vécu. Ils te le racontent.</h2>
+          <p data-k="transformations-2" class="section-head__lead reveal">Des entrepreneurs, en boutique ou en ligne. Leur business avant, leur business après, avec leurs mots.</p>
+        </header>
+        <div class="carousel" id="carousel">
+          <div class="carousel__viewport" id="rail" tabindex="0" role="region" aria-roledescription="carrousel" aria-label="Témoignages clients">
+            <ul class="carousel__track" id="transfo-list">
+              <!-- Cartes générées par main.js depuis textes.json -->
+            </ul>
+          </div>
+          <div class="carousel__nav">
+            <button class="carousel__btn" type="button" data-rail="prev" aria-label="Témoignage précédent">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
             </button>
-            <button class="rail-btn" type="button" data-rail="next" aria-label="Transformations suivantes">
+            <button class="carousel__btn" type="button" data-rail="next" aria-label="Témoignage suivant">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
             </button>
           </div>
         </div>
       </div>
-      <div class="rail" id="rail" tabindex="0" aria-label="Les onze transformations clients">
-        <ul class="rail__track" id="transfo-list">
-          <!-- Cartes générées par main.js depuis la liste TRANSFORMATIONS -->
-        </ul>
-      </div>
-      <div class="wrap"><div class="rail-progress" aria-hidden="true"><span id="rail-bar"></span></div></div>
     </section>
 
     <!-- Le problème -->
@@ -170,7 +174,7 @@
       <div class="methode__bg" aria-hidden="true"></div>
       <div class="wrap methode__inner">
         <header class="methode__head">
-          <p data-k="methode-e1" class="methode__eyebrow reveal">Méthode</p>
+          <p data-k="methode-e1" class="eyebrow reveal">Méthode</p>
           <h2 data-k="methode-e2" class="h2 reveal" id="methode-title">3 étapes qui changent ton business</h2>
         </header>
         <div class="etapes" id="etapes">

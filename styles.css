@@ -242,48 +242,67 @@ html:not(.edition) [data-vide] { display: none !important; }
   .hero__actions .btn--cta { width: 100%; }
 }
 
-/* ---------- Transformations ---------- */
-.transfo__head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: end; }
-.transfo__intro p { font-size: 17px; color: var(--ink-soft); max-width: 30em; }
-.rail-ctrl { display: flex; gap: 10px; margin-top: 28px; }
-.rail-btn {
-  width: 48px; height: 48px; border-radius: 50%; border: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong);
-  display: grid; place-items: center; transition: background-color .3s, box-shadow .3s;
+/* ---------- Transformations ----------
+   Carrousel en boucle : la carte au centre est active (même style que les blocs de la méthode).
+   Le fond réutilise le calque collant de la méthode. */
+.transfo { position: relative; isolation: isolate; }
+.transfo .transfo__bg {
+  background:
+    radial-gradient(40vmax 40vmax at 88% 22%, rgba(241, 203, 90, .2), rgba(241, 203, 90, 0) 70%),
+    radial-gradient(34vmax 34vmax at 8% 80%, rgba(241, 203, 90, .14), rgba(241, 203, 90, 0) 70%),
+    radial-gradient(28vmax 28vmax at 20% 10%, rgba(39, 66, 111, .05), rgba(39, 66, 111, 0) 70%),
+    var(--cream);
 }
-.rail-btn:hover { background: var(--white); box-shadow: inset 0 0 0 1px var(--gold-accent); }
-.rail-btn svg { width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.rail-btn:disabled { opacity: .35; cursor: default; background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong); }
+.transfo__inner { position: relative; padding-top: var(--gap-section); }
 
-.rail {
-  margin-top: 56px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-  scroll-padding-left: max(var(--margin), calc((100vw - var(--max)) / 2));
-  outline-offset: -3px;
+/* En-tête centré, partagé avec la méthode */
+.section-head { text-align: center; }
+.section-head .h2 { margin: 14px auto 0; max-width: 20ch; }
+.section-head__lead { margin: 20px auto 0; max-width: 600px; color: var(--ink-soft); font-size: clamp(16px, 1.25vw, 18px); }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+
+.carousel { --card-w: clamp(268px, 25vw, 340px); --gap: 28px; margin-top: 64px; }
+/* Largeur arrondie au pixel : la boucle se recale alors exactement, sans décalage visible */
+@supports (width: round(down, 10.5px, 1px)) {
+  .carousel { --card-w: round(down, clamp(268px, 25vw, 340px), 1px); }
 }
-.rail::-webkit-scrollbar { display: none; }
-.rail__track {
-  display: flex; gap: 24px; width: max-content;
-  padding: 0 max(var(--margin), calc((100vw - var(--max)) / 2)) 4px;
+.carousel__viewport {
+  overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scrollbar-width: none;
+  cursor: grab; outline-offset: -3px;
 }
+.carousel__viewport::-webkit-scrollbar { display: none; }
+.carousel__viewport.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+.carousel__viewport.is-dragging * { pointer-events: none; }
+.carousel__viewport:focus-visible { outline: 2px solid var(--blue); }
+.carousel__track {
+  position: relative; display: flex; gap: var(--gap); width: max-content; align-items: stretch;
+  padding: 36px calc(50vw - var(--card-w) / 2) 40px;
+}
+
 .card {
-  scroll-snap-align: start;
-  width: clamp(270px, 24vw, 320px);
+  scroll-snap-align: center; scroll-snap-stop: normal;
+  width: var(--card-w); flex: none;
   background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
   display: flex; flex-direction: column;
-  transition: transform .5s var(--ease), border-color .4s;
+  user-select: none; -webkit-user-select: none;
+  transition: opacity .4s var(--ease), transform .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
 }
-.card:hover { transform: translateY(-4px); border-color: var(--line-strong); }
-.card__media { position: relative; aspect-ratio: 4 / 5; background: var(--sand); overflow: hidden; }
-.card__media img, .card__media iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; }
-.card__media img { transition: transform .8s var(--ease); }
-.card:hover .card__media img { transform: scale(1.04); }
+.js .carousel.is-live .card { opacity: .5; transform: scale(.94); }
+.js .carousel.is-live .card.is-active {
+  opacity: 1; transform: scale(1.03); border-color: var(--gold);
+  box-shadow: 0 0 0 6px rgba(241, 203, 90, .14), 0 24px 60px -28px rgba(214, 170, 30, .55);
+}
+.no-anim .card, .no-anim .card__label { transition: none !important; }
+.card__media { position: relative; aspect-ratio: 1 / 1; background: var(--sand); overflow: hidden; }
+.card__media img, .card__media iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; -webkit-user-drag: none; }
 .card__play {
-  position: absolute; inset: 0; border: 0; background: transparent; display: flex; align-items: flex-end; padding: 18px; text-decoration: none;
+  position: absolute; inset: 0; border: 0; background: transparent; display: flex; align-items: flex-end; padding: 16px; text-decoration: none;
 }
 .card__play span {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--white); color: var(--ink); border-radius: var(--radius-sm); padding: 9px 14px 9px 12px;
-  font-weight: 500; font-size: 14px;
-  transition: background-color .3s;
+  font-weight: 500; font-size: 14px; transition: background-color .3s;
 }
 .card__play:hover span { background: var(--gold); }
 .card__play svg { width: 14px; height: 14px; fill: currentColor; }
@@ -293,23 +312,35 @@ html:not(.edition) [data-vide] { display: none !important; }
 }
 .card__soon p { font-size: 13.5px; color: var(--ink-soft); }
 .card__soon .card__soon-mark {
-  font-family: var(--f-serif); font-style: italic; font-weight: 400; font-size: 64px; line-height: .95; color: var(--blue); opacity: .85;
+  font-family: var(--f-serif); font-style: italic; font-weight: 400; font-size: 60px; line-height: .95; color: var(--blue); opacity: .85;
 }
 .card__soon .card__soon-mark b { color: var(--gold-accent); font-weight: 400; }
-.card__body { padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
-.card__impact { font-weight: 500; font-size: 18px; line-height: 1.4; letter-spacing: -0.005em; color: var(--ink); }
-.card__who { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); font-size: 14.5px; line-height: 1.45; }
-.card__who strong { display: block; font-size: 15px; font-weight: 500; }
-.card__who span { color: var(--ink-soft); }
+.card__body { padding: 20px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+.card__label {
+  font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft);
+  transition: color .4s var(--ease);
+}
+.card.is-active .card__label { color: var(--gold); }
+.card__impact { margin-top: 10px; font-weight: 500; font-size: 18px; line-height: 1.4; letter-spacing: -0.005em; color: var(--blue); }
+.card__who { margin-top: auto; padding-top: 16px; font-size: 15px; font-weight: 500; color: var(--ink); }
+.card__label.todo, .card__who.todo, .card__impact.todo { font-style: italic; }
 .todo { color: var(--gold-text); font-style: italic; }
 
-.rail-progress { margin-top: 32px; height: 1px; background: var(--line); }
-.rail-progress span { display: block; height: 100%; width: 20%; background: var(--ink); transition: width .2s linear; }
+.carousel__nav { display: flex; justify-content: center; gap: 12px; margin-top: 8px; }
+.carousel__btn {
+  width: 50px; height: 50px; border-radius: 50%; border: 0; background: var(--white); box-shadow: inset 0 0 0 1px var(--line-strong);
+  display: grid; place-items: center; transition: background-color .3s, box-shadow .3s, transform .3s var(--ease);
+}
+.carousel__btn:hover { background: var(--gold-light); box-shadow: inset 0 0 0 1px var(--gold); }
+.carousel__btn:active { transform: scale(.95); }
+.carousel__btn svg { width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 
-@media (max-width: 860px) {
-  .transfo__head { grid-template-columns: 1fr; gap: 20px; }
-  .rail { margin-top: 40px; }
-  .card { width: 76vw; max-width: 320px; }
+@media (max-width: 760px) {
+  .carousel { --card-w: 70vw; --gap: 14px; margin-top: 40px; }
+  @supports (width: round(down, 10.5px, 1px)) { .carousel { --card-w: round(down, 70vw, 1px); } }
+  .carousel__track { padding-top: 24px; padding-bottom: 28px; }
+  .js .carousel.is-live .card { transform: scale(.92); }
+  .js .carousel.is-live .card.is-active { transform: scale(1); }
 }
 
 /* ---------- Le problème ---------- */
@@ -389,9 +420,6 @@ html:not(.edition) [data-vide] { display: none !important; }
 .methode__inner { position: relative; padding-top: var(--gap-section); padding-bottom: calc(var(--gap-section) * .6); }
 
 .methode__head { text-align: center; max-width: 760px; margin: 0 auto; }
-.methode__eyebrow {
-  font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--gold);
-}
 .methode__head .h2 { margin: 14px auto 0; max-width: 18ch; }
 
 .etapes { --progress: 0; position: relative; max-width: 760px; margin: 72px auto 0; padding-left: 56px; }
@@ -737,6 +765,8 @@ textarea.field { resize: vertical; min-height: 96px; }
 .edition .reveal { opacity: 1 !important; transform: none !important; }
 .edition .step { display: block; margin-top: 32px; }
 .edition .etape { opacity: 1 !important; transform: none !important; }
+.edition .card[data-clone] { display: none; }
+.edition .carousel.is-live .card { opacity: 1; transform: none; }
 .edition [data-vide] { min-width: 4em; min-height: 1.4em; }
 .edition [contenteditable="true"] {
   outline: 1px dashed var(--gold-accent); outline-offset: 4px; border-radius: 3px; cursor: text;
@@ -773,6 +803,7 @@ textarea.field { resize: vertical; min-height: 96px; }
   .etape { opacity: 1 !important; transform: none !important; }
   .etapes { --progress: 1 !important; }
   .etapes__dot { display: none; }
+  .js .carousel.is-live .card { transform: none !important; }
   .btn--circle:hover .btn__circle { transform: none; }
   .hero__video { display: none; }
 }
