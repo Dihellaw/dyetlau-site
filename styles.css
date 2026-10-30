@@ -13,8 +13,8 @@
   --ink: #1c2333;
   --ink-soft: #4f5669;
 
-  --blue: #27426f;
-  --blue-soft: #e7ecf3;
+  --blue: #00399c;      /* bleu du logo (lettres « Lau ») */
+  --blue-soft: #e5ecf8; /* bleu du logo, très clair */
 
   --gold: #f1cb5a;        /* jaune du logo, adouci : fond des boutons */
   --gold-hover: #ebbe3a;
@@ -100,7 +100,7 @@ html:not(.edition) [data-vide] { display: none !important; }
 .btn--gold { background: var(--gold); color: var(--ink); }
 .btn--gold:hover { background: var(--gold-hover); }
 .btn--blue { background: var(--blue); color: var(--white); }
-.btn--blue:hover { background: #1e355b; }
+.btn--blue:hover { background: #002778; }
 .btn--ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-strong); }
 .btn--ghost:hover { background: var(--sand); }
 .btn--lg { min-height: 58px; padding: 0 32px; font-size: 17px; }
@@ -259,7 +259,7 @@ html:not(.edition) [data-vide] { display: none !important; }
   background:
     radial-gradient(40vmax 40vmax at 88% 22%, rgba(241, 203, 90, .2), rgba(241, 203, 90, 0) 70%),
     radial-gradient(34vmax 34vmax at 8% 80%, rgba(241, 203, 90, .14), rgba(241, 203, 90, 0) 70%),
-    radial-gradient(28vmax 28vmax at 20% 10%, rgba(39, 66, 111, .05), rgba(39, 66, 111, 0) 70%),
+    radial-gradient(28vmax 28vmax at 20% 10%, rgba(0, 57, 156, .05), rgba(0, 57, 156, 0) 70%),
     var(--cream);
 }
 .transfo__inner { position: relative; padding-top: var(--gap-section); }
@@ -462,7 +462,7 @@ html:not(.edition) [data-vide] { display: none !important; }
   background:
     radial-gradient(42vmax 42vmax at 12% 28%, rgba(241, 203, 90, .22), rgba(241, 203, 90, 0) 70%),
     radial-gradient(36vmax 36vmax at 90% 78%, rgba(241, 203, 90, .16), rgba(241, 203, 90, 0) 70%),
-    radial-gradient(30vmax 30vmax at 78% 12%, rgba(39, 66, 111, .06), rgba(39, 66, 111, 0) 70%),
+    radial-gradient(30vmax 30vmax at 78% 12%, rgba(0, 57, 156, .06), rgba(0, 57, 156, 0) 70%),
     var(--cream);
 }
 .methode__inner { position: relative; padding-top: var(--gap-section); padding-bottom: calc(var(--gap-section) * .6); }
@@ -821,7 +821,7 @@ textarea.field { resize: vertical; min-height: 96px; }
   -webkit-user-select: text; user-select: text;
 }
 .edition [contenteditable="true"]:hover { outline-style: solid; }
-.edition [contenteditable="true"]:focus { outline: 2px solid var(--blue); background: rgba(39, 66, 111, .05); }
+.edition [contenteditable="true"]:focus { outline: 2px solid var(--blue); background: rgba(0, 57, 156, .05); }
 .edition .card:hover, .edition .card:hover .card__media img { transform: none; }
 
 .ed-card-link { display: grid; gap: 6px; margin-top: 4px; }
