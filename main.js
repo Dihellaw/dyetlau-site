@@ -394,21 +394,54 @@ $("#year").textContent = new Date().getFullYear();
 /* ---------- Ce que tu portes seul ---------- */
 const charge = $("#charge");
 const chargeOut = $("#charge-out");
-function updateCharge() {
-  const boxes = $$("input", charge);
+const chargeCta = $("#charge-cta");
+const NBSP = "\u00a0";
+
+function chargeLines() {
+  const boxes = $$("input[type='checkbox']", charge);
   const on = boxes.filter((b) => b.checked);
-  const dy = on.filter((b) => b.value === "dy").length;
-  const lau = on.length - dy;
-  if (!on.length) {
-    chargeOut.textContent = "Rien coché ? Alors tu as déjà un bras droit. Sinon, coche ce que tu portes seul.";
-    return;
-  }
-  const parts = [];
-  if (dy) parts.push(`<b class="k-dy">Dylan</b> en reprend ${dy} avec toi`);
-  if (lau) parts.push(`<b class="k-lau">Laura</b> en reprend ${lau} avec toi`);
-  chargeOut.innerHTML = `Tu portes ${on.length} sujet${on.length > 1 ? "s" : ""} sur ${boxes.length}.<br>${parts.join(", ")}.`;
+  if (!on.length) return [{ text: `Rien coché${NBSP}? Alors tu as déjà un bras droit. Sinon, coche ce que tu portes seul.` }];
+  const label = (b) => b.nextElementSibling.textContent.replace(/\s+/g, " ").trim().toLowerCase();
+  const dy = on.filter((b) => b.value === "dy").map(label);
+  const lau = on.filter((b) => b.value === "lau").map(label);
+  const n = on.length;
+  const lines = [{ text: `Tu portes seul ${n} chose${n > 1 ? "s" : ""} sur ${boxes.length}.`, strong: true }];
+  if (dy.length) lines.push({ who: "Dylan", text: ` peut prendre${NBSP}: ${dy.join(", ")}.` });
+  if (lau.length) lines.push({ who: "Laura", text: ` peut prendre${NBSP}: ${lau.join(", ")}.` });
+  if (n >= 5) lines.push({ text: "Tu fais vraiment tout. C'est exactement pour ça qu'on existe.", cls: "charge__all" });
+  return lines;
 }
-charge.addEventListener("change", updateCharge);
+
+function renderCharge() {
+  const lines = chargeLines();
+  chargeOut.replaceChildren(...lines.map((l) => {
+    const p = document.createElement("p");
+    if (l.cls) p.className = l.cls;
+    if (l.who) {
+      const w = document.createElement("strong");
+      w.textContent = l.who;
+      p.append(w, l.text);
+    } else if (l.strong) {
+      const st = document.createElement("strong");
+      st.textContent = l.text;
+      p.append(st);
+    } else {
+      p.textContent = l.text;
+    }
+    return p;
+  }));
+  chargeCta.classList.toggle("is-visible", $$("input:checked", charge).length > 0);
+}
+
+// Le texte disparaît en fondu, change, puis réapparaît
+let chargeTimer;
+function updateCharge(animate = false) {
+  clearTimeout(chargeTimer);
+  if (!animate || reduceMotion) { chargeOut.classList.remove("is-fading"); renderCharge(); return; }
+  chargeOut.classList.add("is-fading");
+  chargeTimer = setTimeout(() => { renderCharge(); chargeOut.classList.remove("is-fading"); }, 200);
+}
+charge.addEventListener("change", () => updateCharge(true));
 charge.addEventListener("submit", (e) => e.preventDefault());
 updateCharge();
 

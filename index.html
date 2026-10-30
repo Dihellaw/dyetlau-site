@@ -75,7 +75,7 @@
     <!-- Transformations -->
     <section class="transfo" id="transformations" aria-labelledby="transfo-title">
       <!-- Calque d'arrière-plan collant : il reste en place pendant le défilement -->
-      <div class="methode__bg transfo__bg" aria-hidden="true"></div>
+      <div class="bg-sticky" aria-hidden="true"><div class="methode__bg transfo__bg"></div></div>
       <div class="transfo__inner">
         <header class="wrap section-head">
           <p data-k="transformations-e1" class="eyebrow reveal">Transformations</p>
@@ -97,31 +97,34 @@
             </button>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Le problème -->
-    <section class="section probleme" id="probleme" aria-labelledby="probleme-title">
-      <div class="wrap"><div class="probleme__grid">
-        <div class="probleme__text">
-          <h2 data-k="probleme-1" class="probleme__title reveal" id="probleme-title">Tu fais tout.</h2>
-          <p data-k="probleme-2" class="statement reveal">Les ventes, les clients, l'admin, les problèmes. Ton business tourne, mais il tourne grâce à toi, et tu n'en peux plus.</p>
-        </div>
-        <form class="charge reveal" id="charge" aria-labelledby="charge-title">
-          <h3 data-k="probleme-3" class="charge__title" id="charge-title">Qu'est-ce que tu portes seul aujourd'hui&nbsp;?</h3>
-          <div class="charge__list">
-            <label class="chip chip--dy"><input type="checkbox" value="dy" checked><span data-k="probleme-4">Trouver des clients</span></label>
-            <label class="chip chip--dy"><input type="checkbox" value="dy" checked><span data-k="probleme-5">Vendre et conclure</span></label>
-            <label class="chip chip--dy"><input type="checkbox" value="dy"><span data-k="probleme-6">Ton offre et tes prix</span></label>
-            <label class="chip chip--dy"><input type="checkbox" value="dy"><span data-k="probleme-7">Ta communication</span></label>
-            <label class="chip chip--lau"><input type="checkbox" value="lau" checked><span data-k="probleme-8">Les factures et les encaissements</span></label>
-            <label class="chip chip--lau"><input type="checkbox" value="lau"><span data-k="probleme-9">Recruter et gérer l'équipe</span></label>
-            <label class="chip chip--lau"><input type="checkbox" value="lau"><span data-k="probleme-10">Les tâches qui reviennent</span></label>
-            <label class="chip chip--lau"><input type="checkbox" value="lau" checked><span data-k="probleme-11">Retrouver un document, un accès</span></label>
+        <!-- Tu fais tout -->
+        <section class="wrap probleme" id="probleme" aria-labelledby="probleme-title">
+          <div class="probleme__grid">
+            <div class="probleme__text">
+              <h2 data-k="probleme-1" class="probleme__title reveal" id="probleme-title">Tu fais <em>tout</em>.</h2>
+              <p data-k="probleme-2" class="statement reveal">Les ventes, les clients, l'admin, les problèmes. Ton business tourne, mais il tourne grâce à toi, et tu n'en peux plus.</p>
+            </div>
+            <form class="charge reveal" id="charge" aria-labelledby="charge-title">
+              <h3 data-k="probleme-3" class="charge__title" id="charge-title">Qu'est-ce que tu portes seul aujourd'hui&nbsp;?</h3>
+              <div class="charge__list" role="group" aria-labelledby="charge-title">
+              <label class="chip chip--dy"><input type="checkbox" value="dy" checked><span data-k="probleme-4">Trouver des clients</span></label>
+              <label class="chip chip--dy"><input type="checkbox" value="dy" checked><span data-k="probleme-5">Vendre et conclure</span></label>
+              <label class="chip chip--dy"><input type="checkbox" value="dy"><span data-k="probleme-6">Ton offre et tes prix</span></label>
+              <label class="chip chip--dy"><input type="checkbox" value="dy"><span data-k="probleme-7">Ta communication</span></label>
+              <label class="chip chip--lau"><input type="checkbox" value="lau" checked><span data-k="probleme-8">Les factures et les encaissements</span></label>
+              <label class="chip chip--lau"><input type="checkbox" value="lau"><span data-k="probleme-9">Recruter et gérer l'équipe</span></label>
+              <label class="chip chip--lau"><input type="checkbox" value="lau"><span data-k="probleme-10">Les tâches qui reviennent</span></label>
+              <label class="chip chip--lau"><input type="checkbox" value="lau" checked><span data-k="probleme-11">Retrouver un document, un accès</span></label>
+              </div>
+              <div class="charge__result">
+                <div class="charge__out" id="charge-out" aria-live="polite"></div>
+                <a data-k="probleme-12" class="btn btn--gold btn--cta charge__cta" id="charge-cta" href="#candidature">Diagnostic gratuit</a>
+              </div>
+            </form>
           </div>
-          <p class="charge__out" id="charge-out" aria-live="polite">Tu portes 4 sujets sur 8. Dylan en reprend 2 avec toi, Laura en reprend 2 avec toi.</p>
-        </form>
-      </div></div>
+        </section>
+      </div>
     </section>
 
     <!-- Équipe -->
@@ -171,7 +174,7 @@
     <!-- Méthode -->
     <section class="methode" id="methode" aria-labelledby="methode-title">
       <!-- Calque d'arrière-plan collant : il reste en place pendant que les blocs défilent -->
-      <div class="methode__bg" aria-hidden="true"></div>
+      <div class="bg-sticky" aria-hidden="true"><div class="methode__bg"></div></div>
       <div class="wrap methode__inner">
         <header class="methode__head">
           <p data-k="methode-e1" class="eyebrow reveal">Méthode</p>

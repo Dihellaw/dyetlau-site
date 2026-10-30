@@ -343,40 +343,66 @@ html:not(.edition) [data-vide] { display: none !important; }
   .js .carousel.is-live .card.is-active { transform: scale(1); }
 }
 
-/* ---------- Le problème ---------- */
+/* ---------- Tu fais tout (dans la section témoignages) ---------- */
+.probleme { margin-top: clamp(112px, 12vw, 176px); }
 .probleme__grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: clamp(48px, 7vw, 120px); align-items: center;
 }
 .probleme__title {
-  font-weight: 500; color: var(--blue);
-  font-size: clamp(40px, 5vw, 68px); line-height: 1.05; letter-spacing: -0.03em;
+  font-weight: 500; color: var(--ink);
+  font-size: clamp(52px, 7vw, 104px); line-height: 1; letter-spacing: -0.04em;
 }
-.probleme .statement { margin-top: 28px; }
-.charge { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(28px, 3vw, 44px); }
-.charge__title { font-size: 18px; font-weight: 500; letter-spacing: -.005em; line-height: 1.4; }
-.charge__list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.probleme__title em { font-style: normal; color: var(--gold); }
+.probleme .statement { margin-top: 28px; color: var(--ink-soft); }
+
+.charge {
+  background: var(--white); border: 1px solid var(--gold); border-radius: var(--radius);
+  padding: clamp(28px, 3vw, 44px);
+  box-shadow: 0 0 0 6px rgba(241, 203, 90, .1), 0 24px 60px -32px rgba(214, 170, 30, .45);
+  transition: box-shadow .4s var(--ease);
+}
+.charge:focus-within { box-shadow: 0 0 0 6px rgba(241, 203, 90, .18), 0 24px 60px -28px rgba(214, 170, 30, .55); }
+.charge__title { font-size: 18px; font-weight: 500; letter-spacing: -.005em; line-height: 1.4; color: var(--ink); }
+.charge__list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+
+/* Pastilles à cocher : rond vide, puis coche dans une pastille jaune */
 .chip { position: relative; cursor: pointer; display: inline-block; }
-.chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
 .chip span {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 7px 14px; border-radius: 999px;
-  background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong); color: var(--ink); font-size: 14px;
-  transition: background-color .3s, box-shadow .3s, color .3s;
+  display: inline-flex; align-items: center; gap: 9px; min-height: 42px; padding: 8px 16px 8px 12px; border-radius: 999px;
+  background: var(--cream); box-shadow: inset 0 0 0 1px var(--line-strong); color: var(--ink); font-size: 14.5px;
+  transition: background-color .25s var(--ease), box-shadow .25s var(--ease);
 }
 .chip span::before {
-  content: ""; width: 7px; height: 7px; border-radius: 50%; flex: none; background: var(--line-strong); transition: background-color .3s;
+  content: ""; width: 16px; height: 16px; flex: none; border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--line-strong); background: transparent center / 11px no-repeat;
+  transition: background-color .25s var(--ease), box-shadow .25s var(--ease);
 }
-.chip:hover span { box-shadow: inset 0 0 0 1px var(--ink-soft); }
-.chip--dy input:checked + span { background: var(--gold-light); box-shadow: inset 0 0 0 1px var(--gold); }
-.chip--lau input:checked + span { background: var(--blue-soft); box-shadow: inset 0 0 0 1px #b9c6da; color: var(--blue); }
-.chip--dy input:checked + span::before { background: var(--gold-text); }
-.chip--lau input:checked + span::before { background: var(--blue); }
+.chip:hover span { box-shadow: inset 0 0 0 1px var(--gold); }
+.chip input:checked + span { background: var(--gold-light); box-shadow: inset 0 0 0 1px var(--gold); animation: chipPop .2s var(--ease); }
+.chip input:checked + span::before {
+  box-shadow: none; background-color: var(--gold);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231c2333' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+}
 .chip input:focus-visible + span { outline: 2px solid var(--blue); outline-offset: 3px; }
-.charge__out { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 15.5px; line-height: 1.6; color: var(--ink-soft); }
-.charge__out b { font-weight: 600; }
-.charge__out .k-dy { color: var(--gold-text); }
-.charge__out .k-lau { color: var(--blue); }
+@keyframes chipPop { 0% { transform: scale(1); } 45% { transform: scale(1.06); } 100% { transform: scale(1); } }
 
-@media (max-width: 960px) { .probleme__grid { grid-template-columns: 1fr; } }
+/* Résultat : le texte change en fondu, le bouton apparaît en fondu */
+.charge__result { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+.charge__out { font-size: 15.5px; line-height: 1.65; color: var(--ink-soft); transition: opacity .2s var(--ease); }
+.charge__out.is-fading { opacity: 0; }
+.charge__out p + p { margin-top: 6px; }
+.charge__out strong { font-weight: 600; color: var(--ink); }
+.charge__out .charge__all { color: var(--blue); font-weight: 500; }
+.charge__cta {
+  margin-top: 20px; opacity: 0; visibility: hidden; transform: translateY(6px);
+  transition: opacity .4s var(--ease), visibility .4s, transform .4s var(--ease), background-color .45s var(--ease), box-shadow .45s var(--ease);
+}
+.charge__cta.is-visible { opacity: 1; visibility: visible; transform: none; }
+.charge__cta.is-visible:hover { transform: translateY(-2px); }
+.charge__cta.is-visible:active { transform: translateY(0) scale(.98); }
+
+@media (max-width: 960px) { .probleme__grid { grid-template-columns: 1fr; gap: 40px; } }
 
 /* ---------- Équipe ---------- */
 .equipe__grid { margin-top: 80px; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 88px); align-items: start; }
@@ -408,9 +434,11 @@ html:not(.edition) [data-vide] { display: none !important; }
    Une colonne centrée. Le calque d'arrière-plan est collant (sticky) : il reste en place
    pendant que les blocs défilent. Le bloc au milieu de l'écran devient actif. */
 .methode { position: relative; isolation: isolate; }
+/* Le calque collant vit dans un conteneur absolu de la taille de la section :
+   il reste en place pendant le défilement sans jamais déborder sur la section suivante. */
+.bg-sticky { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 .methode__bg {
-  position: sticky; top: 0; height: 100vh; height: 100lvh; margin-bottom: -100vh; margin-bottom: -100lvh;
-  z-index: -1; pointer-events: none;
+  position: sticky; top: 0; height: 100vh; height: 100lvh;
   background:
     radial-gradient(42vmax 42vmax at 12% 28%, rgba(241, 203, 90, .22), rgba(241, 203, 90, 0) 70%),
     radial-gradient(36vmax 36vmax at 90% 78%, rgba(241, 203, 90, .16), rgba(241, 203, 90, 0) 70%),
