@@ -165,56 +165,46 @@
     </section>
 
     <!-- Méthode -->
-    <section class="section methode" id="methode" aria-labelledby="methode-title">
-      <div class="wrap">
-        <div class="methode__head">
-          <h2 data-k="methode-1" class="h2 reveal" id="methode-title">La méthode bras droit</h2>
-          <p data-k="methode-2" class="lead reveal">On ne fait pas grandir un business qui fuit. D'abord on répare, ensuite on accélère.</p>
+    <section class="methode" id="methode" aria-labelledby="methode-title">
+      <!-- Calque d'arrière-plan collant : il reste en place pendant que les blocs défilent -->
+      <div class="methode__bg" aria-hidden="true"></div>
+      <div class="wrap methode__inner">
+        <header class="methode__head">
+          <p data-k="methode-e1" class="methode__eyebrow reveal">Méthode</p>
+          <h2 data-k="methode-e2" class="h2 reveal" id="methode-title">3 étapes qui changent ton business</h2>
+        </header>
+        <div class="etapes" id="etapes">
+          <div class="etapes__rail" aria-hidden="true"><span class="etapes__fill"></span><span class="etapes__dot"></span></div>
+          <ol class="etapes__list" aria-label="Les trois étapes de l'accompagnement">
+          <li class="etape">
+            <span class="etape__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5"/><circle cx="11.5" cy="12" r="2.8"/><path d="M13.6 14.1L16 16.5"/></svg></span>
+            <p class="etape__meta"><span class="etape__num" aria-hidden="true">01</span><span data-k="methode-e10" class="etape__label">Le 1er mois</span></p>
+            <h3 data-k="methode-e11" class="etape__title">Embarquement</h3>
+            <p data-k="methode-e12" class="etape__hook">Audit et élaboration de la stratégie</p>
+            <p data-k="methode-e13" class="etape__text">On analyse tout&nbsp;: tes offres, ton équipe, tes marges, ton acquisition, ton organisation, tes process.</p>
+          </li>
+          <li class="etape">
+            <span class="etape__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 6.5l5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2z"/><path d="M9 4.5v13M15 6.5v13"/></svg></span>
+            <p class="etape__meta"><span class="etape__num" aria-hidden="true">02</span><span data-k="methode-e20" class="etape__label">Jusqu'à la fin du 3e mois</span></p>
+            <h3 data-k="methode-e21" class="etape__title">Exécution</h3>
+            <p data-k="methode-e22" class="etape__hook">Plan d'action et mise en place</p>
+            <p data-k="methode-e23" class="etape__text">Les priorités sont définies, on passe à l'opérationnel avec toi. Tu sais exactement où tu vas, avec un suivi régulier des avancées.</p>
+          </li>
+          <li class="etape">
+            <span class="etape__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.5"/><path d="M20 4v4.5h-4.5"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 15.5"/><path d="M4 20v-4.5h4.5"/></svg></span>
+            <p class="etape__meta"><span class="etape__num" aria-hidden="true">03</span><span data-k="methode-e30" class="etape__label">À partir du 4e mois</span></p>
+            <h3 data-k="methode-e31" class="etape__title">Optimisation</h3>
+            <p data-k="methode-e32" class="etape__hook">On améliore et on fait grandir ce qui marche</p>
+            <p data-k="methode-e33" class="etape__text">Ce qui a été mis en place a fait ses preuves. On automatise tes process jusqu'à ce que tu ne sois plus dans l'opérationnel.</p>
+          </li>
+          </ol>
         </div>
-        <ol class="phases" aria-label="Les trois phases de l'accompagnement">
-          <li class="phase reveal">
-            <p data-k="methode-3" class="phase__when">Les 2 premières semaines</p>
-            <h3 data-k="methode-4" class="phase__name">Embarquement</h3>
-            <p data-k="methode-5" class="phase__promise">On sait où tu en es et où on va.</p>
-            <dl class="phase__detail">
-              <dt data-k="methode-6">Côté ventes, avec Dylan</dt>
-              <dd data-k="methode-7">Ta promesse, ton offre, ton prix, d'où viennent tes clients et comment tu vends.</dd>
-              <dt data-k="methode-8">Côté organisation, avec Laura</dt>
-              <dd data-k="methode-9">Tes chiffres, ton équipe, qui fait quoi, où part ton temps.</dd>
-              <dt data-k="methode-10">Ce que tu as en main</dt>
-              <dd data-k="methode-11">Tes chiffres de départ, ton diagnostic et ton plan d'action écrits.</dd>
-            </dl>
-          </li>
-          <li class="phase reveal">
-            <p data-k="methode-12" class="phase__when">Jusqu'à la fin du 3<sup>e</sup> mois</p>
-            <h3 data-k="methode-13" class="phase__name">Exécution</h3>
-            <p data-k="methode-14" class="phase__promise">On répare ce qui te fait perdre des ventes et du temps.</p>
-            <dl class="phase__detail">
-              <dt data-k="methode-15">Côté ventes, avec Dylan</dt>
-              <dd data-k="methode-16">Une promesse claire, une offre qui se vend, un prix juste, un tunnel de vente en place.</dd>
-              <dt data-k="methode-17">Côté organisation, avec Laura</dt>
-              <dd data-k="methode-18">Tes chiffres en ordre, tes process écrits, tes informations rangées, les premières tâches confiées.</dd>
-              <dt data-k="methode-19">Ce que tu as en main</dt>
-              <dd data-k="methode-20">Ton tunnel qui tourne, tes process documentés, un tableau de bord simple de tes chiffres.</dd>
-            </dl>
-          </li>
-          <li class="phase reveal">
-            <p data-k="methode-21" class="phase__when">À partir du 4<sup>e</sup> mois</p>
-            <h3 data-k="methode-22" class="phase__name">Optimisation</h3>
-            <p data-k="methode-23" class="phase__promise">On fait grandir ce qui marche.</p>
-            <dl class="phase__detail">
-              <dt data-k="methode-24">Côté ventes, avec Dylan</dt>
-              <dd data-k="methode-25">Un nouveau canal pour trouver des clients, et plus de ventes avec tes clients actuels.</dd>
-              <dt data-k="methode-26">Côté organisation, avec Laura</dt>
-              <dd data-k="methode-27">Recrutement, management, routines de pilotage. L'équipe prend le relais.</dd>
-              <dt data-k="methode-28">Ce que tu as en main</dt>
-              <dd data-k="methode-29">Une croissance mesurée face à tes chiffres de départ, et ta journée signature.</dd>
-            </dl>
-          </li>
-        </ol>
-        <div class="engage reveal">
-          <p data-k="methode-30" class="engage__big">3 mois minimum</p>
-          <p data-k="methode-31" class="engage__text">C'est le temps de l'embarquement et de l'exécution. Ensuite, on continue au mois si tu veux faire grandir ce qui marche. Tout au long&nbsp;: un point chaque semaine, et un bilan chiffré chaque mois, comparé à tes chiffres de départ.</p>
+        <div class="methode__foot">
+          <p data-k="methode-f1" class="methode__min reveal">3 mois minimum. Ensuite, on continue au mois si tu veux faire grandir ce qui marche.</p>
+          <p data-k="methode-f2" class="methode__next reveal">Découvre par quoi on va commencer.</p>
+          <div class="methode__cta reveal">
+            <a class="btn btn--gold btn--cta btn--lg btn--circle" href="#candidature"><span data-k="methode-f3">Diagnostic gratuit</span><span class="btn__circle" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+          </div>
         </div>
       </div>
     </section>

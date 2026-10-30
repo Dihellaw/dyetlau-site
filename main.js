@@ -326,6 +326,33 @@ const countObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.6 });
 counters.forEach((c) => countObs.observe(c));
 
+/* ---------- La méthode : bloc actif et ligne de progression ---------- */
+const etapesEl = $("#etapes");
+const etapes = $$(".etape");
+if (etapesEl && etapes.length && !reduceMotion) {
+  etapesEl.classList.add("is-live");
+  const setActive = (el) => etapes.forEach((e) => e.classList.toggle("is-active", e === el));
+  setActive(etapes[0]);
+  // Zone de déclenchement : une ligne au milieu de l'écran
+  const activeObs = new IntersectionObserver((entries) => {
+    entries.forEach((en) => { if (en.isIntersecting) setActive(en.target); });
+  }, { rootMargin: "-50% 0px -50% 0px", threshold: 0 });
+  etapes.forEach((e) => activeObs.observe(e));
+
+  // La ligne se remplit jusqu'au milieu de l'écran
+  let ticking = false;
+  const updateEtapes = () => {
+    ticking = false;
+    const r = etapesEl.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (window.innerHeight / 2 - r.top) / r.height));
+    etapesEl.style.setProperty("--progress", p.toFixed(4));
+  };
+  const onRailScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(updateEtapes); } };
+  window.addEventListener("scroll", onRailScroll, { passive: true });
+  window.addEventListener("resize", onRailScroll);
+  updateEtapes();
+}
+
 /* ---------- Apparitions au défilement ---------- */
 $$(".section, .footer").forEach((sec) => {
   $$(".reveal", sec).forEach((el, i) => el.style.setProperty("--d", `${Math.min(i, 6) * 80}ms`));
