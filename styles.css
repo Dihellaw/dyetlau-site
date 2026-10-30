@@ -728,23 +728,30 @@ textarea.field { resize: vertical; min-height: 96px; }
   .apply { position: static; }
 }
 
-/* ---------- Pied de page ---------- */
-.footer { background: var(--sand); color: var(--ink); padding: clamp(80px, 9vw, 128px) 0 40px; border-top: 1px solid var(--line); }
-.footer__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px; padding-bottom: 56px; border-bottom: 1px solid var(--line-strong); }
-.footer__call { font-weight: 500; font-size: clamp(26px, 2.8vw, 38px); letter-spacing: -.025em; line-height: 1.2; color: var(--ink); max-width: 18ch; }
-.footer__cols { margin-top: 56px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
-.footer__h { font-weight: 500; font-size: 14px; color: var(--gold-text); }
-.footer__cols ul { margin-top: 16px; display: grid; gap: 8px; }
-.footer__cols nav ul { grid-template-columns: repeat(2, minmax(0, max-content)); column-gap: 56px; }
-.footer__cols a, .footer__cols .linklike { color: var(--ink); text-decoration: none; font-size: 15px; transition: color .3s; }
-.footer__cols a:hover, .footer__cols .linklike:hover { color: var(--blue); }
-.footer__brand { margin-top: 88px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; }
-.footer__brand img { width: min(100%, 320px); }
-.footer__brand p { font-size: 13.5px; color: var(--ink-soft); max-width: 26em; }
+/* ---------- Pied de page ----------
+   Compact : trois colonnes (présentation 45 %, deux colonnes de liens), barre du bas. */
+.footer { background: var(--cream); color: var(--ink); border-top: 1px solid var(--line-strong); padding: 64px 0 32px; }
+.footer__grid { display: grid; grid-template-columns: 45% 1fr 1fr; gap: 40px; align-items: start; }
+.footer__logo { display: inline-block; }
+.footer__logo img { height: 34px; width: auto; }
+.footer__text { margin-top: 16px; max-width: 440px; font-size: 15.5px; line-height: 1.65; color: var(--ink-soft); }
+.footer__cta { margin-top: 24px; min-height: 50px; font-size: 15.5px; }
+.footer__cta .btn__circle { width: 34px; height: 34px; }
+.footer__col ul { display: grid; gap: 12px; }
+.footer__col li { line-height: 1.35; }
+.footer__col .linklike { text-align: left; background: none; border: 0; padding: 0; }
+.footer__col a, .footer__col .linklike {
+  color: var(--ink-soft); text-decoration: none; font-size: 15px; line-height: 1.35; transition: color .3s;
+}
+.footer__col a:hover, .footer__col .linklike:hover, .footer__col a:focus-visible, .footer__col .linklike:focus-visible { color: var(--ink); }
+.footer__bottom { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); }
+.footer__bottom p { font-size: 14px; line-height: 1.4; color: var(--ink-soft); }
 
 @media (max-width: 760px) {
-  .footer__cols { grid-template-columns: 1fr; gap: 40px; margin-top: 48px; }
-  .footer__cols nav ul { column-gap: 28px; }
+  .footer { padding-top: 56px; }
+  .footer__grid { grid-template-columns: 1fr 1fr; gap: 40px 24px; }
+  .footer__intro { grid-column: 1 / -1; }
+  .footer__cta { width: 100%; justify-content: space-between; }
 }
 
 /* ---------- Fenêtres (mentions, confidentialité) ---------- */
