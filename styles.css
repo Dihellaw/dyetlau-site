@@ -730,7 +730,8 @@ textarea.field { resize: vertical; min-height: 96px; }
 
 /* ---------- Pied de page ----------
    Compact : trois colonnes (présentation 45 %, deux colonnes de liens), barre du bas. */
-.footer { background: var(--cream); color: var(--ink); border-top: 1px solid var(--line-strong); padding: 64px 0 32px; }
+/* Fond : bleu du logo très léger */
+.footer { background: #edf2fb; color: var(--ink); border-top: 1px solid #d3ddef; padding: 64px 0 32px; }
 .footer__grid { display: grid; grid-template-columns: 45% 1fr 1fr; gap: 40px; align-items: start; }
 .footer__logo { display: inline-block; }
 .footer__logo img { height: 34px; width: auto; }
@@ -744,7 +745,7 @@ textarea.field { resize: vertical; min-height: 96px; }
   color: var(--ink-soft); text-decoration: none; font-size: 15px; line-height: 1.35; transition: color .3s;
 }
 .footer__col a:hover, .footer__col .linklike:hover, .footer__col a:focus-visible, .footer__col .linklike:focus-visible { color: var(--ink); }
-.footer__bottom { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); }
+.footer__bottom { margin-top: 36px; padding-top: 18px; border-top: 1px solid #d3ddef; }
 .footer__bottom p { font-size: 14px; line-height: 1.4; color: var(--ink-soft); }
 
 @media (max-width: 760px) {
