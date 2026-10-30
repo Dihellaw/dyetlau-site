@@ -19,8 +19,8 @@
   --gold: #f1cb5a;        /* jaune du logo, adouci : fond des boutons */
   --gold-hover: #ebbe3a;
   --gold-light: #f8e6a6;
-  --gold-accent: #a47a00; /* grands textes jaune doré (titre du hero), AA grand texte */
-  --gold-text: #7d5d00;   /* petits textes jaune doré, AA sur tous les fonds */
+  --gold-accent: #f1cb5a; /* textes dorés (titre du hero, chiffres, détails) */
+  --gold-text: #f1cb5a;   /* petits textes dorés */
 
   --f-text: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
