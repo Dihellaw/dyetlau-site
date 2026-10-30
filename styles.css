@@ -544,8 +544,17 @@ html:not(.edition) [data-vide] { display: none !important; }
 
 /* ---------- Journée signature ---------- */
 .signature {
-  background: var(--sand);
+  position: relative; isolation: isolate;
   margin-top: 0; padding-top: clamp(72px, 8vw, 112px); padding-bottom: var(--gap-section);
+}
+
+/* Même principe que la méthode : fond crème et grandes taches floues, ici en bleu du logo très léger */
+.signature .signature__bg {
+  background:
+    radial-gradient(42vmax 42vmax at 88% 24%, rgba(0, 57, 156, .075), rgba(0, 57, 156, 0) 70%),
+    radial-gradient(36vmax 36vmax at 10% 80%, rgba(0, 57, 156, .06), rgba(0, 57, 156, 0) 70%),
+    radial-gradient(30vmax 30vmax at 24% 10%, rgba(0, 57, 156, .045), rgba(0, 57, 156, 0) 70%),
+    var(--cream);
 }
 
 /* Deux blocs vidéo de même taille */
