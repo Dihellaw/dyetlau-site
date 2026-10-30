@@ -246,12 +246,12 @@ html:not(.edition) [data-vide] { display: none !important; }
    Carrousel en boucle : la carte au centre est active (même style que les blocs de la méthode).
    Le fond réutilise le calque collant de la méthode. */
 .transfo { position: relative; isolation: isolate; z-index: 1; }
-/* Ombre entre le hero et la section : une bande de 5 px en dégradé, du beige (côté hero)
-   au jaune des boutons (côté section), prolongée par un halo jaune */
+/* Ombre entre le hero et la section : une bande de 5 px en dégradé, du jaune des boutons
+   (côté hero) au beige (côté section), prolongée par un halo plus marqué */
 .transfo::before {
   content: ""; position: absolute; left: 0; right: 0; top: -5px; height: 5px; z-index: 2; pointer-events: none;
-  background: linear-gradient(to bottom, #e8d8b4, var(--gold));
-  box-shadow: 0 -10px 26px -4px rgba(241, 203, 90, .45), 0 8px 22px -6px rgba(214, 170, 30, .35);
+  background: linear-gradient(to bottom, var(--gold), #e8d8b4);
+  box-shadow: 0 -6px 18px 2px rgba(241, 203, 90, .7), 0 -18px 44px 4px rgba(241, 203, 90, .45), 0 10px 26px -2px rgba(214, 170, 30, .4);
 }
 .transfo .transfo__bg {
   background:
