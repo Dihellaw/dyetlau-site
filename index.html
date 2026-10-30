@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="Assets/Images/web/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -28,9 +28,9 @@
         <a data-k="nav-2" href="#methode">Méthode</a>
         <a data-k="nav-3" href="#journee-signature">Journée signature</a>
         <a data-k="nav-4" href="#questions">FAQ</a>
-        <a data-k="nav-5" class="btn btn--gold nav__cta-mobile" href="#candidature">Diagnostic gratuit</a>
+        <a data-k="nav-5" class="btn btn--gold btn--cta nav__cta-mobile" href="#candidature">Diagnostic gratuit</a>
       </nav>
-      <a data-k="nav-6" class="btn btn--gold nav__cta" href="#candidature">Diagnostic gratuit</a>
+      <a data-k="nav-6" class="btn btn--gold btn--cta nav__cta" href="#candidature">Diagnostic gratuit</a>
       <button class="nav__burger" id="burger" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Ouvrir le menu">
         <span></span><span></span>
       </button>
@@ -43,23 +43,24 @@
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero__media" aria-hidden="true">
         <picture>
-          <source srcset="Assets/Images/web/duo-rue.webp" type="image/webp">
-          <img class="hero__poster" src="Assets/Images/web/duo-rue.jpg" alt="" width="1200" height="1807" fetchpriority="high">
+          <source media="(max-width: 760px)" srcset="Assets/Images/web/hero-poster-mobile.webp" type="image/webp">
+          <source media="(max-width: 760px)" srcset="Assets/Images/web/hero-poster-mobile.jpg">
+          <source srcset="Assets/Images/web/hero-poster.webp" type="image/webp">
+          <img class="hero__poster" src="Assets/Images/web/hero-poster.jpg" alt="" width="1920" height="1080" fetchpriority="high">
         </picture>
-        <!-- La vidéo de fond est ajoutée par main.js dès que HERO_VIDEO est renseigné -->
+        <!-- main.js choisit la version (ordinateur ou téléphone) et ne lance rien si « réduire les animations » est activé -->
+        <video class="hero__video" muted loop playsinline preload="none"
+               data-src="Assets/Videos/hero.mp4" data-src-mobile="Assets/Videos/hero-mobile.mp4"></video>
       </div>
       <div class="hero__scrim" aria-hidden="true"></div>
       <div class="hero__content wrap">
         <h1 class="hero__title" id="hero-title">
-          <span class="hero__logo">
-            <img src="Assets/Images/web/logo.webp" alt="Dy&amp;Lau" width="900" height="465">
-          </span>
-          <span data-k="top-1" class="hero__line">ton bras droit marketing et organisationnel en francophonie.</span>
+          <span data-k="top-1" class="hero__line">Ton bras droit <em>marketing &amp; organisationnel</em> en francophonie.</span>
         </h1>
         <p data-k="top-2" class="hero__sub">Pour vendre plus, sans tout porter seul.</p>
         <p data-k="top-3" class="hero__team">Dylan te fait vendre plus. Laura structure ton business pour qu'il tienne.</p>
         <div class="hero__actions">
-          <a data-k="top-4" class="btn btn--gold btn--lg" href="#candidature">Diagnostic gratuit</a>
+          <a data-k="top-4" class="btn btn--gold btn--cta btn--lg" href="#candidature">Diagnostic gratuit</a>
           <a data-k="top-5" class="link-quiet" href="#masterclass">Pas encore prêt ? Regarde la Masterclass Business.</a>
         </div>
       </div>
@@ -467,7 +468,7 @@
     <div class="wrap">
       <div class="footer__top">
         <p data-k="contact-1" class="footer__call">Prêt à ne plus tout porter seul&nbsp;?</p>
-        <a data-k="contact-2" class="btn btn--gold btn--lg" href="#candidature">Diagnostic gratuit</a>
+        <a data-k="contact-2" class="btn btn--gold btn--cta btn--lg" href="#candidature">Diagnostic gratuit</a>
       </div>
       <div class="footer__cols">
         <nav aria-label="Raccourcis">

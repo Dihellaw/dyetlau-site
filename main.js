@@ -65,6 +65,10 @@ function applyTexts(textes) {
     const el = document.querySelector(`[data-k="${CSS.escape(k)}"]`);
     if (el && typeof html === "string") el.innerHTML = cleanHTML(html);
   });
+  // Un texte vidé dans l'éditeur ne laisse pas de trou sur la page (il reste visible en mode édition)
+  $$("[data-k]").forEach((el) => {
+    el.toggleAttribute("data-vide", !el.textContent.replace(/\u00a0/g, " ").trim());
+  });
 }
 
 async function loadSite() {
@@ -227,16 +231,22 @@ aliLink.addEventListener("click", () => {
 });
 
 function applySettings(r) {
-  // Vidéo de fond
-  $(".hero__media video")?.remove();
-  if (r.videoFond && !reduceMotion) {
-    const v = document.createElement("video");
-    Object.assign(v, { src: r.videoFond, muted: true, loop: true, playsInline: true, autoplay: true });
-    v.setAttribute("muted", "");
-    v.setAttribute("playsinline", "");
-    v.poster = $(".hero__poster").currentSrc || $(".hero__poster").src;
-    $(".hero__media").append(v);
-    v.play().catch(() => v.remove());
+  // Vidéo de fond : version légère sur téléphone, rien si « réduire les animations » ou économie de données
+  const v = $(".hero__video");
+  const small = window.matchMedia("(max-width: 760px)").matches;
+  const saveData = navigator.connection && navigator.connection.saveData;
+  const src = r.videoFond || (small ? v.dataset.srcMobile : v.dataset.src);
+  if (src && !reduceMotion && !saveData) {
+    if (v.getAttribute("src") !== src) {
+      v.classList.remove("is-playing");
+      v.muted = true;
+      v.src = src;
+    }
+    v.addEventListener("playing", () => v.classList.add("is-playing"), { once: true });
+    v.play().catch(() => {});
+  } else {
+    v.removeAttribute("src");
+    v.classList.remove("is-playing");
   }
 
   // « Écouter Ali »
