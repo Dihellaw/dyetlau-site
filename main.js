@@ -6,6 +6,14 @@
    Les valeurs ci-dessous ne servent que si textes.json ne se charge pas.
    ============================================================ */
 
+/* ---------- Vidéos de « Ta journée signature » ----------
+   Colle ici les liens YouTube (youtube.com ou youtu.be). Laisse vide pour afficher
+   un emplacement provisoire. Un lien saisi dans le mode édition (« Liens et vidéos »)
+   passe avant ces valeurs. */
+const ALI_VIDEO_URL = "";        // le témoignage d'Ali
+const ALI_VIDEO_START = 0;       // la seconde où Ali parle de sa journée signature (ex. 95 pour 1 min 35)
+const SIGNATURE_VIDEO_URL = "";  // une journée signature en images
+
 const DEFAULTS = {
   textes: {},
   cartes: [
@@ -14,9 +22,9 @@ const DEFAULTS = {
   ],
   reglages: {
     videoFond: "",
-    videoAli: "",
-    videoAliSeconde: 0,
-    videoJourneeSignature: "",
+    videoAli: ALI_VIDEO_URL,
+    videoAliSeconde: ALI_VIDEO_START,
+    videoJourneeSignature: SIGNATURE_VIDEO_URL,
     lienMasterclass: "",
     adresseFormulaire: "",
     emailContact: "",
@@ -80,7 +88,8 @@ async function loadSite() {
     return {
       textes: d.textes && typeof d.textes === "object" ? d.textes : {},
       cartes: Array.isArray(d.cartes) && d.cartes.length ? d.cartes : DEFAULTS.cartes,
-      reglages: { ...DEFAULTS.reglages, ...(d.reglages || {}) },
+      // Une valeur vide dans textes.json ne remplace pas celle définie dans ce fichier
+      reglages: { ...DEFAULTS.reglages, ...Object.fromEntries(Object.entries(d.reglages || {}).filter(([, v]) => v !== "" && v !== 0 && v != null)) },
     };
   } catch {
     return structuredClone(DEFAULTS);
@@ -332,11 +341,7 @@ window.addEventListener("resize", () => {
 });
 
 /* ---------- Réglages : vidéos, liens, contact ---------- */
-const aliLink = $("#ecouter-ali");
-aliLink.addEventListener("click", () => {
-  if (youtubeId(SITE.reglages.videoAli)) return;
-  setTimeout(() => goTo($("#transfo-ali")), 400);
-});
+const VIDEO_PLACEHOLDER = '<div class="sig-placeholder"><span class="sig-placeholder__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg></span><p>Vidéo bientôt en ligne</p></div>';
 
 function applySettings(r) {
   // Vidéo de fond : version légère sur téléphone, rien si « réduire les animations » ou économie de données
@@ -357,23 +362,16 @@ function applySettings(r) {
     v.classList.remove("is-playing");
   }
 
-  // « Écouter Ali »
+  // Ta journée signature : témoignage d'Ali (au bon moment) et vidéo d'une journée
+  const aliSlot = $("#ali-video");
   const aliId = youtubeId(r.videoAli);
-  if (aliId) {
-    const t = Number(r.videoAliSeconde) || 0;
-    aliLink.href = `https://www.youtube.com/watch?v=${aliId}${t ? `&t=${Math.floor(t)}s` : ""}`;
-    aliLink.target = "_blank";
-    aliLink.rel = "noopener";
-  } else {
-    aliLink.href = "#transfo-ali";
-    aliLink.removeAttribute("target");
-  }
+  if (aliId) liteVideo(aliSlot, aliId, "le témoignage d'Ali sur sa journée signature", Number(r.videoAliSeconde) || 0);
+  else aliSlot.innerHTML = VIDEO_PLACEHOLDER;
 
-  // Vidéo de la journée signature
   const sigSlot = $("#signature-video");
   const sigId = youtubeId(r.videoJourneeSignature);
   if (sigId) liteVideo(sigSlot, sigId, "une journée signature en images");
-  else sigSlot.innerHTML = '<div class="video-slot__soon"><b>Une journée signature, en images</b><span>La vidéo arrive bientôt.</span></div>';
+  else sigSlot.innerHTML = VIDEO_PLACEHOLDER;
 
   // Masterclass
   $("#masterclass-link").href = r.lienMasterclass || "https://www.instagram.com/dyetlau/";
