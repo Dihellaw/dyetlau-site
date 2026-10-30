@@ -465,7 +465,7 @@ html:not(.edition) [data-vide] { display: none !important; }
     radial-gradient(30vmax 30vmax at 78% 12%, rgba(0, 57, 156, .06), rgba(0, 57, 156, 0) 70%),
     var(--cream);
 }
-.methode__inner { position: relative; padding-top: var(--gap-section); padding-bottom: calc(var(--gap-section) * .6); }
+.methode__inner { position: relative; padding-top: var(--gap-section); padding-bottom: clamp(56px, 6vw, 88px); }
 
 .methode__head { text-align: center; max-width: 760px; margin: 0 auto; }
 .methode__head .h2 { margin: 14px auto 0; max-width: 18ch; }
@@ -545,7 +545,7 @@ html:not(.edition) [data-vide] { display: none !important; }
 /* ---------- Journée signature ---------- */
 .signature {
   background: var(--sand);
-  margin-top: var(--gap-section); padding-bottom: var(--gap-section);
+  margin-top: 0; padding-top: clamp(72px, 8vw, 112px); padding-bottom: var(--gap-section);
 }
 
 /* Deux blocs vidéo de même taille */
