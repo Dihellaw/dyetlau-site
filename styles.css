@@ -557,45 +557,53 @@ html:not(.edition) [data-vide] { display: none !important; }
     var(--cream);
 }
 
+/* Dans cette section, les accents sont inversés : le bleu du logo remplace le jaune, et inversement.
+   --sig-card / --sig-media / --sig-line : les fonds et lignes jaune pâle deviennent bleu pâle. */
+.signature { --sig-card: #f5f8fd; --sig-media: #e4ebf7; --sig-line: #d3ddef; --sig-gold-text: #7d5d00; }
+
 /* Deux blocs vidéo de même taille */
 .sig-videos { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 2.4vw, 32px); align-items: stretch; }
 .sig-card {
   display: flex; flex-direction: column; min-width: 0;
-  background: var(--white); border: 1px solid var(--gold); border-radius: var(--radius); overflow: hidden;
-  box-shadow: 0 0 0 6px rgba(241, 203, 90, .12), 0 24px 60px -32px rgba(214, 170, 30, .45);
+  background: var(--sig-card); border: 1px solid var(--blue); border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 0 0 6px rgba(0, 57, 156, .08), 0 24px 60px -32px rgba(0, 57, 156, .4);
 }
-.sig-card__media { position: relative; aspect-ratio: 16 / 9; background: var(--sand-2); overflow: hidden; }
+.sig-card__media { position: relative; aspect-ratio: 16 / 9; background: var(--sig-media); overflow: hidden; }
 .sig-card__media img, .sig-card__media iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; }
 .sig-card__media .card__play { align-items: center; justify-content: center; }
 .sig-card__body { flex: 1; padding: clamp(22px, 2.6vw, 32px); display: flex; align-items: center; }
 .sig-card__body--proof { gap: clamp(16px, 2vw, 28px); }
 .sig-card__figure {
   flex: none; font-family: var(--f-serif); font-style: italic; font-weight: 400;
-  font-size: clamp(72px, 7vw, 112px); line-height: .9; color: var(--gold);
+  font-size: clamp(72px, 7vw, 112px); line-height: .9; color: var(--blue);
 }
 .sig-card__text { font-size: clamp(16.5px, 1.35vw, 19px); font-weight: 500; line-height: 1.5; color: var(--ink); }
 
 /* Emplacement élégant tant que la vidéo n'est pas renseignée */
 .sig-placeholder {
   position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px; text-align: center; padding: 20px;
-  background: radial-gradient(60% 80% at 50% 40%, rgba(241, 203, 90, .28), rgba(241, 203, 90, 0) 70%), var(--sand-2);
+  background: radial-gradient(60% 80% at 50% 40%, rgba(0, 57, 156, .14), rgba(0, 57, 156, 0) 70%), var(--sig-media);
 }
 .sig-placeholder__play {
   width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center;
-  background: var(--white); box-shadow: 0 0 0 6px rgba(241, 203, 90, .25);
+  background: var(--sig-card); box-shadow: 0 0 0 6px rgba(0, 57, 156, .14);
 }
-.sig-placeholder__play svg { width: 22px; height: 22px; fill: var(--gold); margin-left: 3px; }
+.sig-placeholder__play svg { width: 22px; height: 22px; fill: var(--blue); margin-left: 3px; }
+/* Bouton lecture des vidéos réelles : bleu au survol au lieu du jaune */
+.signature .card__play span { background: var(--sig-card); }
+.signature .card__play:hover span { background: var(--blue); color: var(--white); }
 .sig-placeholder p { font-size: 14.5px; font-weight: 500; color: var(--ink-soft); }
 
 /* Quatre bénéfices de même taille */
 .sig-benefits { margin-top: clamp(40px, 5vw, 64px); display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 20px; }
 .sig-benefit {
   min-width: 0; padding: 26px 24px 28px; border-radius: var(--radius);
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--sig-card); border: 1px solid var(--sig-line);
   transition: border-color .4s var(--ease), box-shadow .4s var(--ease);
 }
-.sig-benefit:hover { border-color: var(--gold); box-shadow: 0 0 0 5px rgba(241, 203, 90, .12); }
-.sig-benefit__title { font-weight: 600; font-size: 18px; line-height: 1.35; letter-spacing: -.01em; color: var(--blue); }
+.sig-benefit:hover { border-color: var(--blue); box-shadow: 0 0 0 5px rgba(0, 57, 156, .08); }
+/* Titre en jaune doré foncé : le jaune du logo serait illisible sur ce fond clair (AA) */
+.sig-benefit__title { font-weight: 600; font-size: 18px; line-height: 1.35; letter-spacing: -.01em; color: var(--sig-gold-text); }
 .sig-benefit p { margin-top: 10px; font-size: 15.5px; line-height: 1.6; color: var(--ink-soft); }
 
 @media (max-width: 1100px) { .sig-benefits { grid-template-columns: repeat(2, 1fr); } }
