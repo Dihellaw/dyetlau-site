@@ -677,11 +677,11 @@ html:not(.edition) [data-vide] { display: none !important; }
 }
 
 /* ---------- Candidature ---------- */
-.candidature { padding-bottom: var(--gap-section); }
-.cand__grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(48px, 7vw, 112px); align-items: start; }
-.cand__intro > p { margin-top: 20px; max-width: 26em; font-size: 17px; color: var(--ink-soft); }
-.cand__photo { margin-top: 48px; border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 4.4; max-width: 440px; }
-.cand__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+/* En-tête centré (même style que la méthode), formulaire centré dessous */
+.cand__head { margin-bottom: clamp(40px, 5vw, 56px); }
+.candidature .apply { max-width: 700px; margin: 0 auto; position: static; }
+/* La FAQ ferme maintenant la page avant le pied de page */
+.faq { padding-bottom: var(--gap-section); }
 
 .apply { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(28px, 4vw, 52px); position: sticky; top: calc(var(--nav-h) + 24px); }
 .apply__count { font-weight: 500; font-size: 13.5px; color: var(--ink-soft); }
@@ -725,9 +725,7 @@ textarea.field { resize: vertical; min-height: 96px; }
 .apply.is-done .step, .apply.is-done .apply__nav, .apply.is-done .apply__progress, .apply.is-done .apply__error { display: none; }
 
 @media (max-width: 860px) {
-  .cand__grid { grid-template-columns: 1fr; }
   .apply { position: static; }
-  .cand__photo { display: none; }
 }
 
 /* ---------- Pied de page ---------- */
