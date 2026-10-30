@@ -354,6 +354,8 @@ html:not(.edition) [data-vide] { display: none !important; }
 }
 .probleme__title em { font-style: normal; color: var(--gold); }
 .probleme .statement { margin-top: 28px; color: var(--ink-soft); }
+.probleme__text { text-align: center; }
+.probleme__text .statement { margin-inline: auto; }
 
 .charge {
   background: var(--white); border: 1px solid var(--gold); border-radius: var(--radius);
