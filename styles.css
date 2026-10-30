@@ -345,9 +345,12 @@ html:not(.edition) [data-vide] { display: none !important; }
 
 /* ---------- Tu fais tout (dans la section témoignages) ---------- */
 .probleme { margin-top: clamp(112px, 12vw, 176px); }
+/* Une seule colonne : le texte centré au-dessus de la carte */
 .probleme__grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(48px, 7vw, 120px); align-items: center;
+  display: grid; grid-template-columns: 1fr; gap: clamp(40px, 5vw, 64px); justify-items: center;
 }
+.probleme__text { max-width: 760px; }
+.probleme .charge { width: 100%; max-width: 720px; }
 .probleme__title {
   font-weight: 500; color: var(--ink);
   font-size: clamp(52px, 7vw, 104px); line-height: 1; letter-spacing: -0.04em;
