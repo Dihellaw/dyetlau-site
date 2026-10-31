@@ -242,6 +242,14 @@ html:not(.edition) [data-vide] { display: none !important; }
   .hero__actions .btn--cta { width: 100%; }
 }
 
+/* ---------- Copie du header et du hero ----------
+   Même rendu que l'original ; la barre reste en haut de sa section (elle n'est pas fixée à l'écran). */
+.hero-copie { position: relative; }
+.nav--copie { position: absolute; z-index: 5; }
+@media (max-width: 960px) {
+  .nav--copie .nav__links { position: absolute; inset: 100% 0 auto 0; }
+}
+
 /* ---------- Transformations ----------
    Carrousel en boucle : la carte au centre est active (même style que les blocs de la méthode).
    Le fond réutilise le calque collant de la méthode. */

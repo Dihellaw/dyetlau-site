@@ -139,18 +139,24 @@ function liteVideo(container, id, label, start = 0) {
 
 /* ---------- Navigation ---------- */
 const nav = $("#nav");
-const burger = $("#burger");
-const links = $("#nav-links");
 
-function setMenu(open) {
-  burger.setAttribute("aria-expanded", String(open));
-  burger.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
-  links.classList.toggle("is-open", open);
-  nav.classList.toggle("menu-open", open);
+// Chaque barre (l'originale et sa copie) a son propre menu déroulant
+const menus = $$(".nav__burger").map((burger) => ({
+  burger,
+  links: document.getElementById(burger.getAttribute("aria-controls")),
+  bar: burger.closest(".nav"),
+}));
+function setMenu(m, open) {
+  m.burger.setAttribute("aria-expanded", String(open));
+  m.burger.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
+  m.links.classList.toggle("is-open", open);
+  m.bar.classList.toggle("menu-open", open);
 }
-burger.addEventListener("click", () => setMenu(burger.getAttribute("aria-expanded") !== "true"));
-links.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+menus.forEach((m) => {
+  m.burger.addEventListener("click", () => setMenu(m, m.burger.getAttribute("aria-expanded") !== "true"));
+  m.links.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(m, false); });
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") menus.forEach((m) => setMenu(m, false)); });
 
 const onScroll = () => nav.classList.toggle("is-solid", window.scrollY > 40);
 window.addEventListener("scroll", onScroll, { passive: true });
@@ -345,22 +351,23 @@ const VIDEO_PLACEHOLDER = '<div class="sig-placeholder"><span class="sig-placeho
 
 function applySettings(r) {
   // Vidéo de fond : version légère sur téléphone, rien si « réduire les animations » ou économie de données
-  const v = $(".hero__video");
   const small = window.matchMedia("(max-width: 760px)").matches;
   const saveData = navigator.connection && navigator.connection.saveData;
-  const src = r.videoFond || (small ? v.dataset.srcMobile : v.dataset.src);
-  if (src && !reduceMotion && !saveData) {
-    if (v.getAttribute("src") !== src) {
+  $$(".hero__video").forEach((v) => {
+    const src = r.videoFond || (small ? v.dataset.srcMobile : v.dataset.src);
+    if (src && !reduceMotion && !saveData) {
+      if (v.getAttribute("src") !== src) {
+        v.classList.remove("is-playing");
+        v.muted = true;
+        v.src = src;
+      }
+      v.addEventListener("playing", () => v.classList.add("is-playing"), { once: true });
+      v.play().catch(() => {});
+    } else {
+      v.removeAttribute("src");
       v.classList.remove("is-playing");
-      v.muted = true;
-      v.src = src;
     }
-    v.addEventListener("playing", () => v.classList.add("is-playing"), { once: true });
-    v.play().catch(() => {});
-  } else {
-    v.removeAttribute("src");
-    v.classList.remove("is-playing");
-  }
+  });
 
   // Ta journée signature : témoignage d'Ali (au bon moment) et vidéo d'une journée
   const aliSlot = $("#ali-video");

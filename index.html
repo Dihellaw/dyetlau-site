@@ -72,6 +72,62 @@
       </div>
     </section>
 
+    <!-- Copie du header et du hero, juste sous le hero -->
+    <section class="hero-copie" id="hero-copie" aria-labelledby="hero-title-copie">
+      <header class="nav nav--copie" id="nav-copie">
+        <div class="nav__inner wrap">
+          <a class="nav__logo" href="#top" aria-label="Dy&amp;Lau, retour en haut de page">
+            <picture>
+              <source srcset="Assets/Images/web/logo-sm.webp" type="image/webp">
+              <img src="Assets/Images/web/logo-sm.png" alt="Dy&amp;Lau" width="420" height="217">
+            </picture>
+          </a>
+          <nav class="nav__links" id="nav-links-copie" aria-label="Navigation (copie)">
+            <a data-k="copie-nav-1" href="#transformations">Transformations</a>
+            <a data-k="copie-nav-2" href="#methode">Méthode</a>
+            <a data-k="copie-nav-3" href="#journee-signature">Journée signature</a>
+            <a data-k="copie-nav-4" href="#questions">FAQ</a>
+            <a data-k="copie-nav-5" class="btn btn--gold btn--cta nav__cta-mobile" href="#candidature">Diagnostic gratuit</a>
+          </nav>
+          <a data-k="copie-nav-6" class="btn btn--gold btn--cta nav__cta" href="#candidature">Diagnostic gratuit</a>
+          <button class="nav__burger" id="burger-copie" type="button" aria-expanded="false" aria-controls="nav-links-copie" aria-label="Ouvrir le menu">
+            <span></span><span></span>
+          </button>
+        </div>
+      </header>
+      <div class="hero hero--copie">
+        <div class="hero__media" aria-hidden="true">
+          <picture>
+            <source media="(max-width: 760px)" srcset="Assets/Images/web/hero-poster-mobile.webp" type="image/webp">
+            <source media="(max-width: 760px)" srcset="Assets/Images/web/hero-poster-mobile.jpg">
+            <source srcset="Assets/Images/web/hero-poster.webp" type="image/webp">
+            <img class="hero__poster" src="Assets/Images/web/hero-poster.jpg" alt="" width="1920" height="1080" loading="lazy">
+          </picture>
+          <!-- main.js choisit la version (ordinateur ou téléphone) et ne lance rien si « réduire les animations » est activé -->
+          <video class="hero__video" muted loop playsinline preload="none"
+                 data-src="Assets/Videos/hero.mp4" data-src-mobile="Assets/Videos/hero-mobile.mp4"></video>
+        </div>
+        <div class="hero__scrim" aria-hidden="true"></div>
+        <div class="hero__content wrap">
+          <h2 class="hero__title" id="hero-title-copie">
+            <span data-k="copie-top-1" class="hero__line">Ton bras droit <em>marketing &amp; organisationnel</em> en francophonie.</span>
+          </h2>
+          <p data-k="copie-top-2" class="hero__sub">Pour vendre plus, sans tout porter seul.</p>
+          <p data-k="copie-top-3" class="hero__team">Dylan te fait vendre plus. Laura structure ton business pour qu'il tienne.</p>
+          <div class="hero__actions">
+            <a data-k="copie-top-4" class="btn btn--gold btn--cta btn--lg" href="#candidature">Diagnostic gratuit</a>
+            <a class="hero__secondary" href="#masterclass">
+              <span class="hero__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.5v11l8.5-5.5z"/></svg></span>
+              <span class="hero__secondary-text">
+                <span data-k="copie-top-5" class="hero__secondary-main">Pas encore prêt ? Regarde la Masterclass Business.</span>
+                <span data-k="copie-top-6" class="hero__secondary-meta">7 semaines · gratuit · sur YouTube</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Transformations -->
     <section class="transfo" id="transformations" aria-labelledby="transfo-title">
       <!-- Calque d'arrière-plan collant : il reste en place pendant le défilement -->
