@@ -562,6 +562,16 @@ const revealObs = new IntersectionObserver((entries) => {
 }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
 $$(".reveal").forEach((el) => revealObs.observe(el));
 
+/* ---------- Défilé de photos (Masterclass) ---------- */
+const mqTrack = $("#mq-track");
+if (mqTrack) {
+  [...mqTrack.children].forEach((li) => {
+    const clone = li.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    mqTrack.appendChild(clone);
+  });
+}
+
 /* ---------- Formulaire de candidature ---------- */
 const form = $("#apply");
 const steps = $$(".step", form);
