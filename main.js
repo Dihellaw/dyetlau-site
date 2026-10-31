@@ -501,6 +501,29 @@ if (heroStage && heroWrap && !reduceMotion && window.gsap && window.ScrollTrigge
 }
 
 
+/* ---------- Lueur qui suit la souris (effet GlowCard) ---------- */
+const GLOW_SEL = ".card, .etape, .sig-benefit";
+let glowX = -9999;
+let glowY = -9999;
+let glowTick = false;
+function paintGlow() {
+  glowTick = false;
+  const p = Math.round(Math.min(1, Math.max(0, glowX / window.innerWidth)) * 100);
+  const color = `color-mix(in oklab, #00399c ${p}%, #f1cb5a)`;
+  $$(GLOW_SEL).forEach((el) => {
+    const r = el.getBoundingClientRect();
+    if (r.bottom < -300 || r.top > window.innerHeight + 300) return;
+    el.style.setProperty("--gx", `${(glowX - r.left).toFixed(1)}px`);
+    el.style.setProperty("--gy", `${(glowY - r.top).toFixed(1)}px`);
+    el.style.setProperty("--glow", color);
+  });
+}
+const queueGlow = () => { if (!glowTick) { glowTick = true; requestAnimationFrame(paintGlow); } };
+document.addEventListener("pointermove", (e) => { glowX = e.clientX; glowY = e.clientY; queueGlow(); }, { passive: true });
+// Les cartes bougent sous la souris immobile (défilement, carrousel) : on recalcule
+window.addEventListener("scroll", queueGlow, { passive: true });
+document.getElementById("rail")?.addEventListener("scroll", queueGlow, { passive: true });
+
 /* ---------- La méthode : bloc actif et ligne de progression ---------- */
 const etapesEl = $("#etapes");
 const etapes = $$(".etape");

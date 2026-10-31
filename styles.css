@@ -289,6 +289,26 @@ html:not(.edition) [data-vide] { display: none !important; }
 .xhero-wrap.is-live > .xhero { position: absolute; left: 0; right: 0; top: 0; z-index: 6; }
 .xhero-wrap.is-live > .hero-copie { will-change: filter; }
 
+/* ---------- Lueur qui suit la souris (effet GlowCard) ----------
+   Sur les bénéfices, les blocs de la méthode et les cartes témoignages. main.js donne la position
+   de la souris dans chaque carte (--gx, --gy) et la couleur (--glow), qui passe du jaune au bleu
+   du logo de la gauche vers la droite de l'écran. */
+.card, .etape, .sig-benefit { --gx: -9999px; --gy: -9999px; --glow: #f1cb5a; position: relative; isolation: isolate; }
+.card::before, .etape::before, .sig-benefit::before {
+  /* bordure lumineuse */
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  border-radius: inherit; padding: 2px;
+  background: radial-gradient(240px circle at var(--gx) var(--gy), var(--glow), transparent 75%);
+  filter: saturate(1.4) brightness(1.05);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.card::after, .etape::after, .sig-benefit::after {
+  /* halo doux à l'intérieur, derrière le contenu */
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit;
+  background: radial-gradient(280px circle at var(--gx) var(--gy), color-mix(in srgb, var(--glow) 24%, transparent), transparent 70%);
+}
+
 /* ---------- Copie du header et du hero ----------
    Même rendu que l'original ; la barre reste en haut de sa section (elle n'est pas fixée à l'écran). */
 .hero-copie { position: relative; }
