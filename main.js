@@ -177,174 +177,289 @@ const spy = new IntersectionObserver((entries) => {
 }, { rootMargin: "-45% 0px -50% 0px" });
 navTargets.forEach((x) => spy.observe(x.el));
 
-/* ---------- Les transformations : carrousel en boucle ----------
-   Les cartes sont dupliquées avant et après la série d'origine. Quand le défilement
-   s'arrête sur un double, on se recale sans animation sur la carte d'origine identique. */
+/* ---------- Les transformations : carrousel « squeeze » en boucle ----------
+   Un panneau ouvert prend la place, les suivants se resserrent en colonnes puis en
+   lamelles sur la droite. Avancer élargit la lamelle suivante et fait glisser la bande ;
+   la bande ne fait que s'allonger pendant le mouvement, puis on la recoupe sans animation. */
 const list = $("#transfo-list");
 const rail = $("#rail");
+const strip = $("#sq-strip");
 const carousel = $("#carousel");
-const prev = $("[data-rail='prev']");
-const next = $("[data-rail='next']");
 const CARD_PLACEHOLDERS = { impact: "Transformation à venir", nom: "Prénom à venir", secteur: "Secteur à préciser" };
-let cardCount = 0;
+const SQ_SHARES = [-0.06, 0.61, 0.3, 0.15];
+const SQ_STRETCHED = [0, 0.71, 0.4, 0.25];
+const SQ_SQUEEZED = [-0.12, 0.59, 0.28, 0.13];
+const SQ_MS = reduceMotion ? 0 : 1000;
+const SQ_AUTOPLAY = 6000;
+let sqSlides = [];
+let sqCards = [];   // { slide, el } dans l'ordre de la bande
+let sqColumn = 0;   // colonne de la première carte de la bande
+let sqSlid = 0;     // décalage de la bande, compté en lamelles
+let sqForward = true;
+let sqHover = -1;
+let sqTimers = [];
+let sqAuto = 0;
+let sqPaused = false;
+const sqVisible = () => 4 + Math.max(1, Math.min(3, sqSlides.length - 4));
+const sqWrap = (i) => ((i % sqSlides.length) + sqSlides.length) % sqSlides.length;
+const sqOpen = () => sqCards[-sqColumn]?.slide ?? 0;
 
-function makeCard(t, i, clone) {
-  const li = document.createElement("li");
-  li.className = "card";
-  li.dataset.card = String(i);
+function sqShare(col) {
+  if (sqHover < 0 || sqHover > 3 || reduceMotion) return SQ_SHARES[col];
+  return sqHover === col ? SQ_STRETCHED[col] : SQ_SQUEEZED[col];
+}
+function sqWidth(col) {
+  if (col < 0 || col > 3) return "var(--sq-slat)";
+  if (col === 0) return `calc(var(--sq-hero) + var(--sq-room) * ${sqShare(0)})`;
+  return `calc(var(--sq-room) * ${sqShare(col)})`;
+}
+
+// Le visuel d'un témoignage : la miniature YouTube, sinon un fond aux couleurs de la marque
+function sqMedia(t, i) {
   const id = youtubeId(t.youtube);
-  li.innerHTML = `
-    <div class="card__media"></div>
-    <div class="card__body">
-      <p class="card__label" data-field="secteur"></p>
-      <h3 class="card__impact" data-field="impact"></h3>
-      <p class="card__who" data-field="nom"></p>
-    </div>`;
-  const media = $(".card__media", li);
   if (id) {
-    liteVideo(media, id, `la transformation de ${t.nom || "ce client"}`, Number(t.debut) || 0);
-  } else {
-    media.innerHTML = '<div class="card__soon"><p class="card__soon-mark" aria-hidden="true">Dy<b>&amp;</b><br>Lau</p><p>Vidéo bientôt en ligne</p></div>';
+    const img = document.createElement("img");
+    img.className = "sq__pic";
+    img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    img.alt = "";
+    img.draggable = false;
+    img.loading = "lazy";
+    return img;
   }
-  $$("[data-field]", li).forEach((el) => {
+  const soon = document.createElement("span");
+  soon.className = `sq__pic sq__soon sq__soon--${i % 3}`;
+  soon.innerHTML = '<span class="sq__soon-mark">Dy<b>&amp;</b>Lau</span><span class="sq__soon-txt">Vidéo bientôt en ligne</span>';
+  return soon;
+}
+
+function sqPanel(slide) {
+  const t = sqSlides[slide];
+  const el = document.createElement("button");
+  el.type = "button";
+  el.className = "sq__panel";
+  el.setAttribute("role", "tab");
+  el.setAttribute("aria-label", t.nom ? `Témoignage de ${t.nom}` : "Témoignage à venir");
+  el.append(sqMedia(t, slide));
+  const tag = document.createElement("span");
+  tag.className = "sq__tag";
+  tag.setAttribute("aria-hidden", "true");
+  tag.textContent = t.nom || "";
+  if (t.nom) el.append(tag);
+  el.addEventListener("mousemove", () => {
+    const col = sqCards.findIndex((c) => c.el === el) + sqColumn;
+    if (col !== sqHover) { sqHover = col; sqLayout(); }
+  });
+  el.addEventListener("click", () => {
+    if (sqDragged) return;
+    const col = sqCards.findIndex((c) => c.el === el) + sqColumn;
+    if (col > 0) sqStep(col);
+    else if (col === 0) sqPlay();
+  });
+  return { slide, el };
+}
+
+function sqLayout(still = false) {
+  carousel.classList.toggle("is-still", still);
+  strip.style.transform = `translateX(calc(${sqSlid} * (var(--sq-slat) + var(--sq-gap))))`;
+  sqCards.forEach((c, place) => {
+    const col = place + sqColumn;
+    const w = sqWidth(col);
+    c.el.style.width = w;
+    c.el.style.marginLeft = place === 0 ? "0px" : col < 4 ? "var(--sq-gap)" : "var(--sq-slat-gap)";
+    c.el.style.borderRadius = `min(var(--sq-radius), calc(${w} / 2))`;
+    c.el.classList.toggle("is-front", col === 0);
+    c.el.setAttribute("aria-selected", String(col === 0));
+    c.el.tabIndex = col === 0 ? 0 : -1;
+  });
+  const open = sqOpen();
+  $$(".sq__cap", list).forEach((cap) => {
+    const on = Number(cap.dataset.card) === open;
+    cap.classList.toggle("is-shown", on);
+    cap.setAttribute("aria-hidden", String(!on));
+  });
+}
+
+function sqSettle() {
+  const n = sqVisible();
+  const keep = sqForward ? sqCards.slice(-n) : sqCards.slice(0, n);
+  sqCards.filter((c) => !keep.includes(c)).forEach((c) => c.el.remove());
+  sqCards = keep;
+  sqColumn = 0;
+  sqSlid = 0;
+  sqLayout(true);
+  void strip.offsetWidth;
+  requestAnimationFrame(() => carousel.classList.remove("is-still"));
+}
+
+function sqStopVideo() {
+  $$(".sq__panel iframe", strip).forEach((f) => f.remove());
+}
+
+function sqStep(by) {
+  if (sqSlides.length < 2 || !by) return;
+  sqStopVideo();
+  sqTimers.forEach(clearTimeout);
+  sqTimers = [];
+  sqForward = by > 0;
+  if (by > 0) {
+    // La lamelle qui arrive rejoint la queue à sa taille avant que rien ne bouge
+    for (let k = 0; k < by; k++) {
+      const c = sqPanel(sqWrap(sqCards[sqCards.length - 1].slide + 1));
+      sqCards.push(c);
+      c.el.style.width = "var(--sq-slat)";
+      c.el.style.marginLeft = "var(--sq-slat-gap)";
+      strip.append(c.el);
+    }
+    sqColumn -= by;
+    sqSlid -= by;
+    void strip.offsetWidth;
+    sqLayout();
+  } else {
+    // En arrière, la bande grandit par la tête : on la décale d'autant sans animation, puis elle revient
+    for (let k = 0; k < -by; k++) {
+      const c = sqPanel(sqWrap(sqCards[0].slide - 1));
+      sqCards.unshift(c);
+      strip.prepend(c.el);
+    }
+    sqSlid += by;
+    sqLayout(true);
+    void strip.offsetWidth;
+    sqTimers.push(setTimeout(() => { carousel.classList.remove("is-still"); sqSlid = 0; sqLayout(); }, 20));
+  }
+  sqTimers.push(setTimeout(sqSettle, SQ_MS + 40));
+  sqSchedule();
+}
+
+function sqGo(to) {
+  const here = sqOpen();
+  if (to === here) return;
+  const fwd = sqWrap(to - here);
+  sqStep(fwd <= sqSlides.length / 2 ? fwd : fwd - sqSlides.length);
+}
+
+// Lecture : la vidéo s'ouvre dans le grand panneau (sur l'aperçu claude.ai, YouTube s'ouvre à part)
+function sqPlay() {
+  const t = sqSlides[sqOpen()];
+  const id = youtubeId(t && t.youtube);
+  if (!id || root.classList.contains("edition")) return;
+  const start = Number(t.debut) || 0;
+  if (window.claude) {
+    window.open(`https://www.youtube.com/watch?v=${id}${start ? `&t=${Math.floor(start)}s` : ""}`, "_blank", "noopener");
+    return;
+  }
+  const front = sqCards[-sqColumn];
+  if (!front || $("iframe", front.el)) return;
+  sqPaused = true;
+  front.el.append(youtubeFrame(id, start, `la transformation de ${t.nom || "ce client"}`));
+}
+
+function sqSchedule() {
+  clearTimeout(sqAuto);
+  if (reduceMotion || sqPaused || sqSlides.length < 2 || root.classList.contains("edition")) return;
+  sqAuto = setTimeout(() => sqStep(1), SQ_AUTOPLAY);
+}
+
+function makeCaption(t, i) {
+  const cap = document.createElement("div");
+  cap.className = "sq__cap";
+  cap.dataset.card = String(i);
+  if (i === 0) cap.id = "transfo-ali";
+  cap.innerHTML = `
+    <div class="card__body">
+      <p class="sq__label" data-field="secteur"></p>
+      <p class="sq__text"><span class="sq__impact" data-field="impact"></span> <span class="sq__who" data-field="nom"></span></p>
+    </div>`;
+  $$("[data-field]", cap).forEach((el) => {
     const f = el.dataset.field;
     el.textContent = t[f] || CARD_PLACEHOLDERS[f];
     el.classList.toggle("todo", !t[f]);
   });
-  if (clone) {
-    // Les doubles servent seulement à la boucle : invisibles pour le clavier et les lecteurs d'écran
-    li.dataset.clone = "";
-    li.setAttribute("aria-hidden", "true");
-    li.inert = true;
-  } else if (i === 0) {
-    li.id = "transfo-ali";
+  if (youtubeId(t.youtube)) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "btn btn--gold btn--cta sq__action";
+    btn.textContent = "Regarder son histoire";
+    btn.addEventListener("click", sqPlay);
+    cap.append(btn);
   }
-  return li;
-}
-
-const allCards = () => $$(".card", list);
-const visibleCards = () => allCards().filter((c) => c.offsetParent !== null);
-const centerOf = (card) => card.offsetLeft + card.offsetWidth / 2 - rail.clientWidth / 2;
-
-function nearestCard() {
-  const mid = rail.scrollLeft + rail.clientWidth / 2;
-  let best = null;
-  let dist = Infinity;
-  visibleCards().forEach((c) => {
-    const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
-    if (d < dist) { dist = d; best = c; }
-  });
-  return best;
-}
-
-function setActive(card) {
-  allCards().forEach((c) => c.classList.toggle("is-active", c === card));
-}
-
-function goTo(card, behavior = reduceMotion ? "auto" : "smooth") {
-  if (card) rail.scrollTo({ left: centerOf(card), behavior });
-}
-
-function step(dir) {
-  const cards = visibleCards();
-  const i = cards.indexOf(nearestCard());
-  goTo(cards[Math.min(cards.length - 1, Math.max(0, i + dir))]);
-}
-
-// Recalage discret : du double vers la carte d'origine identique, sans animation
-function normalize() {
-  if (dragging || root.classList.contains("edition") || !cardCount) return;
-  const cards = allCards();
-  const i = cards.indexOf(nearestCard());
-  if (i < 0) return;
-  let j = i;
-  if (i < cardCount) j = i + cardCount;
-  else if (i >= 2 * cardCount) j = i - cardCount;
-  if (j === i) return;
-  list.classList.add("no-anim");
-  setActive(cards[j]);
-  rail.style.scrollSnapType = "none";
-  const ri = cards[i].getBoundingClientRect();
-  const rj = cards[j].getBoundingClientRect();
-  rail.scrollLeft += (rj.left + rj.width / 2) - (ri.left + ri.width / 2);
-  void rail.offsetWidth;
-  rail.style.scrollSnapType = "";
-  requestAnimationFrame(() => requestAnimationFrame(() => list.classList.remove("no-anim")));
+  return cap;
 }
 
 function renderCards(cartes) {
-  cardCount = cartes.length;
-  const frag = document.createDocumentFragment();
-  cartes.forEach((t, i) => frag.append(makeCard(t, i, true)));
-  cartes.forEach((t, i) => frag.append(makeCard(t, i, false)));
-  cartes.forEach((t, i) => frag.append(makeCard(t, i, true)));
-  list.replaceChildren(frag);
-  allCards().forEach((c) => activeObs.observe(c));
-  // On démarre sur la première carte d'origine, au centre
-  requestAnimationFrame(() => {
-    const first = allCards()[cardCount];
-    list.classList.add("no-anim");
-    setActive(first);
-    goTo(first, "auto");
-    requestAnimationFrame(() => requestAnimationFrame(() => list.classList.remove("no-anim")));
-  });
+  sqSlides = cartes;
+  sqTimers.forEach(clearTimeout);
+  sqTimers = [];
+  list.replaceChildren(...cartes.map(makeCaption));
+  const start = Math.min(sqOpen(), cartes.length - 1);
+  sqColumn = 0;
+  sqSlid = 0;
+  sqCards = [];
+  for (let p = 0; p < sqVisible(); p++) sqCards.push(sqPanel(sqWrap(start + p)));
+  strip.replaceChildren(...sqCards.map((c) => c.el));
+  sqLayout(true);
+  requestAnimationFrame(() => requestAnimationFrame(() => carousel.classList.remove("is-still")));
+  sqSchedule();
 }
 
-// Carte active : celle qui croise la ligne verticale au milieu du carrousel
-const activeObs = new IntersectionObserver((entries) => {
-  entries.forEach((en) => { if (en.isIntersecting) setActive(en.target); });
-}, { root: rail, rootMargin: "0px -50% 0px -50%", threshold: 0 });
-carousel.classList.add("is-live");
-
-let scrollTimer;
-rail.addEventListener("scroll", () => {
-  clearTimeout(scrollTimer);
-  scrollTimer = setTimeout(normalize, 140);
-}, { passive: true });
-
-prev.addEventListener("click", () => step(-1));
-next.addEventListener("click", () => step(1));
-rail.addEventListener("keydown", (e) => {
-  if (e.target !== rail) return;
-  if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
-  if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+$("[data-rail='prev']").addEventListener("click", () => sqStep(-1));
+$("[data-rail='next']").addEventListener("click", () => sqStep(1));
+carousel.addEventListener("keydown", (e) => {
+  if (!e.target.closest(".sq__strip")) return;
+  if (e.key === "ArrowRight") { e.preventDefault(); sqStep(1); strip.querySelector(".is-front")?.focus(); }
+  if (e.key === "ArrowLeft") { e.preventDefault(); sqStep(-1); strip.querySelector(".is-front")?.focus(); }
+});
+carousel.addEventListener("mouseenter", () => { sqPaused = true; clearTimeout(sqAuto); });
+carousel.addEventListener("mouseleave", () => {
+  sqHover = -1;
+  sqLayout(carousel.classList.contains("is-still"));
+  if (!$(".sq__panel iframe", strip)) { sqPaused = false; sqSchedule(); }
+});
+carousel.addEventListener("focusin", () => { sqPaused = true; clearTimeout(sqAuto); });
+carousel.addEventListener("focusout", (e) => {
+  if (carousel.contains(e.relatedTarget) || $(".sq__panel iframe", strip)) return;
+  sqPaused = false;
+  sqSchedule();
 });
 
-// Glisser à la souris (le doigt et le pavé tactile défilent nativement)
-let dragging = false;
-let dragMoved = false;
-let dragX = 0;
-let dragStart = 0;
+// Défilement : glisser au doigt ou à la souris, ou balayer le pavé tactile, fait avancer la bande
+let sqDragX = null;
+let sqDragged = false;
 rail.addEventListener("pointerdown", (e) => {
-  if (e.pointerType !== "mouse" || e.button !== 0 || root.classList.contains("edition")) return;
-  dragging = true;
-  dragMoved = false;
-  dragX = e.clientX;
-  dragStart = rail.scrollLeft;
+  if (e.button !== 0 || root.classList.contains("edition")) return;
+  sqDragX = e.clientX;
+  sqDragged = false;
 });
 window.addEventListener("pointermove", (e) => {
-  if (!dragging) return;
-  const dx = e.clientX - dragX;
-  if (!dragMoved && Math.abs(dx) > 5) { dragMoved = true; rail.classList.add("is-dragging"); }
-  if (dragMoved) rail.scrollLeft = dragStart - dx;
+  if (sqDragX === null) return;
+  const dx = e.clientX - sqDragX;
+  if (!sqDragged && Math.abs(dx) > 40) {
+    sqDragged = true;
+    sqStep(dx < 0 ? 1 : -1);
+  }
 });
 window.addEventListener("pointerup", () => {
-  if (!dragging) return;
-  dragging = false;
-  if (!dragMoved) return;
-  rail.classList.remove("is-dragging");
-  goTo(nearestCard());
+  sqDragX = null;
+  setTimeout(() => { sqDragged = false; }, 0);
 });
-// Un glisser ne doit pas ouvrir la vidéo sous le curseur
-rail.addEventListener("click", (e) => {
-  if (dragMoved) { e.preventDefault(); e.stopPropagation(); dragMoved = false; }
-}, true);
+let sqWheel = 0;
+let sqWheelLock = 0;
+rail.addEventListener("wheel", (e) => {
+  if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+  e.preventDefault();
+  if (Date.now() < sqWheelLock) return;
+  sqWheel += e.deltaX;
+  if (Math.abs(sqWheel) > 60) {
+    sqStep(sqWheel > 0 ? 1 : -1);
+    sqWheel = 0;
+    sqWheelLock = Date.now() + Math.max(SQ_MS * 0.6, 300);
+  }
+}, { passive: false });
 
-let resizeTimer;
-window.addEventListener("resize", () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => goTo(nearestCard(), "auto"), 150);
-});
+// La lecture automatique ne tourne que lorsque le carrousel est à l'écran
+new IntersectionObserver(([en]) => {
+  if (en.isIntersecting) { if (!sqPaused) sqSchedule(); }
+  else clearTimeout(sqAuto);
+}).observe(carousel);
 
 /* ---------- Réglages : vidéos, liens, contact ---------- */
 const VIDEO_PLACEHOLDER = '<div class="sig-placeholder"><span class="sig-placeholder__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg></span><p>Vidéo bientôt en ligne</p></div>';

@@ -111,19 +111,24 @@
           <h2 data-k="transformations-1" class="h2 reveal" id="transfo-title">Ils l'ont vécu. Ils te le racontent.</h2>
           <p data-k="transformations-2" class="section-head__lead reveal">Des entrepreneurs, en boutique ou en ligne. Leur business avant, leur business après, avec leurs mots.</p>
         </header>
-        <div class="carousel" id="carousel">
-          <div class="carousel__viewport" id="rail" tabindex="0" role="region" aria-roledescription="carrousel" aria-label="Témoignages clients">
-            <ul class="carousel__track" id="transfo-list">
-              <!-- Cartes générées par main.js depuis textes.json -->
-            </ul>
-          </div>
-          <div class="carousel__nav">
-            <button class="carousel__btn" type="button" data-rail="prev" aria-label="Témoignage précédent">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-            </button>
-            <button class="carousel__btn" type="button" data-rail="next" aria-label="Témoignage suivant">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-            </button>
+        <div class="wrap sq-wrap">
+          <div class="sq" id="carousel">
+            <div class="sq__controls">
+              <button class="sq__arrow" type="button" data-rail="prev" aria-label="Témoignage précédent">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+              </button>
+              <button class="sq__arrow" type="button" data-rail="next" aria-label="Témoignage suivant">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+            <div class="sq__viewport" id="rail">
+              <div class="sq__strip" id="sq-strip" role="tablist" aria-label="Témoignages clients">
+                <!-- Panneaux générés par main.js depuis textes.json -->
+              </div>
+            </div>
+            <div class="sq__caps" id="transfo-list" role="tabpanel" aria-live="polite">
+              <!-- Légendes générées par main.js depuis textes.json -->
+            </div>
           </div>
         </div>
 
