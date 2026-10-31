@@ -476,21 +476,28 @@ counters.forEach((c) => countObs.observe(c));
    GSAP et ScrollTrigger sont chargés depuis cdnjs avant ce fichier. S'ils manquent, ou si
    « réduire les animations » est activé, le hero reste simplement affiché tel quel. */
 const heroStage = $("#xhero-stage");
-if (heroStage && !reduceMotion && window.gsap && window.ScrollTrigger) {
+const heroWrap = $("#xhero-wrap");
+if (heroStage && heroWrap && !reduceMotion && window.gsap && window.ScrollTrigger) {
   gsap.registerPlugin(ScrollTrigger);
+  heroWrap.classList.add("is-live");
+  gsap.set("#hero-copie", { filter: "blur(14px)" });
+  // 1. la vidéo s'agrandit jusqu'au plein écran ; 2. elle s'efface et la section du dessous
+  //    apparaît à travers elle, de floue à nette. La page reste bloquée pendant les deux étapes.
   const tl = gsap.timeline({
     scrollTrigger: {
-      trigger: heroStage,
+      trigger: heroWrap,
       start: "top top",
-      end: "+=150%",
+      end: "+=250%",
       scrub: true,
-      pin: true,            // la page reste bloquée sur le hero pendant l'animation
+      pin: true,
       anticipatePin: 1,
       invalidateOnRefresh: true,
     },
   });
-  tl.to("#xhero-video", { top: "0%", left: "0%", right: "0%", bottom: "0%", borderRadius: 0, ease: "none" }, 0)
-    .to("#xhero-overlay", { opacity: 0, scale: 1.15, filter: "blur(12px)", ease: "none" }, 0);
+  tl.to("#xhero-video", { top: "0%", left: "0%", right: "0%", bottom: "0%", borderRadius: 0, ease: "none", duration: 1.5 }, 0)
+    .to("#xhero-overlay", { opacity: 0, scale: 1.15, filter: "blur(12px)", ease: "none", duration: 1.5 }, 0)
+    .to("#top", { autoAlpha: 0, ease: "none", duration: 1 }, 1.5)
+    .to("#hero-copie", { filter: "blur(0px)", ease: "none", duration: 1 }, 1.5);
 }
 
 // Horloges : Paris, Réunion, Antilles

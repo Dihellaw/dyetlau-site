@@ -294,6 +294,12 @@ html:not(.edition) [data-vide] { display: none !important; }
   .xhero__clocks li { flex-direction: column; align-items: center; gap: 2px; }
 }
 
+/* Pendant l'animation, le hero se superpose à la section du dessous, qui apparaît à travers la vidéo.
+   La classe is-live n'est posée que si GSAP tourne : sinon, les deux sections s'empilent normalement. */
+.xhero-wrap { position: relative; }
+.xhero-wrap.is-live > .xhero { position: absolute; left: 0; right: 0; top: 0; z-index: 6; }
+.xhero-wrap.is-live > .hero-copie { will-change: filter; }
+
 /* ---------- Copie du header et du hero ----------
    Même rendu que l'original ; la barre reste en haut de sa section (elle n'est pas fixée à l'écran). */
 .hero-copie { position: relative; }
