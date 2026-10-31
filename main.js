@@ -472,45 +472,6 @@ const countObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.6 });
 counters.forEach((c) => countObs.observe(c));
 
-/* ---------- Copie du hero : la vidéo s'agrandit au défilement ----------
-   GSAP et ScrollTrigger sont chargés depuis cdnjs avant ce fichier. S'ils manquent, ou si
-   « réduire les animations » est activé, le hero reste simplement affiché tel quel. */
-const heroStage = $("#xhero-stage");
-if (heroStage && !reduceMotion && window.gsap && window.ScrollTrigger) {
-  gsap.registerPlugin(ScrollTrigger);
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: heroStage,
-      start: "top top",
-      end: "+=150%",
-      scrub: true,
-      pin: true,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-    },
-  });
-  tl.to("#xhero-video", { top: "0%", left: "0%", right: "0%", bottom: "0%", borderRadius: 0, ease: "none" }, 0)
-    .to("#xhero-overlay", { opacity: 0, scale: 1.15, filter: "blur(12px)", ease: "none" }, 0);
-}
-
-// Horloges : Paris, Réunion, Antilles
-const clockEls = $$(".xhero__time");
-const clockFormats = new Map();
-function tickClocks() {
-  const now = new Date();
-  clockEls.forEach((el) => {
-    const tz = el.dataset.tz;
-    if (!clockFormats.has(tz)) {
-      try {
-        clockFormats.set(tz, new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, timeZone: tz }));
-      } catch { clockFormats.set(tz, null); }
-    }
-    const f = clockFormats.get(tz);
-    el.textContent = f ? f.format(now) : "--:--:--";
-  });
-}
-if (clockEls.length) { tickClocks(); setInterval(tickClocks, 1000); }
-
 /* ---------- La méthode : bloc actif et ligne de progression ---------- */
 const etapesEl = $("#etapes");
 const etapes = $$(".etape");
@@ -672,8 +633,6 @@ const ready = loadSite().then((site) => {
   applySettings(SITE.reglages);
   updateCharge();
   document.documentElement.classList.remove("textes-en-attente");
-  // Les textes peuvent changer les hauteurs : on recalcule les points de déclenchement
-  if (window.ScrollTrigger) requestAnimationFrame(() => ScrollTrigger.refresh());
   return SITE;
 });
 // Filet de sécurité : la page s'affiche même si le chargement traîne
