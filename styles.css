@@ -251,8 +251,8 @@ html:not(.edition) [data-vide] { display: none !important; }
 .transfo::before {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 64px; z-index: 2; pointer-events: none;
   background: linear-gradient(to bottom,
-    rgba(241, 203, 90, .55) 0%,
-    rgba(232, 216, 180, .45) 35%,
+    rgba(241, 203, 90, .3) 0%,
+    rgba(232, 216, 180, .22) 35%,
     rgba(232, 216, 180, 0) 100%);
 }
 .transfo .transfo__bg {
