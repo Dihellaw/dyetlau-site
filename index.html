@@ -39,31 +39,35 @@
 
   <main id="contenu">
 
-    <!-- Hero : la vidéo encadrée s'agrandit jusqu'au plein écran au défilement (main.js, GSAP) -->
-    <section class="xhero" id="top" aria-labelledby="hero-title">
-      <div class="xhero__stage" id="xhero-stage">
-        <div class="xhero__overlay" id="xhero-overlay">
-          <h1 class="xhero__words" id="hero-title">
-            <span data-k="hero-w1" class="xhero__w xhero__w--top">élève</span>
-            <span data-k="hero-w2" class="xhero__w xhero__w--right">ton</span>
-            <span data-k="hero-w3" class="xhero__w xhero__w--bottom">entreprise</span>
-          </h1>
-          <ul class="xhero__clocks" aria-label="Heure locale">
-            <li><time class="xhero__time" data-tz="Europe/Paris">--:--:--</time><span>Paris</span></li>
-            <li><time class="xhero__time" data-tz="Indian/Reunion">--:--:--</time><span>Réunion</span></li>
-            <li><time class="xhero__time" data-tz="America/Martinique">--:--:--</time><span>Antilles</span></li>
-          </ul>
-        </div>
-        <div class="xhero__video" id="xhero-video" aria-hidden="true">
-          <picture>
-            <source media="(max-width: 760px)" srcset="Assets/Images/web/hero-poster-mobile.webp" type="image/webp">
-            <source media="(max-width: 760px)" srcset="Assets/Images/web/hero-poster-mobile.jpg">
-            <source srcset="Assets/Images/web/hero-poster.webp" type="image/webp">
-            <img class="hero__poster" src="Assets/Images/web/hero-poster.jpg" alt="" width="1920" height="1080" fetchpriority="high">
-          </picture>
-          <!-- main.js choisit la version (ordinateur ou téléphone) et ne lance rien si « réduire les animations » est activé -->
-          <video class="hero__video" muted loop playsinline preload="none"
-                 data-src="Assets/Videos/hero.mp4" data-src-mobile="Assets/Videos/hero-mobile.mp4"></video>
+    <!-- Hero -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero__media" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 760px)" srcset="Assets/Images/web/hero-poster-mobile.webp" type="image/webp">
+          <source media="(max-width: 760px)" srcset="Assets/Images/web/hero-poster-mobile.jpg">
+          <source srcset="Assets/Images/web/hero-poster.webp" type="image/webp">
+          <img class="hero__poster" src="Assets/Images/web/hero-poster.jpg" alt="" width="1920" height="1080" fetchpriority="high">
+        </picture>
+        <!-- main.js choisit la version (ordinateur ou téléphone) et ne lance rien si « réduire les animations » est activé -->
+        <video class="hero__video" muted loop playsinline preload="none"
+               data-src="Assets/Videos/hero.mp4" data-src-mobile="Assets/Videos/hero-mobile.mp4"></video>
+      </div>
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <div class="hero__content wrap">
+        <h1 class="hero__title" id="hero-title">
+          <span data-k="top-1" class="hero__line">Ton bras droit <em>marketing &amp; organisationnel</em> en francophonie.</span>
+        </h1>
+        <p data-k="top-2" class="hero__sub">Pour vendre plus, sans tout porter seul.</p>
+        <p data-k="top-3" class="hero__team">Dylan te fait vendre plus. Laura structure ton business pour qu'il tienne.</p>
+        <div class="hero__actions">
+          <a data-k="top-4" class="btn btn--gold btn--cta btn--lg" href="#candidature">Diagnostic gratuit</a>
+          <a class="hero__secondary" href="#masterclass">
+            <span class="hero__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.5v11l8.5-5.5z"/></svg></span>
+            <span class="hero__secondary-text">
+              <span data-k="top-5" class="hero__secondary-main">Pas encore prêt ? Regarde la Masterclass Business.</span>
+              <span data-k="top-6" class="hero__secondary-meta">7 semaines · gratuit · sur YouTube</span>
+            </span>
+          </a>
         </div>
       </div>
     </section>
@@ -499,8 +503,6 @@
     </div>
   </dialog>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="main.js" defer></script>
   <script src="editor.js" defer></script>
 </body>
