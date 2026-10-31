@@ -253,23 +253,17 @@ html:not(.edition) [data-vide] { display: none !important; }
 .xhero__words { margin: 0; font-weight: 600; }
 .xhero__w { position: absolute; display: block; line-height: .9; letter-spacing: -0.045em; white-space: nowrap; }
 .xhero__w--top {
-  top: calc(var(--nav-h) + 1vh); left: 0; right: 0; text-align: center;
+  top: calc(var(--nav-h) - 3vh); left: 0; right: 0; text-align: center;
+  font-family: var(--f-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em;
   font-size: clamp(3.5rem, 11vw, 11rem); color: var(--gold);
 }
-.xhero__w--right { right: 3%; top: 39%; font-size: clamp(3.5rem, 11vw, 11rem); color: var(--ink); }
+.xhero__w--right { right: 3%; top: 39%; font-size: clamp(3.5rem, 11vw, 11rem); color: var(--blue); }
 .xhero__w--bottom {
   bottom: 2%; left: 0; right: 0; text-align: center;
   font-family: var(--f-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em;
   font-size: clamp(4rem, 13vw, 12.5rem); color: var(--gold);
 }
 
-.xhero__clocks {
-  position: absolute; left: clamp(20px, 4vw, 64px); top: 50%; transform: translateY(-50%);
-  display: grid; gap: 12px; font-size: clamp(11px, 1vw, 13px); letter-spacing: .15em; text-transform: uppercase;
-}
-.xhero__clocks li { display: flex; align-items: baseline; gap: 14px; }
-.xhero__time { color: var(--blue); font-weight: 600; font-variant-numeric: tabular-nums; }
-.xhero__clocks span { color: var(--ink); font-weight: 500; }
 
 .xhero__video {
   position: absolute; z-index: 2; top: 20%; bottom: 20%; left: 22%; right: 18%;
@@ -283,15 +277,10 @@ html:not(.edition) [data-vide] { display: none !important; }
 .edition .xhero__overlay { pointer-events: auto; }
 
 @media (max-width: 760px) {
-  .xhero__w--top { top: calc(var(--nav-h) + 2vh); font-size: 17vw; }
+  .xhero__w--top { top: calc(var(--nav-h) - 1vh); font-size: 17vw; }
   .xhero__w--right { right: 5%; top: 46%; font-size: 15vw; }
   .xhero__w--bottom { bottom: 4%; font-size: 18vw; }
-  .xhero__video { top: 31%; bottom: 21%; left: 6%; right: 6%; border-radius: 12px; }
-  .xhero__clocks {
-    left: 0; right: 0; top: calc(var(--nav-h) + 2vh + 17vw); transform: none;
-    grid-template-columns: repeat(3, auto); justify-content: center; gap: 18px; font-size: 10px; letter-spacing: .12em;
-  }
-  .xhero__clocks li { flex-direction: column; align-items: center; gap: 2px; }
+  .xhero__video { top: 23%; bottom: 21%; left: 6%; right: 6%; border-radius: 12px; }
 }
 
 /* Pendant l'animation, le hero se superpose à la section du dessous, qui apparaît à travers la vidéo.
@@ -303,10 +292,6 @@ html:not(.edition) [data-vide] { display: none !important; }
 /* ---------- Copie du header et du hero ----------
    Même rendu que l'original ; la barre reste en haut de sa section (elle n'est pas fixée à l'écran). */
 .hero-copie { position: relative; }
-.nav--copie { position: absolute; z-index: 5; }
-@media (max-width: 960px) {
-  .nav--copie .nav__links { position: absolute; inset: 100% 0 auto 0; }
-}
 
 /* ---------- Transformations ----------
    Carrousel en boucle : la carte au centre est active (même style que les blocs de la méthode).

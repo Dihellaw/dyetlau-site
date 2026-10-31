@@ -500,23 +500,6 @@ if (heroStage && heroWrap && !reduceMotion && window.gsap && window.ScrollTrigge
     .to("#hero-copie", { filter: "blur(0px)", ease: "none", duration: 1 }, 1.5);
 }
 
-// Horloges : Paris, Réunion, Antilles
-const clockEls = $$(".xhero__time");
-const clockFormats = new Map();
-function tickClocks() {
-  const now = new Date();
-  clockEls.forEach((el) => {
-    const tz = el.dataset.tz;
-    if (!clockFormats.has(tz)) {
-      try {
-        clockFormats.set(tz, new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, timeZone: tz }));
-      } catch { clockFormats.set(tz, null); }
-    }
-    const f = clockFormats.get(tz);
-    el.textContent = f ? f.format(now) : "--:--:--";
-  });
-}
-if (clockEls.length) { tickClocks(); setInterval(tickClocks, 1000); }
 
 /* ---------- La méthode : bloc actif et ligne de progression ---------- */
 const etapesEl = $("#etapes");
