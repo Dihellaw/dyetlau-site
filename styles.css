@@ -244,8 +244,8 @@ html:not(.edition) [data-vide] { display: none !important; }
 
 /* ---------- Hero animé ----------
    La vidéo encadrée s'agrandit jusqu'au plein écran au défilement, pendant que les mots
-   « élève / ton / entreprise » et les horloges s'effacent (GSAP ScrollTrigger, dans main.js),
-   sans épingler la section : la page défile normalement. */
+   « élève / ton / entreprise » et les horloges s'effacent (GSAP ScrollTrigger, dans main.js) ;
+   la section reste épinglée pendant l'animation. */
 .xhero { position: relative; background: var(--cream); }
 .xhero__stage { position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; }
 

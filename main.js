@@ -482,8 +482,10 @@ if (heroStage && !reduceMotion && window.gsap && window.ScrollTrigger) {
     scrollTrigger: {
       trigger: heroStage,
       start: "top top",
-      end: "+=70%",
-      scrub: true,          // pas d'épinglage : la page continue de défiler pendant l'animation
+      end: "+=150%",
+      scrub: true,
+      pin: true,            // la page reste bloquée sur le hero pendant l'animation
+      anticipatePin: 1,
       invalidateOnRefresh: true,
     },
   });
